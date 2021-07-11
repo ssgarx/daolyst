@@ -1,4 +1,10 @@
-module.exports.validateRegisterInput = (email, password, confirmPassword) => {
+module.exports.validateRegisterInput = (
+  email,
+  password,
+  confirmPassword,
+  username,
+  userusername
+) => {
   const errors = {};
 
   if (email.trim() === "") {
@@ -10,6 +16,12 @@ module.exports.validateRegisterInput = (email, password, confirmPassword) => {
       errors.email = "Email must be a valid email address";
     }
   }
+  if (username.trim() === "") {
+    errors.username = "Username must not be empty";
+  }
+  if (userusername.trim() === "") {
+    errors.userusername = "Userusername must not be empty";
+  }
 
   if (password === "") {
     errors.password = "Password must not empty";
@@ -17,17 +29,6 @@ module.exports.validateRegisterInput = (email, password, confirmPassword) => {
     errors.confirmPassword = "Passwords must match";
   }
 
-  return {
-    errors,
-    valid: Object.keys(errors).length < 1,
-  };
-};
-
-module.exports.validateUpdateData = (username) => {
-  const errors = {};
-  if (username.trim() === "") {
-    errors.username = "Usernsme must not be empty";
-  }
   return {
     errors,
     valid: Object.keys(errors).length < 1,

@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useContext } from "react";
-import { gql, useQuery } from "@apollo/react-hooks";
 import { AuthContext } from "../context/auth";
 import LoggedInScreen from "../components/LoggedInScreen";
 import LoggedOutScreen from "../components/LoggedOutScreen";

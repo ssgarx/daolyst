@@ -51,30 +51,53 @@ module.exports = {
         token,
       };
     },
-    async register(_, { registerInput: { email, password, confirmPassword } }) {
+    async register(
+      _,
+      {
+        registerInput: {
+          email,
+          password,
+          confirmPassword,
+          username,
+          userusername,
+          bio,
+        },
+      }
+    ) {
       const { valid, errors } = validateRegisterInput(
         email,
         password,
-        confirmPassword
+        confirmPassword,
+        username,
+        userusername
       );
       if (!valid) {
         throw new UserInputError("Errors", { errors });
       }
-      // TODO: Make sure user email doesnt already exist
-      const user = await User.findOne({ email });
-      if (user) {
+      const userbyemail = await User.findOne({ email });
+      if (userbyemail) {
         throw new UserInputError("Email is taken", {
           errors: {
             email: "This email is taken",
           },
         });
       }
-      // hash password and create an auth token
+      const userbyuserusername = await User.findOne({ userusername });
+      if (userbyuserusername) {
+        throw new UserInputError("UserUsername is taken", {
+          errors: {
+            email: "This UserUsername is taken",
+          },
+        });
+      }
       password = await bcrypt.hash(password, 12);
 
       const newUser = new User({
         email,
         password,
+        username,
+        userusername,
+        bio,
         createdAt: new Date().toISOString(),
       });
 
