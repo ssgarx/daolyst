@@ -15,5 +15,17 @@ const AuthRoute = ({ component: Component, ...rest }) => {
     />
   );
 };
+const AuthRoute2 = ({ component: Component, ...rest }) => {
+  const { user } = useContext(AuthContext);
 
-export { AuthRoute };
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        user ? <Component {...props} /> : <Redirect to="/" />
+      }
+    />
+  );
+};
+
+export { AuthRoute, AuthRoute2 };

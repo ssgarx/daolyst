@@ -38,6 +38,7 @@ module.exports = gql`
   }
   type UserOwnedGroupId {
     id: ID!
+    owneruserusername: String!
     groupName: String!
     groupUserName: String!
     isPrivate: Boolean!
@@ -91,5 +92,11 @@ module.exports = gql`
   type Mutation {
     register(registerInput: RegisterInput): User!
     login(email: String!, password: String!): User!
+    createGroup(
+      groupName: String!
+      groupUserName: String!
+      isPrivate: Boolean!
+      uid: String!
+    ): User!
   }
 `;

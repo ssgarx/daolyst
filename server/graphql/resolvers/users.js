@@ -1,14 +1,17 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { UserInputError } = require("apollo-server");
+const checkAuth = require("../../util/check-auth");
 
 const {
   validateRegisterInput,
   validateLoginInput,
+  validateGroupCreation,
 } = require("../../util/validators");
 
 const { SECRET_KEY } = require("../../config");
 const User = require("../../models/User");
+const { exists } = require("../../models/User");
 
 function generateToken(user) {
   return jwt.sign(
@@ -110,6 +113,43 @@ module.exports = {
         id: res._id,
         token,
       };
+    },
+    async createGroup(_, { groupName, groupUserName, isPrivate, uid }) {
+      console.log("uid", uid);
+      console.log("isPrivate", isPrivate);
+      console.log("groupUserName", groupUserName);
+      console.log("groupName", groupName);
+      const user = await User.findById(uid);
+      console.log("user", user);
+      const { errors, valid } = validateGroupCreation(groupName, groupUserName);
+      if (!valid) {
+        throw new UserInputError("Errors", { errors });
+      }
+
+      const existingGroupUserName = await User.find({
+        "userOwnedGroupIds.groupUserName": groupUserName,
+      });
+      console.log("existingGroupUserName", existingGroupUserName.length);
+      if (existingGroupUserName.length > 0) {
+        throw new UserInputError("Group username is taken", {
+          errors: {
+            email: "This group username is taken",
+          },
+        });
+      }
+      const existingUser = await User.findById(user.id);
+      console.log("existingUser", existingUser);
+      if (existingUser) {
+        existingUser.userOwnedGroupIds.unshift({
+          owneruserusername: user.username,
+          groupName: groupName,
+          groupUserName: groupUserName,
+          isPrivate: isPrivate,
+          createdAt: new Date().toISOString(),
+        });
+        await existingUser.save();
+        return existingUser;
+      } else throw new UserInputError("ExistingUser not found");
     },
   },
 };

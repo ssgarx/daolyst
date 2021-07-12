@@ -49,3 +49,17 @@ module.exports.validateLoginInput = (email, password) => {
     valid: Object.keys(errors).length < 1,
   };
 };
+
+module.exports.validateGroupCreation = (groupName, groupUserName) => {
+  const errors = {};
+  if (groupName.trim() === "") {
+    errors.groupName = "GroupName must not be empty";
+  }
+  if (groupUserName.trim() === "") {
+    errors.groupUserName = "GroupUserName must not be empty";
+  }
+  return {
+    errors,
+    valid: Object.keys(errors).length < 1,
+  };
+};

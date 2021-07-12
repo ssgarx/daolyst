@@ -10,6 +10,7 @@ const userDataSchema = new Schema({
   bio: String,
   userOwnedGroupIds: [
     {
+      owneruserusername: String,
       groupName: String,
       groupUserName: String,
       isPrivate: Boolean,
