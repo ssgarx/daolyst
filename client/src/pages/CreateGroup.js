@@ -5,8 +5,6 @@ import { AuthContext } from "../context/auth";
 
 function CreateGroup(props) {
   const { user } = useContext(AuthContext);
-  console.log("user", user);
-
   const [errors, setErrors] = useState({});
   const [groupName, setGroupName] = useState("");
   const [groupUserName, setGroupUserName] = useState("");
@@ -15,7 +13,7 @@ function CreateGroup(props) {
 
   const [onSubmit, { loading }] = useMutation(CREATE_GROUP, {
     update() {
-      props.history.push("/");
+      props.history.push("/groups");
     },
     onError(err) {
       setErrors(err.graphQLErrors[0].extensions.exception.errors);
@@ -68,7 +66,7 @@ function CreateGroup(props) {
 }
 
 const CREATE_GROUP = gql`
-  mutation (
+  mutation createGroup(
     $groupName: String!
     $groupUserName: String!
     $isPrivate: Boolean!
@@ -81,18 +79,11 @@ const CREATE_GROUP = gql`
       uid: $uid
     ) {
       id
-      email
-      username
-      userusername
-      bio
-      userOwnedGroupIds {
-        id
-        owneruserusername
-        groupName
-        groupUserName
-        isPrivate
-        createdAt
-      }
+      groupId
+      groupName
+      groupUserName
+      isPrivate
+      createdAt
     }
   }
 `;

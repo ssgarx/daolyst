@@ -1,28 +1,3 @@
-// const { gql } = require("apollo-server");
-
-// module.exports = gql`
-//   type User {
-//     id: ID!
-//     email: String!
-//     token: String!
-//     createdAt: String!
-//   }
-
-//   input RegisterInput {
-//     email: String!
-//     password: String!
-//     confirmPassword: String!
-//   }
-
-//   type Query {
-//     sayHii: String!
-//   }
-
-//   type Mutation {
-//     register(registerInput: RegisterInput): User!
-//     login(email: String!, password: String!): User!
-//   }
-// `;
 const { gql } = require("apollo-server");
 module.exports = gql`
   type User {
@@ -33,49 +8,46 @@ module.exports = gql`
     username: String!
     userusername: String!
     bio: String!
-    userOwnedGroupIds: [UserOwnedGroupId]!
-    userFollowingGroupIds: [UserFollowingGroupId]!
   }
-  type UserOwnedGroupId {
-    id: ID!
-    owneruserusername: String!
-    groupName: String!
-    groupUserName: String!
-    isPrivate: Boolean!
-    createdAt: String!
-    groupFollowers: [GroupFollower]!
-    groupPosts: [GroupPost]!
+  type Group {
+    id: ID
+    groupId: String
+    groupName: String
+    groupUserName: String
+    isPrivate: Boolean
+    createdAt: String
+    groupFollowers: [GroupFollower]
+  }
+  type GroupFollower {
+    id: ID
+    username: String
+    userusername: String
+    createdAt: String
   }
   type UserFollowingGroupId {
     id: ID
     groupUserName: String!
   }
-  type GroupFollower {
-    id: ID!
-    username: String!
-    userusername: String!
-    createdAt: String!
-  }
   type GroupPost {
-    id: ID!
-    username: String!
-    userusername: String!
-    postBody: String!
-    createdAt: String!
-    postLikes: [PostLike]!
-    postViews: [PostView]!
-    likeCount: Int!
-    viewCount: Int!
+    id: ID
+    username: String
+    userusername: String
+    postBody: String
+    createdAt: String
+    postLikes: [PostLike]
+    postViews: [PostView]
+    likeCount: Int
+    viewCount: Int
   }
   type PostLike {
-    username: String!
-    userusername: String!
-    createdAt: String!
+    username: String
+    userusername: String
+    createdAt: String
   }
   type PostView {
-    username: String!
-    userusername: String!
-    createdAt: String!
+    username: String
+    userusername: String
+    createdAt: String
   }
   input RegisterInput {
     email: String!
@@ -85,8 +57,11 @@ module.exports = gql`
     userusername: String!
     bio: String
   }
+  # type Query {
+  #   sayHii: String!
+  # }
   type Query {
-    sayHii: String!
+    getGroups(uid: String!): [Group]
   }
 
   type Mutation {
@@ -97,6 +72,7 @@ module.exports = gql`
       groupUserName: String!
       isPrivate: Boolean!
       uid: String!
-    ): User!
+    ): Group
+    createPost(uid: String!, groupId: String!, body: String!): Group!
   }
 `;

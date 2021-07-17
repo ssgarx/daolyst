@@ -2,9 +2,13 @@ const usersResolvers = require("./users");
 
 module.exports = {
   Query: {
-    sayHii: () => "Dummy query ESSENTIAL",
+    ...usersResolvers.Query,
   },
   Mutation: {
     ...usersResolvers.Mutation,
   },
 };
+
+// Query: {
+//   sayHii: () => "Dummy query ESSENTIAL",
+// },

@@ -11,7 +11,7 @@ const {
 
 const { SECRET_KEY } = require("../../config");
 const User = require("../../models/User");
-const { exists } = require("../../models/User");
+const Group = require("../../models/Group");
 
 function generateToken(user) {
   return jwt.sign(
@@ -25,6 +25,19 @@ function generateToken(user) {
 }
 
 module.exports = {
+  Query: {
+    async getGroups(_, { uid }) {
+      // console.log("checkAuth(context)", checkAuth(context));
+      try {
+        const groups = await Group.find({
+          groupId: uid,
+        });
+        return groups;
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+  },
   Mutation: {
     async login(_, { email, password }) {
       const { errors, valid } = validateLoginInput(email, password);
@@ -115,21 +128,15 @@ module.exports = {
       };
     },
     async createGroup(_, { groupName, groupUserName, isPrivate, uid }) {
-      console.log("uid", uid);
-      console.log("isPrivate", isPrivate);
-      console.log("groupUserName", groupUserName);
-      console.log("groupName", groupName);
       const user = await User.findById(uid);
-      console.log("user", user);
       const { errors, valid } = validateGroupCreation(groupName, groupUserName);
       if (!valid) {
         throw new UserInputError("Errors", { errors });
       }
 
-      const existingGroupUserName = await User.find({
-        "userOwnedGroupIds.groupUserName": groupUserName,
+      const existingGroupUserName = await Group.find({
+        groupUserName: groupUserName,
       });
-      console.log("existingGroupUserName", existingGroupUserName.length);
       if (existingGroupUserName.length > 0) {
         throw new UserInputError("Group username is taken", {
           errors: {
@@ -137,19 +144,16 @@ module.exports = {
           },
         });
       }
-      const existingUser = await User.findById(user.id);
-      console.log("existingUser", existingUser);
-      if (existingUser) {
-        existingUser.userOwnedGroupIds.unshift({
-          owneruserusername: user.username,
-          groupName: groupName,
-          groupUserName: groupUserName,
-          isPrivate: isPrivate,
-          createdAt: new Date().toISOString(),
-        });
-        await existingUser.save();
-        return existingUser;
-      } else throw new UserInputError("ExistingUser not found");
+      const newGroup = new Group({
+        groupId: user.id,
+        groupName: groupName,
+        groupUserName: groupUserName,
+        createdAt: new Date().toISOString(),
+        isPrivate: isPrivate,
+        createdAt: new Date().toISOString(),
+      });
+      await newGroup.save();
+      return newGroup;
     },
   },
 };

@@ -5,6 +5,7 @@ import gql from "graphql-tag";
 
 import { AuthContext } from "../context/auth";
 import { useForm } from "../util/hooks";
+import { Link } from "react-router-dom";
 
 function Login(props) {
   const context = useContext(AuthContext);
@@ -65,6 +66,18 @@ function Login(props) {
           </ul>
         </div>
       )}
+      <p>
+        Don't have an account?
+        <span>
+          <Link
+            to={{
+              pathname: "/register",
+            }}
+          >
+            Register
+          </Link>
+        </span>
+      </p>
     </Container>
   );
 }
