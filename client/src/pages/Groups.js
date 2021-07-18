@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import gql from "graphql-tag";
@@ -18,15 +19,22 @@ function Groups(args = {}) {
     },
     fetchPolicy: "network-only",
   });
-  console.log("data", data);
 
-  let getPostsMarkup;
+  let groupsMarkUp;
   if (!data) {
-    getPostsMarkup = <p>Loading groups</p>;
+    groupsMarkUp = <p>Loading groups</p>;
+  } else if (data.getGroups.length === 0) {
+    groupsMarkUp = <p>No groups yet</p>;
   } else {
-    getPostsMarkup = data.getGroups.map((x, index) => (
+    groupsMarkUp = data.getGroups.map((x, index) => (
       <div style={{ margin: "3px" }} key={index}>
-        <Link to={`/groups/${x.id}`}>
+        {/* `/groups/${x.id}` */}
+        <Link
+          to={{
+            pathname: `/groups/${x.id}`,
+            state: x.groupId,
+          }}
+        >
           <span
             style={{
               border: "1px solid black",
@@ -47,7 +55,9 @@ function Groups(args = {}) {
       <Link to="/">
         <p>Home</p>
       </Link>
-      <div>{getPostsMarkup}</div>
+      <hr />
+      <div>{groupsMarkUp}</div>
+      <hr />
       <div>
         <Link to="/creategroup">
           <button>CreateGroup</button>
@@ -61,6 +71,7 @@ const FETCH_GROUPS_QUERY = gql`
   query getGroups($uid: String!) {
     getGroups(uid: $uid) {
       id
+      groupId
       groupName
       groupUserName
       isPrivate

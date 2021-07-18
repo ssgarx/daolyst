@@ -12,6 +12,7 @@ const {
 const { SECRET_KEY } = require("../../config");
 const User = require("../../models/User");
 const Group = require("../../models/Group");
+const GroupPosts = require("../../models/GroupPosts");
 
 function generateToken(user) {
   return jwt.sign(
@@ -27,12 +28,39 @@ function generateToken(user) {
 module.exports = {
   Query: {
     async getGroups(_, { uid }) {
-      // console.log("checkAuth(context)", checkAuth(context));
       try {
         const groups = await Group.find({
           groupId: uid,
         });
         return groups;
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+    async getGroupPosts(_, { groupId }) {
+      try {
+        const groupPosts = await GroupPosts.find({
+          postsId: groupId,
+        });
+        return groupPosts;
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+    async getGroupInfo(_, { groupId }) {
+      try {
+        const group = await Group.findById(groupId);
+        console.log("group", group);
+        return group;
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+    //create a query named getOwnerInfo with uid as input
+    async getOwnerInfo(_, { groupOwnerId }) {
+      try {
+        const owner = await User.findById(groupOwnerId);
+        return owner;
       } catch (err) {
         throw new Error(err);
       }
@@ -148,12 +176,29 @@ module.exports = {
         groupId: user.id,
         groupName: groupName,
         groupUserName: groupUserName,
-        createdAt: new Date().toISOString(),
         isPrivate: isPrivate,
         createdAt: new Date().toISOString(),
       });
       await newGroup.save();
       return newGroup;
+    },
+    //create a new mutation named create post with uid groupId and body as the input
+    async createGroupPost(_, { uid, groupId, body }) {
+      const user = await User.findById(uid);
+      //create a newPost from GroupPosts
+      const newPost = new GroupPosts({
+        postsId: groupId,
+        username: user.username,
+        userusername: user.userusername,
+        postBody: body,
+        createdAt: new Date().toISOString(),
+      });
+      await newPost.save();
+      // return newPost;
+      const groupPosts = await GroupPosts.find({
+        postsId: groupId,
+      });
+      return groupPosts;
     },
   },
 };

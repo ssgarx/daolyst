@@ -1,27 +1,67 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/auth";
 import { Card, Form } from "semantic-ui-react";
-import { gql, useMutation } from "@apollo/client";
+import { gql, useLazyQuery, useMutation } from "@apollo/client";
+import GroupInfo from "../components/GroupInfo";
 
 function Group(props, args = {}) {
   const { user } = useContext(AuthContext);
   const groupId = props.match.params.groupId;
+  const groupOwnerId = props.location.state;
+  const uid = user.id;
   const [postedLinks, setPostedLinks] = useState("");
+
+  useEffect(() => {
+    fetchPosts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const [fetchPosts, { data }] = useLazyQuery(FETCH_LINKS_QUERY, {
+    variables: {
+      groupId,
+    },
+    fetchPolicy: "network-only",
+  });
 
   const [submitPost] = useMutation(SUBMIT_LINKS_MUTATION, {
     update() {
       setPostedLinks("");
+      fetchPosts();
     },
     variables: {
-      uid: user.id,
+      uid,
       groupId,
       body: postedLinks,
     },
   });
 
+  let postsMarkUp;
+  if (!data) {
+    postsMarkUp = <p>Loading posts</p>;
+  } else if (data.getGroupPosts.length === 0) {
+    postsMarkUp = <p>No posts yet</p>;
+  } else {
+    postsMarkUp = data.getGroupPosts.map((x, index) => (
+      <div style={{ margin: "3px" }} key={index}>
+        <span
+          style={{
+            border: "1px solid black",
+          }}
+        >
+          {x.postBody}
+        </span>{" "}
+        <br />
+        <span>By {x.username}</span>
+      </div>
+    ));
+  }
+
   return (
     <>
-      <h1>Group name here</h1>
+      <GroupInfo groupId={groupId} groupOwnerId={groupOwnerId} />
+      <hr />
+      <div>{postsMarkUp}</div>
+      <hr />
       <Card fluid>
         <Card.Content>
           <p>Post link here</p>
@@ -49,10 +89,37 @@ function Group(props, args = {}) {
   );
 }
 const SUBMIT_LINKS_MUTATION = gql`
-  mutation createPost($uid: uid, $groupId: String!, $body: String!) {
-    createPost(uid: $uid, groupId: $groupId, body: $body) {
+  mutation createGroupPost($uid: String!, $groupId: String!, $body: String!) {
+    createGroupPost(uid: $uid, groupId: $groupId, body: $body) {
       id
+      postsId
+      username
+      userusername
+      postBody
+      createdAt
     }
   }
 `;
+
+const FETCH_LINKS_QUERY = gql`
+  query getGroupPosts($groupId: String!) {
+    getGroupPosts(groupId: $groupId) {
+      id
+      postsId
+      username
+      userusername
+      postBody
+      createdAt
+      postLikes {
+        username
+      }
+      postViews {
+        username
+      }
+      likeCount
+      viewCount
+    }
+  }
+`;
+
 export default Group;

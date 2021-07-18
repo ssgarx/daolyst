@@ -28,8 +28,9 @@ module.exports = gql`
     id: ID
     groupUserName: String!
   }
-  type GroupPost {
+  type GroupPosts {
     id: ID
+    postsId: String
     username: String
     userusername: String
     postBody: String
@@ -62,6 +63,9 @@ module.exports = gql`
   # }
   type Query {
     getGroups(uid: String!): [Group]
+    getGroupPosts(groupId: String!): [GroupPosts]
+    getGroupInfo(groupId: String!): Group!
+    getOwnerInfo(groupOwnerId: String!): User!
   }
 
   type Mutation {
@@ -73,6 +77,10 @@ module.exports = gql`
       isPrivate: Boolean!
       uid: String!
     ): Group
-    createPost(uid: String!, groupId: String!, body: String!): Group!
+    createGroupPost(
+      uid: String!
+      groupId: String!
+      body: String!
+    ): [GroupPosts]!
   }
 `;
