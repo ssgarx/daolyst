@@ -66,6 +66,7 @@ module.exports = gql`
     getGroupPosts(groupId: String!): [GroupPosts]
     getGroupInfo(groupId: String!): Group!
     getOwnerInfo(groupOwnerId: String!): User!
+    searchGroups(searchedText: String!): [Group]
   }
 
   type Mutation {

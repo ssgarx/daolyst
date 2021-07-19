@@ -22,6 +22,7 @@ function Group(props, args = {}) {
     },
     fetchPolicy: "network-only",
   });
+  console.log("data", data);
 
   const [submitPost] = useMutation(SUBMIT_LINKS_MUTATION, {
     update() {

@@ -18,6 +18,10 @@ function LoggedInScreen({ user }, args = {}) {
       <Link to="/groups">
         <p>Groups</p>
       </Link>
+      <br />
+      <Link to="/explore">
+        <p>Explore</p>
+      </Link>
     </>
   );
 }

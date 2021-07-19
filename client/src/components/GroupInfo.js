@@ -1,7 +1,10 @@
 import { gql, useLazyQuery } from "@apollo/client";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
+import { AuthContext } from "../context/auth";
 
 function GroupInfo({ groupId, groupOwnerId }) {
+  const { user } = useContext(AuthContext);
+
   //SHOW GROUP NAME /GET GROUP INFO
   useEffect(() => {
     fetchGroupOwnerInfo();
@@ -26,6 +29,7 @@ function GroupInfo({ groupId, groupOwnerId }) {
       fetchPolicy: "network-only",
     }
   );
+  console.log("groupOwnerInfo", groupOwnerInfo);
 
   let groupData;
   if (!groupInfo.data) {
@@ -54,6 +58,10 @@ function GroupInfo({ groupId, groupOwnerId }) {
     groupOwnerData = (
       <div>
         <p>Created by: @{groupOwnerInfo.data.getOwnerInfo.username}</p>
+
+        {groupOwnerInfo.data.getOwnerInfo.email !== user.email ? (
+          <button>Follow</button>
+        ) : null}
       </div>
     );
   }
@@ -89,6 +97,7 @@ const FETCH_GROUPOWNERINFO_QUERY = gql`
       createdAt
       username
       userusername
+      email
     }
   }
 `;

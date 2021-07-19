@@ -56,11 +56,23 @@ module.exports = {
         throw new Error(err);
       }
     },
-    //create a query named getOwnerInfo with uid as input
     async getOwnerInfo(_, { groupOwnerId }) {
       try {
         const owner = await User.findById(groupOwnerId);
         return owner;
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+    //create a query that takes searchedText as input then searches in Group by groupName and returns all matching groups
+    async searchGroups(_, { searchedText }) {
+      try {
+        const groups = await Group.find({
+          groupName: {
+            $regex: searchedText,
+          },
+        });
+        return groups;
       } catch (err) {
         throw new Error(err);
       }
