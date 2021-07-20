@@ -8,49 +8,11 @@ const userDataSchema = new Schema({
   username: String,
   userusername: String,
   bio: String,
-  // userOwnedGroupIds: [
-  //   {
-  //     email: String,
-  //     owneruserusername: String,
-  //     groupName: String,
-  //     groupUserName: String,
-  //     isPrivate: Boolean,
-  //     createdAt: String,
-  //     groupFollowers: [
-  //       {
-  //         username: String,
-  //         userusername: String,
-  //         createdAt: String,
-  //       },
-  //     ],
-  //     groupPosts: [
-  //       {
-  //         username: String,
-  //         userusername: String,
-  //         postBody: String,
-  //         createdAt: String,
-  //         postLikes: [
-  //           {
-  //             username: String,
-  //             userusername: String,
-  //             createdAt: String,
-  //           },
-  //         ],
-  //         postViews: [
-  //           {
-  //             username: String,
-  //             userusername: String,
-  //             createdAt: String,
-  //           },
-  //         ],
-  //       },
-  //     ],
-  //   },
-  // ],
-  userFollowingGroupIds: [
+
+  followingGroupsLists: [
     {
-      groupName: String,
-      groupUserName: String,
+      groupId: String,
+      createdAt: String,
     },
   ],
 });

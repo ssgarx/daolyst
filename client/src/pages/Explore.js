@@ -79,9 +79,7 @@ const FETCH_SEARCH_RESULT = gql`
       isPrivate
       createdAt
       groupFollowers {
-        id
-        username
-        userusername
+        followersId
         createdAt
       }
     }

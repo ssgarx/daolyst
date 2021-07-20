@@ -43,6 +43,7 @@ function GroupInfo({ groupId, groupOwnerId }) {
       <div>
         <h1>{groupInfo.data.getGroupInfo.groupName}</h1>
         <p>@{groupInfo.data.getGroupInfo.groupUserName}</p>
+        <p>{groupInfo.data.getGroupInfo.groupFollowers.length}followers</p>
       </div>
     );
   }
@@ -85,7 +86,8 @@ const FETCH_GROUPINFO_QUERY = gql`
       isPrivate
       createdAt
       groupFollowers {
-        username
+        followersId
+        createdAt
       }
     }
   }

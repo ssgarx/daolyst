@@ -56,8 +56,10 @@ function Groups(args = {}) {
         <p>Home</p>
       </Link>
       <hr />
+      <h4>Your Groups</h4>
       <div>{groupsMarkUp}</div>
       <hr />
+      <h4>Groups you follow</h4>
       <div>
         <Link to="/creategroup">
           <button>CreateGroup</button>
@@ -77,9 +79,7 @@ const FETCH_GROUPS_QUERY = gql`
       isPrivate
       createdAt
       groupFollowers {
-        id
-        username
-        userusername
+        followersId
         createdAt
       }
     }

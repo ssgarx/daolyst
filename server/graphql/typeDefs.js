@@ -8,6 +8,12 @@ module.exports = gql`
     username: String!
     userusername: String!
     bio: String!
+    followingGroupsLists: [followingGroupsList]
+  }
+  type followingGroupsList {
+    id: ID
+    groupId: String
+    createdAt: String
   }
   type Group {
     id: ID
@@ -19,9 +25,7 @@ module.exports = gql`
     groupFollowers: [GroupFollower]
   }
   type GroupFollower {
-    id: ID
-    username: String
-    userusername: String
+    followersId: String
     createdAt: String
   }
   type UserFollowingGroupId {
@@ -83,5 +87,6 @@ module.exports = gql`
       groupId: String!
       body: String!
     ): [GroupPosts]!
+    followGroup(groupId: String!, uid: String): User!
   }
 `;

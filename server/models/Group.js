@@ -8,8 +8,7 @@ const userGroupsSchema = new Schema({
   createdAt: String,
   groupFollowers: [
     {
-      username: String,
-      userusername: String,
+      followersId: String,
       createdAt: String,
     },
   ],

@@ -50,7 +50,6 @@ module.exports = {
     async getGroupInfo(_, { groupId }) {
       try {
         const group = await Group.findById(groupId);
-        console.log("group", group);
         return group;
       } catch (err) {
         throw new Error(err);
@@ -211,6 +210,47 @@ module.exports = {
         postsId: groupId,
       });
       return groupPosts;
+    },
+    async followGroup(_, { groupId, uid }) {
+      const user = await User.findById(uid);
+      const groupInUser = user.followingGroupsLists.find(
+        (group) => group.groupId === groupId
+      );
+      console.log("groupInUser", groupInUser);
+
+      //if there is, then remove that object from array
+      if (groupInUser) {
+        user.followingGroupsLists.splice(
+          user.followingGroupsLists.indexOf(groupInUser),
+          1
+        );
+      } else {
+        user.followingGroupsLists.unshift({
+          groupId,
+          createdAt: new Date().toISOString(),
+        });
+      }
+      await user.save();
+
+      const group = await Group.findById(groupId);
+      const userInGroup = group.groupFollowers.find(
+        (follower) => follower.followersId === uid
+      );
+      console.log("userInGroup", userInGroup);
+
+      if (userInGroup) {
+        group.groupFollowers.splice(
+          group.groupFollowers.indexOf(userInGroup),
+          1
+        );
+      } else {
+        group.groupFollowers.unshift({
+          followersId: uid,
+          createdAt: new Date().toISOString(),
+        });
+      }
+      await group.save();
+      return user;
     },
   },
 };
