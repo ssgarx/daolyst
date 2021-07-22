@@ -218,6 +218,7 @@ module.exports = {
       );
       console.log("groupInUser", groupInUser);
 
+      //find group by groupId in Group model
       //if there is, then remove that object from array
       if (groupInUser) {
         user.followingGroupsLists.splice(
@@ -225,8 +226,12 @@ module.exports = {
           1
         );
       } else {
+        const getgroup = await Group.findById(groupId);
+        console.log("getgroup", getgroup);
         user.followingGroupsLists.unshift({
-          groupId,
+          _id: getgroup.id,
+          groupId: getgroup.groupId,
+          groupName: getgroup.groupName,
           createdAt: new Date().toISOString(),
         });
       }

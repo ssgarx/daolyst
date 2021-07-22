@@ -11,9 +11,10 @@ module.exports = gql`
     followingGroupsLists: [followingGroupsList]
   }
   type followingGroupsList {
-    id: ID
+    id: String
     groupId: String
     createdAt: String
+    groupName: String
   }
   type Group {
     id: ID

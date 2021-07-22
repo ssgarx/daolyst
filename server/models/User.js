@@ -11,8 +11,10 @@ const userDataSchema = new Schema({
 
   followingGroupsLists: [
     {
+      _id: String,
       groupId: String,
       createdAt: String,
+      groupName: String,
     },
   ],
 });

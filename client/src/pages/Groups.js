@@ -11,6 +11,7 @@ function Groups(args = {}) {
 
   useEffect(() => {
     fetchGroups();
+    fetchUserFollowedGroups();
   }, []);
 
   const [fetchGroups, { data }] = useLazyQuery(FETCH_GROUPS_QUERY, {
@@ -19,6 +20,16 @@ function Groups(args = {}) {
     },
     fetchPolicy: "network-only",
   });
+  const [fetchUserFollowedGroups, userFollowedGroups] = useLazyQuery(
+    FETCH_USERFOLLOWEDGROUPS_QUERY,
+    {
+      variables: {
+        groupOwnerId: uid,
+      },
+      fetchPolicy: "network-only",
+    }
+  );
+  console.log("userFollowedGroups", userFollowedGroups);
 
   let groupsMarkUp;
   if (!data) {
@@ -28,7 +39,6 @@ function Groups(args = {}) {
   } else {
     groupsMarkUp = data.getGroups.map((x, index) => (
       <div style={{ margin: "3px" }} key={index}>
-        {/* `/groups/${x.id}` */}
         <Link
           to={{
             pathname: `/groups/${x.id}`,
@@ -49,6 +59,38 @@ function Groups(args = {}) {
     ));
   }
 
+  let followingGroupMarkUp;
+  if (!userFollowedGroups.data) {
+    followingGroupMarkUp = <p>Loading groups</p>;
+  } else if (
+    userFollowedGroups.data.getOwnerInfo.followingGroupsLists.length === 0
+  ) {
+    followingGroupMarkUp = <p>No groups yet</p>;
+  } else {
+    followingGroupMarkUp =
+      userFollowedGroups.data.getOwnerInfo.followingGroupsLists.map(
+        (x, index) => (
+          <div style={{ margin: "3px" }} key={index}>
+            <Link
+              to={{
+                pathname: `/groups/${x.id}`,
+                state: x.groupId,
+              }}
+            >
+              <span
+                style={{
+                  border: "1px solid black",
+                  cursor: "pointer",
+                }}
+              >
+                {x.groupName}
+              </span>{" "}
+              <br />
+            </Link>
+          </div>
+        )
+      );
+  }
   return (
     <>
       <h1>Groups</h1>
@@ -60,6 +102,7 @@ function Groups(args = {}) {
       <div>{groupsMarkUp}</div>
       <hr />
       <h4>Groups you follow</h4>
+      <div>{followingGroupMarkUp}</div>
       <div>
         <Link to="/creategroup">
           <button>CreateGroup</button>
@@ -81,6 +124,17 @@ const FETCH_GROUPS_QUERY = gql`
       groupFollowers {
         followersId
         createdAt
+      }
+    }
+  }
+`;
+const FETCH_USERFOLLOWEDGROUPS_QUERY = gql`
+  query getOwnerInfo($groupOwnerId: String!) {
+    getOwnerInfo(groupOwnerId: $groupOwnerId) {
+      followingGroupsLists {
+        id
+        groupId
+        groupName
       }
     }
   }
