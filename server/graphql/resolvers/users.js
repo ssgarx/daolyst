@@ -214,9 +214,8 @@ module.exports = {
     async followGroup(_, { groupId, uid }) {
       const user = await User.findById(uid);
       const groupInUser = user.followingGroupsLists.find(
-        (group) => group.groupId === groupId
+        (group) => group.id === groupId
       );
-      console.log("groupInUser", groupInUser);
 
       //find group by groupId in Group model
       //if there is, then remove that object from array
@@ -227,7 +226,6 @@ module.exports = {
         );
       } else {
         const getgroup = await Group.findById(groupId);
-        console.log("getgroup", getgroup);
         user.followingGroupsLists.unshift({
           _id: getgroup.id,
           groupId: getgroup.groupId,
@@ -241,7 +239,6 @@ module.exports = {
       const userInGroup = group.groupFollowers.find(
         (follower) => follower.followersId === uid
       );
-      console.log("userInGroup", userInGroup);
 
       if (userInGroup) {
         group.groupFollowers.splice(

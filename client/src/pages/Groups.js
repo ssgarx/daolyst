@@ -29,7 +29,6 @@ function Groups(args = {}) {
       fetchPolicy: "network-only",
     }
   );
-  console.log("userFollowedGroups", userFollowedGroups);
 
   let groupsMarkUp;
   if (!data) {

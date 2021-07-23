@@ -1,4 +1,4 @@
-import { gql, useLazyQuery } from "@apollo/client";
+import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import React, { useContext, useEffect } from "react";
 import { AuthContext } from "../context/auth";
 
@@ -9,6 +9,7 @@ function GroupInfo({ groupId, groupOwnerId }) {
   useEffect(() => {
     fetchGroupOwnerInfo();
     fetchGroupInfo();
+    fetchUserAdditionalInfo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -17,6 +18,14 @@ function GroupInfo({ groupId, groupOwnerId }) {
       groupId,
     },
     fetchPolicy: "network-only",
+  });
+
+  const [groupConnection] = useMutation(GROUP_ACTION_MUTATION, {
+    update() {},
+    variables: {
+      groupId,
+      uid: user.id,
+    },
   });
 
   //SHOW GROUP USER NAME /GET GROUP OWNER INFO
@@ -29,7 +38,15 @@ function GroupInfo({ groupId, groupOwnerId }) {
       fetchPolicy: "network-only",
     }
   );
-  console.log("groupOwnerInfo", groupOwnerInfo);
+  const [fetchUserAdditionalInfo, userAdditionalInfo] = useLazyQuery(
+    FETCH_GROUPOWNERINFO_QUERY,
+    {
+      variables: {
+        groupOwnerId: user.id,
+      },
+      fetchPolicy: "network-only",
+    }
+  );
 
   let groupData;
   if (!groupInfo.data) {
@@ -48,8 +65,13 @@ function GroupInfo({ groupId, groupOwnerId }) {
     );
   }
 
+  // &&
+  // userAdditionalInfo.data.getOwnerInfo.followingGroupsLists.some(
+  //   (group) => group.id === groupInfo.data.getGroupInfo.id
+  // )
+
   let groupOwnerData;
-  if (!groupOwnerInfo.data) {
+  if (!groupOwnerInfo.data || !userAdditionalInfo.data || !groupInfo.data) {
     groupOwnerData = (
       <div>
         <h1>Loading group data...</h1>
@@ -59,10 +81,14 @@ function GroupInfo({ groupId, groupOwnerId }) {
     groupOwnerData = (
       <div>
         <p>Created by: @{groupOwnerInfo.data.getOwnerInfo.username}</p>
-
-        {groupOwnerInfo.data.getOwnerInfo.email !== user.email ? (
-          <button>Follow</button>
-        ) : null}
+        {groupOwnerInfo.data.getOwnerInfo.email !== user.email &&
+        !userAdditionalInfo.data.getOwnerInfo.followingGroupsLists.some(
+          (group) => group.id === groupInfo.data.getGroupInfo.id
+        ) ? (
+          <button onClick={() => groupConnection()}>Follow</button>
+        ) : groupOwnerInfo.data.getOwnerInfo.email === user.email ? null : (
+          <button onClick={() => groupConnection()}>Unfollow</button>
+        )}
       </div>
     );
   }
@@ -100,6 +126,24 @@ const FETCH_GROUPOWNERINFO_QUERY = gql`
       username
       userusername
       email
+      followingGroupsLists {
+        id
+        groupId
+        groupName
+      }
+    }
+  }
+`;
+
+const GROUP_ACTION_MUTATION = gql`
+  mutation followGroup($uid: String!, $groupId: String!) {
+    followGroup(uid: $uid, groupId: $groupId) {
+      id
+      username
+      followingGroupsLists {
+        id
+        createdAt
+      }
     }
   }
 `;
