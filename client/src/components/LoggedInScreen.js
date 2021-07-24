@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../context/auth";
 
 function LoggedInScreen({ user }, args = {}) {
-  console.log("user", user);
   const { logout } = useContext(AuthContext);
 
   return (

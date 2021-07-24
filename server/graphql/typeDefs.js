@@ -70,8 +70,8 @@ module.exports = gql`
     getGroups(uid: String!): [Group]
     getGroupPosts(groupId: String!): [GroupPosts]
     getGroupInfo(groupId: String!): Group!
-    getOwnerInfo(groupOwnerId: String!): User!
-    searchGroups(searchedText: String!): [Group]
+    getOwnerInfo(groupOwnerId: ID!): User!
+    searchGroups(searchedText: String!, uid: ID!): [Group]
   }
 
   type Mutation {

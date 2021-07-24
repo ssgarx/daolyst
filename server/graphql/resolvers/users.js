@@ -63,14 +63,20 @@ module.exports = {
         throw new Error(err);
       }
     },
-    //create a query that takes searchedText as input then searches in Group by groupName and returns all matching groups
-    async searchGroups(_, { searchedText }) {
+    async searchGroups(_, { searchedText, uid }) {
       try {
+        //find group whose groupId contains searchedText and isPrivate is false
         const groups = await Group.find({
-          groupName: {
-            $regex: searchedText,
-          },
+          $or: [{ groupName: { $regex: `.*${searchedText}.*` } }],
+          isPrivate: false,
+          groupId: { $ne: uid },
         });
+
+        // const groups = await Group.find({
+        //   groupName: {
+        //     $regex: searchedText,
+        //   },
+        // });
         return groups;
       } catch (err) {
         throw new Error(err);
@@ -193,7 +199,6 @@ module.exports = {
       await newGroup.save();
       return newGroup;
     },
-    //create a new mutation named create post with uid groupId and body as the input
     async createGroupPost(_, { uid, groupId, body }) {
       const user = await User.findById(uid);
       //create a newPost from GroupPosts

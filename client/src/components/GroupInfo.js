@@ -21,7 +21,10 @@ function GroupInfo({ groupId, groupOwnerId }) {
   });
 
   const [groupConnection] = useMutation(GROUP_ACTION_MUTATION, {
-    update() {},
+    update() {
+      fetchGroupInfo();
+      fetchGroupOwnerInfo();
+    },
     variables: {
       groupId,
       uid: user.id,
@@ -119,7 +122,7 @@ const FETCH_GROUPINFO_QUERY = gql`
   }
 `;
 const FETCH_GROUPOWNERINFO_QUERY = gql`
-  query getOwnerInfo($groupOwnerId: String!) {
+  query getOwnerInfo($groupOwnerId: ID!) {
     getOwnerInfo(groupOwnerId: $groupOwnerId) {
       id
       createdAt

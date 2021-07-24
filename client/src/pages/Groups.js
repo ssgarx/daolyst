@@ -128,8 +128,9 @@ const FETCH_GROUPS_QUERY = gql`
   }
 `;
 const FETCH_USERFOLLOWEDGROUPS_QUERY = gql`
-  query getOwnerInfo($groupOwnerId: String!) {
+  query getOwnerInfo($groupOwnerId: ID!) {
     getOwnerInfo(groupOwnerId: $groupOwnerId) {
+      id
       followingGroupsLists {
         id
         groupId

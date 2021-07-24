@@ -62,29 +62,31 @@ function Group(props, args = {}) {
       <hr />
       <div>{postsMarkUp}</div>
       <hr />
-      <Card fluid>
-        <Card.Content>
-          <p>Post link here</p>
-          <Form>
-            <div className="ui action input fluid">
-              <input
-                type="text"
-                placeholder="Post links here"
-                value={postedLinks}
-                onChange={(event) => setPostedLinks(event.target.value)}
-              />
-              <button
-                type="submit"
-                className="ui button teal"
-                disabled={postedLinks.trim() === ""}
-                onClick={submitPost}
-              >
-                Submit
-              </button>
-            </div>
-          </Form>
-        </Card.Content>
-      </Card>
+      {groupOwnerId === user.id && (
+        <Card fluid>
+          <Card.Content>
+            <p>Post link here</p>
+            <Form>
+              <div className="ui action input fluid">
+                <input
+                  type="text"
+                  placeholder="Post links here"
+                  value={postedLinks}
+                  onChange={(event) => setPostedLinks(event.target.value)}
+                />
+                <button
+                  type="submit"
+                  className="ui button teal"
+                  disabled={postedLinks.trim() === ""}
+                  onClick={submitPost}
+                >
+                  Submit
+                </button>
+              </div>
+            </Form>
+          </Card.Content>
+        </Card>
+      )}
     </>
   );
 }

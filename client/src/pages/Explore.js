@@ -1,16 +1,18 @@
 import { gql, useLazyQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Card, Form } from "semantic-ui-react";
+import { AuthContext } from "../context/auth";
 
 function Explore() {
+  const { user } = useContext(AuthContext);
   const [searchedText, setSearchedText] = useState("");
   const [submitSearchedText, { data }] = useLazyQuery(FETCH_SEARCH_RESULT, {
     variables: {
       searchedText,
+      uid: user.id,
     },
   });
-  console.log("data", data);
 
   let groupsMarkUp;
   if (!data) {
@@ -70,8 +72,8 @@ function Explore() {
 }
 
 const FETCH_SEARCH_RESULT = gql`
-  query searchGroups($searchedText: String!) {
-    searchGroups(searchedText: $searchedText) {
+  query searchGroups($searchedText: String!, $uid: ID!) {
+    searchGroups(searchedText: $searchedText, uid: $uid) {
       id
       groupId
       groupName
