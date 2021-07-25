@@ -10,23 +10,45 @@ function Group(props, args = {}) {
   const groupOwnerId = props.location.state;
   const uid = user.id;
   const [postedLinks, setPostedLinks] = useState("");
+  const [displayPosts, setDisplayPosts] = useState("");
 
   useEffect(() => {
     fetchPosts();
+    setDisplayPosts(JSON.parse(localStorage.getItem(groupId)));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const saveGroupMessagesToLocal = (data, groupId) => {
+    if (!JSON.parse(localStorage.getItem(groupId))) {
+      let groupMessages = data;
+      localStorage.setItem(groupId, JSON.stringify(groupMessages));
+      setDisplayPosts(groupMessages);
+    }
+  };
+
+  const addMessageToLocal = (message, groupId) => {
+    let groupMessages = JSON.parse(localStorage.getItem(groupId));
+    //check if groupMessages array has a object with message.id
+    if (!groupMessages.find((item) => item.id === message.id)) {
+      groupMessages.push(message);
+      localStorage.setItem(groupId, JSON.stringify(groupMessages));
+      setDisplayPosts(groupMessages);
+    }
+  };
+
   const [fetchPosts, { data }] = useLazyQuery(FETCH_LINKS_QUERY, {
+    onCompleted() {
+      saveGroupMessagesToLocal(data.getGroupPosts, groupId);
+    },
     variables: {
       groupId,
     },
     fetchPolicy: "network-only",
   });
 
-  const [submitPost] = useMutation(SUBMIT_LINKS_MUTATION, {
+  const [submitPost, submittedPost] = useMutation(SUBMIT_LINKS_MUTATION, {
     update() {
       setPostedLinks("");
-      fetchPosts();
     },
     variables: {
       uid,
@@ -35,13 +57,15 @@ function Group(props, args = {}) {
     },
   });
 
+  submittedPost.data &&
+    submittedPost.data.createGroupPost &&
+    addMessageToLocal(submittedPost.data.createGroupPost, groupId);
+
   let postsMarkUp;
-  if (!data) {
-    postsMarkUp = <p>Loading posts</p>;
-  } else if (data.getGroupPosts.length === 0) {
+  if (!displayPosts) {
     postsMarkUp = <p>No posts yet</p>;
   } else {
-    postsMarkUp = data.getGroupPosts.map((x, index) => (
+    postsMarkUp = displayPosts.map((x, index) => (
       <div style={{ margin: "3px" }} key={index}>
         <span
           style={{
@@ -55,6 +79,25 @@ function Group(props, args = {}) {
       </div>
     ));
   }
+  // if (!data) {
+  //   postsMarkUp = <p>Loading posts</p>;
+  // } else if (data.getGroupPosts.length === 0) {
+  //   postsMarkUp = <p>No posts yet</p>;
+  // } else {
+  //   postsMarkUp = data.getGroupPosts.map((x, index) => (
+  //     <div style={{ margin: "3px" }} key={index}>
+  //       <span
+  //         style={{
+  //           border: "1px solid black",
+  //         }}
+  //       >
+  //         {x.postBody}
+  //       </span>{" "}
+  //       <br />
+  //       <span>By {x.username}</span>
+  //     </div>
+  //   ));
+  // }
 
   return (
     <>
@@ -93,12 +136,20 @@ function Group(props, args = {}) {
 const SUBMIT_LINKS_MUTATION = gql`
   mutation createGroupPost($uid: String!, $groupId: String!, $body: String!) {
     createGroupPost(uid: $uid, groupId: $groupId, body: $body) {
+      createdAt
       id
+      likeCount
+      postBody
+      postLikes {
+        username
+      }
+      postViews {
+        username
+      }
       postsId
       username
       userusername
-      postBody
-      createdAt
+      viewCount
     }
   }
 `;

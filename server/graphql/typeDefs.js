@@ -83,11 +83,7 @@ module.exports = gql`
       isPrivate: Boolean!
       uid: String!
     ): Group
-    createGroupPost(
-      uid: String!
-      groupId: String!
-      body: String!
-    ): [GroupPosts]!
+    createGroupPost(uid: String!, groupId: String!, body: String!): GroupPosts!
     followGroup(groupId: String!, uid: String): User!
   }
 `;

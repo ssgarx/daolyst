@@ -214,7 +214,7 @@ module.exports = {
       const groupPosts = await GroupPosts.find({
         postsId: groupId,
       });
-      return groupPosts;
+      return newPost;
     },
     async followGroup(_, { groupId, uid }) {
       const user = await User.findById(uid);
