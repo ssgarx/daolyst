@@ -1,26 +1,22 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { AuthContext } from "../context/auth";
+import CentralPollingUnit from "./CentralPollingUnit";
 function LoggedInScreen({ user }, args = {}) {
+  let history = useHistory();
   const { logout } = useContext(AuthContext);
-
   return (
     <>
       <h1>
         You're logged in as <br /> {user.email}{" "}
       </h1>
-      <a href="#" onClick={logout}>
-        Logout
-      </a>
+      <button onClick={logout}>Logout</button>
       <br />
-      <Link to="/groups">
-        <p>Groups</p>
-      </Link>
+      <button onClick={() => history.push("/groups")}>Groups</button>
       <br />
-      <Link to="/explore">
-        <p>Explore</p>
-      </Link>
+      <button onClick={() => history.push("/explore")}>Explore</button>
+      <CentralPollingUnit />
     </>
   );
 }

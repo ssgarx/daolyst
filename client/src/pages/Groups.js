@@ -1,13 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import gql from "graphql-tag";
 import { AuthContext } from "../context/auth";
 import { useLazyQuery } from "@apollo/client";
+import CentralPollingUnit from "../components/CentralPollingUnit";
 
 function Groups(args = {}) {
   const { user } = useContext(AuthContext);
   const uid = user.id;
+  let history = useHistory();
 
   useEffect(() => {
     fetchGroups();
@@ -38,22 +40,21 @@ function Groups(args = {}) {
   } else {
     groupsMarkUp = data.getGroups.map((x, index) => (
       <div style={{ margin: "3px" }} key={index}>
-        <Link
-          to={{
-            pathname: `/groups/${x.id}`,
-            state: x.groupId,
+        <span
+          style={{
+            border: "1px solid black",
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            history.push({
+              pathname: `/groups/${x.id}`,
+              state: x.groupId,
+            });
           }}
         >
-          <span
-            style={{
-              border: "1px solid black",
-              cursor: "pointer",
-            }}
-          >
-            {x.groupName}
-          </span>{" "}
-          <br />
-        </Link>
+          {x.groupName}
+        </span>{" "}
+        <br />
       </div>
     ));
   }
@@ -70,22 +71,21 @@ function Groups(args = {}) {
       userFollowedGroups.data.getOwnerInfo.followingGroupsLists.map(
         (x, index) => (
           <div style={{ margin: "3px" }} key={index}>
-            <Link
-              to={{
-                pathname: `/groups/${x.id}`,
-                state: x.groupId,
+            <span
+              style={{
+                border: "1px solid black",
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                history.push({
+                  pathname: `/groups/${x.id}`,
+                  state: x.groupId,
+                });
               }}
             >
-              <span
-                style={{
-                  border: "1px solid black",
-                  cursor: "pointer",
-                }}
-              >
-                {x.groupName}
-              </span>{" "}
-              <br />
-            </Link>
+              {x.groupName}
+            </span>{" "}
+            <br />
           </div>
         )
       );
@@ -93,9 +93,7 @@ function Groups(args = {}) {
   return (
     <>
       <h1>Groups</h1>
-      <Link to="/">
-        <p>Home</p>
-      </Link>
+      <button onClick={() => history.push("/")}>Home</button>
       <hr />
       <h4>Your Groups</h4>
       <div>{groupsMarkUp}</div>
@@ -103,10 +101,11 @@ function Groups(args = {}) {
       <h4>Groups you follow</h4>
       <div>{followingGroupMarkUp}</div>
       <div>
-        <Link to="/creategroup">
-          <button>CreateGroup</button>
-        </Link>
+        <button onClick={() => history.push("/creategroup")}>
+          CreateGroup
+        </button>
       </div>
+      <CentralPollingUnit />
     </>
   );
 }

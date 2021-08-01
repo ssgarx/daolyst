@@ -65,19 +65,45 @@ module.exports = {
     },
     async searchGroups(_, { searchedText, uid }) {
       try {
-        //find group whose groupId contains searchedText and isPrivate is false
         const groups = await Group.find({
           $or: [{ groupName: { $regex: `.*${searchedText}.*` } }],
           isPrivate: false,
           groupId: { $ne: uid },
         });
-
-        // const groups = await Group.find({
-        //   groupName: {
-        //     $regex: searchedText,
-        //   },
-        // });
         return groups;
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+    //create a query that takes uid as input & finds the user by uid.
+    async getAllRelevantPosts(_, { uid }) {
+      try {
+        const user = await User.findById(uid);
+        let relevantGroupsIds = [];
+        //loop through user.followingGroupsLists and add id to relevantGroupsIds
+        for (let i = 0; i < user.followingGroupsLists.length; i++) {
+          relevantGroupsIds.push(user.followingGroupsLists[i]._id);
+        }
+        //find all the groups in Group model that have uid as groupId and add their ids to releventGroupsIds
+        const groups = await Group.find({
+          groupId: uid,
+        });
+        //loop through groups and add their ids to relevantGroupsIds
+        for (let i = 0; i < groups.length; i++) {
+          relevantGroupsIds.push(groups[i]._id);
+        }
+
+        let postsArray = [];
+        //loop through relevantGroupsIds
+        for (let i = 0; i < relevantGroupsIds.length; i++) {
+          //for each id find all the posts in GroupPosts model that have the id as postsId and add them to postsArray
+          const posts = await GroupPosts.find({
+            postsId: relevantGroupsIds[i],
+          });
+          //add the posts to postsArray
+          postsArray.push(posts);
+        }
+        return postsArray;
       } catch (err) {
         throw new Error(err);
       }
