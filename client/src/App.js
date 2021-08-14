@@ -6,13 +6,15 @@ import { NotifierProvider } from "./context/notifier";
 import { GroupSelectorProvider } from "./context/groupSelector";
 import { AuthRoute, AuthRoute2 } from "./util/AuthRoute"; //2 IF REGISTERED THEN DESIRED LOC ELSE HOME
 
-import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import CreateGroup from "./pages/CreateGroup";
 import Groups from "./pages/Groups";
 import Group from "./pages/Group";
 import Explore from "./pages/Explore";
+import Register from "./pages/Register";
+import OtpVerification from "./pages/OtpVerification";
+import Staging from "./pages/Staging";
 
 function App() {
   return (
@@ -21,7 +23,12 @@ function App() {
         <GroupSelectorProvider>
           <Router>
             <Route exact path="/" component={Home} />
-            <AuthRoute exact path="/login" component={Login} />
+            <Route exact path="/staging" component={Staging} />
+            <AuthRoute
+              exact
+              path="/otpverification"
+              component={OtpVerification}
+            />
             <AuthRoute exact path="/register" component={Register} />
             <AuthRoute2 exact path="/creategroup" component={CreateGroup} />
             <AuthRoute2 exact path="/groups" component={Groups} />

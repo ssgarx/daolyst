@@ -5,20 +5,21 @@ const checkAuth = require("../../util/check-auth");
 
 const {
   validateRegisterInput,
-  validateLoginInput,
   validateGroupCreation,
+  validateOtpInput,
 } = require("../../util/validators");
 
 const { SECRET_KEY } = require("../../config");
 const User = require("../../models/User");
 const Group = require("../../models/Group");
 const GroupPosts = require("../../models/GroupPosts");
+const Otp = require("../../models/Otp");
 
-function generateToken(user) {
+function generateToken(email, id) {
   return jwt.sign(
     {
-      id: user.id,
-      email: user.email,
+      email,
+      id,
     },
     SECRET_KEY,
     { expiresIn: "1h" }
@@ -75,32 +76,25 @@ module.exports = {
         throw new Error(err);
       }
     },
-    //create a query that takes uid as input & finds the user by uid.
     async getAllRelevantPosts(_, { uid }) {
       try {
         const user = await User.findById(uid);
         let relevantGroupsIds = [];
-        //loop through user.followingGroupsLists and add id to relevantGroupsIds
         for (let i = 0; i < user.followingGroupsLists.length; i++) {
           relevantGroupsIds.push(user.followingGroupsLists[i]._id);
         }
-        //find all the groups in Group model that have uid as groupId and add their ids to releventGroupsIds
         const groups = await Group.find({
           groupId: uid,
         });
-        //loop through groups and add their ids to relevantGroupsIds
         for (let i = 0; i < groups.length; i++) {
           relevantGroupsIds.push(groups[i]._id);
         }
 
         let postsArray = [];
-        //loop through relevantGroupsIds
         for (let i = 0; i < relevantGroupsIds.length; i++) {
-          //for each id find all the posts in GroupPosts model that have the id as postsId and add them to postsArray
           const posts = await GroupPosts.find({
             postsId: relevantGroupsIds[i],
           });
-          //add the posts to postsArray
           postsArray.push(posts);
         }
         return postsArray;
@@ -108,96 +102,75 @@ module.exports = {
         throw new Error(err);
       }
     },
+    //create a new query named checkIfNewUser that takes email as input.
+    //it should find a user with the same email in Users collection and return true if it exists
+    //otherwise return false
+    async checkIfNewUser(_, { email }) {
+      try {
+        const user = await User.findOne({
+          email,
+        });
+        if (user.username) {
+          return false;
+        }
+        return true;
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
   },
   Mutation: {
-    async login(_, { email, password }) {
-      const { errors, valid } = validateLoginInput(email, password);
-
-      if (!valid) {
+    async verifyOtp(_, { code }) {
+      let errors = {};
+      let otp;
+      if (!code) {
+        errors.code = "Please enter the otp";
+      } else {
+        const otptmp = await Otp.findOne({ code });
+        console.log("otptmp", otptmp);
+        if (!otptmp) {
+          errors.code = "Otp no match";
+        } else {
+          otp = otptmp;
+        }
+      }
+      //check if errors is empty
+      console.log("Object.keys(errors)", errors);
+      console.log("Object.keys(errors).length", Object.keys(errors).length);
+      if (Object.keys(errors).length !== 0) {
         throw new UserInputError("Errors", { errors });
       }
-
-      const user = await User.findOne({ email });
-
-      if (!user) {
-        errors.general = "User not found";
-        throw new UserInputError("User not found", { errors });
-      }
-
-      const match = await bcrypt.compare(password, user.password);
-      if (!match) {
-        errors.general = "Wrong crendetials";
-        throw new UserInputError("Wrong crendetials", { errors });
-      }
-
-      const token = generateToken(user);
-
-      return {
-        ...user._doc,
-        id: user._id,
-        token,
-      };
+      return { ...otp._doc };
     },
-    async register(
-      _,
-      {
-        registerInput: {
-          email,
-          password,
-          confirmPassword,
-          username,
-          userusername,
-          bio,
-        },
-      }
-    ) {
-      const { valid, errors } = validateRegisterInput(
-        email,
-        password,
-        confirmPassword,
-        username,
-        userusername
-      );
+
+    async register(_, { email }) {
+      const { valid, errors } = validateRegisterInput(email);
       if (!valid) {
         throw new UserInputError("Errors", { errors });
       }
-      const userbyemail = await User.findOne({ email });
-      if (userbyemail) {
-        throw new UserInputError("Email is taken", {
-          errors: {
-            email: "This email is taken",
-          },
-        });
-      }
-      const userbyuserusername = await User.findOne({ userusername });
-      if (userbyuserusername) {
-        throw new UserInputError("UserUsername is taken", {
-          errors: {
-            email: "This UserUsername is taken",
-          },
-        });
-      }
-      password = await bcrypt.hash(password, 12);
-
       const newUser = new User({
         email,
-        password,
-        username,
-        userusername,
-        bio,
         createdAt: new Date().toISOString(),
       });
 
       const res = await newUser.save();
 
-      const token = generateToken(res);
+      let genratedOtp = Math.floor(100000 + Math.random() * 900000);
+      let token = generateToken(email, newUser._id);
+      const otp = new Otp({
+        code: genratedOtp,
+        token,
+        email,
+        createdAt: new Date().toISOString(),
+      });
+      await otp.save();
 
       return {
         ...res._doc,
         id: res._id,
-        token,
       };
     },
+
     async createGroup(_, { groupName, groupUserName, isPrivate, uid }) {
       const user = await User.findById(uid);
       const { errors, valid } = validateGroupCreation(groupName, groupUserName);

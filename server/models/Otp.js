@@ -2,6 +2,8 @@ const { model, Schema } = require("mongoose");
 
 const userOtpSchema = new Schema({
   code: String,
+  token: String,
+  email: String,
   createdAt: String,
 });
 

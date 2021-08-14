@@ -4,19 +4,19 @@ import { Button, Container, Form } from "semantic-ui-react";
 import { AuthContext } from "../context/auth";
 import { useForm } from "../util/hooks";
 
-function Register(props) {
+function OtpVerification(props) {
   const context = useContext(AuthContext);
   const [errors, setErrors] = useState({});
 
-  const { onChange, onSubmit, values } = useForm(registerUser, {
-    email: "",
+  const { onChange, onSubmit, values } = useForm(verifyotp, {
+    code: "",
   });
 
-  const [addUser, { loading }] = useMutation(REGISTER2_USER, {
-    update(_, { data: { register: userData } }) {
-      console.log("userData", userData);
-      //   context.login(userData);
-      props.history.push("/otpverification");
+  const [addUser, { loading }] = useMutation(VERIFY_OTP, {
+    update(_, { data: { verifyOtp: userData } }) {
+      console.log("userDataX  :", userData);
+      context.login(userData);
+      props.history.push("/staging");
     },
     onError(err) {
       console.log("err", err.graphQLErrors[0]);
@@ -25,21 +25,20 @@ function Register(props) {
     variables: values,
   });
 
-  function registerUser() {
+  function verifyotp() {
     addUser();
   }
 
   return (
     <Container>
       <Form noValidate onSubmit={onSubmit} className={loading ? "loading" : ""}>
-        <h1>Register/Login</h1>
+        <h1>ValidateOtp</h1>
         <Form.Input
-          label="Email"
-          placeholder="Email.."
-          name="email"
-          type="email"
-          value={values.email}
-          error={errors.email ? true : false}
+          label="oTP LABEL"
+          placeholder="ADD OT[.."
+          name="code"
+          value={values.code}
+          error={errors.code ? true : false}
           onChange={onChange}
         />
         <Button type="submit" primary>
@@ -59,13 +58,15 @@ function Register(props) {
   );
 }
 
-export default Register;
+export default OtpVerification;
 
-const REGISTER2_USER = gql`
-  mutation register($email: String!) {
-    register(email: $email) {
-      id
+const VERIFY_OTP = gql`
+  mutation verifyOtp($code: String!) {
+    verifyOtp(code: $code) {
+      code
+      token
       email
+      createdAt
     }
   }
 `;

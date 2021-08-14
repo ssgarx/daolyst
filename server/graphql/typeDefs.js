@@ -3,12 +3,11 @@ module.exports = gql`
   type User {
     id: ID!
     email: String!
-    token: String!
-    createdAt: String!
-    username: String!
-    userusername: String!
-    bio: String!
-    followingGroupsLists: [followingGroupsList]
+    # token: String
+    # createdAt: String
+    # username: String
+    # userusername: String
+    # followingGroupsLists: [followingGroupsList]
   }
   type followingGroupsList {
     id: String
@@ -57,7 +56,9 @@ module.exports = gql`
   }
   type Otp {
     code: String
-    createAt: String
+    token: String
+    email: String
+    createdAt: String
   }
   input RegisterInput {
     email: String!
@@ -67,10 +68,15 @@ module.exports = gql`
     userusername: String!
     bio: String
   }
+  input RegisterInput2 {
+    email: String!
+  }
   # type Query {
   #   sayHii: String!
   # }
   type Query {
+    verifyOtp(code: String!): Otp
+    checkIfNewUser(email: String!): Boolean!
     getGroups(uid: String!): [Group]
     getGroupPosts(groupId: String!): [GroupPosts]
     getGroupInfo(groupId: String!): Group!
@@ -80,7 +86,9 @@ module.exports = gql`
   }
 
   type Mutation {
-    register(registerInput: RegisterInput): User!
+    # register(registerInput: RegisterInput): User!
+    verifyOtp(code: String!): Otp
+    register(email: String!): User!
     login(email: String!, password: String!): User!
     createGroup(
       groupName: String!
