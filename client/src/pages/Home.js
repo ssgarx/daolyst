@@ -6,10 +6,6 @@ import LoggedOutScreen from "../components/LoggedOutScreen";
 
 function Home() {
   const { user } = useContext(AuthContext);
-  //GET ALL USER DATA BASED ON USER EMAIL (WHICH IS UNIQUE)
-  //CHECK IF USER HAS USERNAME
-  //IF NO > MEANS USER IS LOGGING IN FOR THE FIRST TIME (FTLI)
-  // FTLI  = TAKE USER TO (FILL THE BASIC INFO BEFORE CONTINUING SCREEN)
   return <>{user ? <LoggedInScreen user={user} /> : <LoggedOutScreen />}</>;
 }
 

@@ -55,6 +55,10 @@ module.exports = gql`
     userusername: String
     createdAt: String
   }
+  type Otp {
+    code: String
+    createAt: String
+  }
   input RegisterInput {
     email: String!
     password: String!

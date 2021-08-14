@@ -68,11 +68,6 @@ function GroupInfo({ groupId, groupOwnerId }) {
     );
   }
 
-  // &&
-  // userAdditionalInfo.data.getOwnerInfo.followingGroupsLists.some(
-  //   (group) => group.id === groupInfo.data.getGroupInfo.id
-  // )
-
   let groupOwnerData;
   if (!groupOwnerInfo.data || !userAdditionalInfo.data || !groupInfo.data) {
     groupOwnerData = (

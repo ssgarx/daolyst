@@ -5,11 +5,20 @@ import gql from "graphql-tag";
 import { AuthContext } from "../context/auth";
 import { useLazyQuery } from "@apollo/client";
 import CentralPollingUnit from "../components/CentralPollingUnit";
+import { GroupSelectorContext } from "../context/groupSelector";
+import { NotifierContext } from "../context/notifier";
 
 function Groups(args = {}) {
   const { user } = useContext(AuthContext);
+  const groupSelContext = useContext(GroupSelectorContext);
+  const { notifArray } = useContext(NotifierContext);
+  const { groupData } = useContext(GroupSelectorContext);
   const uid = user.id;
   let history = useHistory();
+
+  useEffect(() => {
+    console.log("notifArray: ", notifArray);
+  }, [notifArray]);
 
   useEffect(() => {
     fetchGroups();
@@ -22,6 +31,7 @@ function Groups(args = {}) {
     },
     fetchPolicy: "network-only",
   });
+
   const [fetchUserFollowedGroups, userFollowedGroups] = useLazyQuery(
     FETCH_USERFOLLOWEDGROUPS_QUERY,
     {
@@ -32,6 +42,7 @@ function Groups(args = {}) {
     }
   );
 
+  // Your Groups
   let groupsMarkUp;
   if (!data) {
     groupsMarkUp = <p>Loading groups</p>;
@@ -46,19 +57,17 @@ function Groups(args = {}) {
             cursor: "pointer",
           }}
           onClick={() => {
-            history.push({
-              pathname: `/groups/${x.id}`,
-              state: x.groupId,
-            });
+            groupSelContext.createGroupSelection(x.id, x.groupId);
           }}
         >
           {x.groupName}
-        </span>{" "}
+        </span>
         <br />
       </div>
     ));
   }
 
+  // Groups you follow
   let followingGroupMarkUp;
   if (!userFollowedGroups.data) {
     followingGroupMarkUp = <p>Loading groups</p>;
@@ -77,13 +86,16 @@ function Groups(args = {}) {
                 cursor: "pointer",
               }}
               onClick={() => {
-                history.push({
-                  pathname: `/groups/${x.id}`,
-                  state: x.groupId,
-                });
+                groupSelContext.createGroupSelection(x.id, x.groupId);
               }}
             >
-              {x.groupName}
+              <span>
+                {x.groupName}{" "}
+                {notifArray &&
+                  !notifArray.includes(groupData?.groupId) &&
+                  notifArray.includes(x.id) &&
+                  "*"}
+              </span>
             </span>{" "}
             <br />
           </div>

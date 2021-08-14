@@ -1,12 +1,13 @@
 import { gql, useLazyQuery } from "@apollo/client";
-import { Link } from "react-router-dom";
 import React, { useContext, useState } from "react";
 import { Card, Form } from "semantic-ui-react";
 import { AuthContext } from "../context/auth";
+import { GroupSelectorContext } from "../context/groupSelector";
 
 function Explore() {
   const { user } = useContext(AuthContext);
   const [searchedText, setSearchedText] = useState("");
+  const groupSelContext = useContext(GroupSelectorContext);
   const [submitSearchedText, { data }] = useLazyQuery(FETCH_SEARCH_RESULT, {
     variables: {
       searchedText,
@@ -22,22 +23,17 @@ function Explore() {
   } else {
     groupsMarkUp = data.searchGroups.map((x, index) => (
       <div style={{ margin: "3px", border: "1pz solid black" }} key={index}>
-        <Link
-          to={{
-            pathname: `/groups/${x.id}`,
-            state: x.groupId,
+        <span
+          style={{
+            border: "1px solid black",
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            groupSelContext.createGroupSelection(x.id, x.groupId);
           }}
         >
-          <span
-            style={{
-              border: "1px solid black",
-              cursor: "pointer",
-            }}
-          >
-            {x.groupName}
-          </span>{" "}
-          <br />
-        </Link>
+          {x.groupName}
+        </span>
       </div>
     ));
   }

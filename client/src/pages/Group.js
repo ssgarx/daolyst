@@ -1,34 +1,54 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/auth";
 import { Card, Form } from "semantic-ui-react";
 import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import GroupInfo from "../components/GroupInfo";
+import CentralPollingUnit from "../components/CentralPollingUnit";
+import { NotifierContext } from "../context/notifier";
+import { GroupSelectorContext } from "../context/groupSelector";
 
 function Group(props, args = {}) {
   const { user } = useContext(AuthContext);
-  const groupId = props.match.params.groupId;
-  const groupOwnerId = props.location.state;
+  const { notifArray, removeNotification } = useContext(NotifierContext);
+  const { groupData } = useContext(GroupSelectorContext);
+  const groupId = groupData.groupId;
+  const groupOwnerId = groupData.groupOwnerId;
+
   const uid = user.id;
   const [postedLinks, setPostedLinks] = useState("");
   const [displayPosts, setDisplayPosts] = useState("");
 
   useEffect(() => {
-    fetchPosts();
-    setDisplayPosts(JSON.parse(localStorage.getItem(groupId)));
+    if (groupId) {
+      if (!JSON.parse(localStorage.getItem(groupId))) {
+        fetchPosts();
+      }
+      setDisplayPosts(JSON.parse(localStorage.getItem(groupId)));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (notifArray.includes(groupId)) {
+      removeNotification(groupId);
+    }
+  }, [groupId]);
+
+  useEffect(() => {
+    setDisplayPosts(JSON.parse(localStorage.getItem(groupId)));
+    if (notifArray.includes(groupId)) {
+      removeNotification(groupId);
+    }
+  }, [notifArray]);
 
   const saveGroupMessagesToLocal = (data, groupId) => {
-    if (!JSON.parse(localStorage.getItem(groupId))) {
-      let groupMessages = data;
-      localStorage.setItem(groupId, JSON.stringify(groupMessages));
-      setDisplayPosts(groupMessages);
-    }
+    let groupMessages = data;
+    localStorage.setItem(groupId, JSON.stringify(groupMessages));
+    setDisplayPosts(groupMessages);
+    // if (!JSON.parse(localStorage.getItem(groupId))) {
+    // }
   };
 
   const addMessageToLocal = (message, groupId) => {
     let groupMessages = JSON.parse(localStorage.getItem(groupId));
-    //check if groupMessages array has a object with message.id
     if (!groupMessages.find((item) => item.id === message.id)) {
       groupMessages.push(message);
       localStorage.setItem(groupId, JSON.stringify(groupMessages));
@@ -46,9 +66,12 @@ function Group(props, args = {}) {
     fetchPolicy: "network-only",
   });
 
-  const [submitPost, submittedPost] = useMutation(SUBMIT_LINKS_MUTATION, {
+  const [submitPost] = useMutation(SUBMIT_LINKS_MUTATION, {
     update() {
       setPostedLinks("");
+    },
+    onCompleted(data) {
+      addMessageToLocal(data.createGroupPost, groupId);
     },
     variables: {
       uid,
@@ -56,10 +79,6 @@ function Group(props, args = {}) {
       body: postedLinks,
     },
   });
-
-  submittedPost.data &&
-    submittedPost.data.createGroupPost &&
-    addMessageToLocal(submittedPost.data.createGroupPost, groupId);
 
   let postsMarkUp;
   if (!displayPosts) {
@@ -79,56 +98,48 @@ function Group(props, args = {}) {
       </div>
     ));
   }
-  // if (!data) {
-  //   postsMarkUp = <p>Loading posts</p>;
-  // } else if (data.getGroupPosts.length === 0) {
-  //   postsMarkUp = <p>No posts yet</p>;
-  // } else {
-  //   postsMarkUp = data.getGroupPosts.map((x, index) => (
-  //     <div style={{ margin: "3px" }} key={index}>
-  //       <span
-  //         style={{
-  //           border: "1px solid black",
-  //         }}
-  //       >
-  //         {x.postBody}
-  //       </span>{" "}
-  //       <br />
-  //       <span>By {x.username}</span>
-  //     </div>
-  //   ));
-  // }
 
   return (
     <>
-      <GroupInfo groupId={groupId} groupOwnerId={groupOwnerId} />
-      <hr />
-      <div>{postsMarkUp}</div>
-      <hr />
-      {groupOwnerId === user.id && (
-        <Card fluid>
-          <Card.Content>
-            <p>Post link here</p>
-            <Form>
-              <div className="ui action input fluid">
-                <input
-                  type="text"
-                  placeholder="Post links here"
-                  value={postedLinks}
-                  onChange={(event) => setPostedLinks(event.target.value)}
-                />
-                <button
-                  type="submit"
-                  className="ui button teal"
-                  disabled={postedLinks.trim() === ""}
-                  onClick={submitPost}
-                >
-                  Submit
-                </button>
-              </div>
-            </Form>
-          </Card.Content>
-        </Card>
+      {!groupId && !groupOwnerId ? (
+        <>tap on group or something</>
+      ) : (
+        <>
+          {groupId && groupOwnerId && (
+            <GroupInfo groupId={groupId} groupOwnerId={groupOwnerId} />
+          )}
+          <hr />
+          <div>{postsMarkUp}</div>
+          <hr />
+          <>
+            {groupOwnerId === user.id && (
+              <Card fluid>
+                <Card.Content>
+                  <p>Post link here</p>
+                  <Form>
+                    <div className="ui action input fluid">
+                      <input
+                        type="text"
+                        placeholder="Post links here"
+                        value={postedLinks}
+                        onChange={(event) => setPostedLinks(event.target.value)}
+                      />
+                      <button
+                        type="submit"
+                        className="ui button teal"
+                        disabled={postedLinks.trim() === ""}
+                        onClick={() => submitPost()}
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  </Form>
+                </Card.Content>
+              </Card>
+            )}
+            <CentralPollingUnit />
+          </>
+        </>
       )}
     </>
   );

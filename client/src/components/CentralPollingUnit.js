@@ -1,16 +1,21 @@
-import { gql, useLazyQuery, useQuery } from "@apollo/client";
-import React, { useContext, useEffect } from "react";
+import { gql, useLazyQuery } from "@apollo/client";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../context/auth";
 import { useInterval } from "../util/hooks";
+import { NotifierContext } from "../context/notifier";
 
 function CentralPollingUnit() {
   const { user } = useContext(AuthContext);
+  const notifArray = useContext(NotifierContext);
   let uid = user.id;
 
+  useEffect(() => {
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useInterval(() => {
-    // put your interval code here.
-    // makeCall();
-    console.log("POLLING");
+    fetchData();
   }, 1000 * 10);
 
   const sortData = async (arrayOfArray) => {
@@ -28,32 +33,28 @@ function CentralPollingUnit() {
       let localData = JSON.parse(localStorage.getItem(sortedArray[i].key));
       if (localData) {
         if (localData.length !== sortedArray[i].value.length) {
-          console.log("SEND A NOTIFICATION FOR: ", sortedArray[i].key);
+          notifArray.createNotification(sortedArray[i].key);
           localStorage.removeItem(sortedArray[i].key);
           localStorage.setItem(
             sortedArray[i].key,
             JSON.stringify(sortedArray[i].value)
           );
         } else {
-          console.log("NO NOTIFICATIONS GENERATED");
+          // console.log("NO NOTIFICATIONS GENERATED");
         }
       }
     }
   };
 
-  const [makeCall, { loading, error, data }] = useLazyQuery(
-    GET_ALL_RELEVENT_DATA,
-    {
-      onCompleted() {
-        console.log("on completed");
-        sortData(data.getAllRelevantPosts);
-      },
-      variables: {
-        uid,
-      },
-      fetchPolicy: "network-only",
-    }
-  );
+  const [fetchData, { data }] = useLazyQuery(GET_ALL_RELEVENT_DATA, {
+    onCompleted() {
+      sortData(data.getAllRelevantPosts);
+    },
+    variables: {
+      uid,
+    },
+    fetchPolicy: "network-only",
+  });
   return null;
 }
 
