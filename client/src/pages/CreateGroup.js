@@ -13,7 +13,7 @@ function CreateGroup(props) {
 
   const [onSubmit, { loading }] = useMutation(CREATE_GROUP, {
     update() {
-      props.history.push("/groups");
+      props.history.push("/");
     },
     onError(err) {
       setErrors(err.graphQLErrors[0].extensions.exception.errors);

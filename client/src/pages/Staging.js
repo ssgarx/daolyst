@@ -18,10 +18,8 @@ function Staging() {
     onCompleted: (data) => {
       if (data.checkIfNewUser) {
         //NEW USER DETECTED
-        console.log("NEW USER DETECTED");
       } else {
         //OLD USER DETECTED
-        console.log("OLD USER DETECTED");
       }
     },
     variables: {

@@ -120,7 +120,7 @@ const FETCH_GROUPOWNERINFO_QUERY = gql`
   query getOwnerInfo($groupOwnerId: ID!) {
     getOwnerInfo(groupOwnerId: $groupOwnerId) {
       id
-      createdAt
+      # createdAt
       username
       userusername
       email

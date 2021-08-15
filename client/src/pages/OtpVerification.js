@@ -14,12 +14,10 @@ function OtpVerification(props) {
 
   const [addUser, { loading }] = useMutation(VERIFY_OTP, {
     update(_, { data: { verifyOtp: userData } }) {
-      console.log("userDataX  :", userData);
       context.login(userData);
-      props.history.push("/staging");
+      props.history.push("/");
     },
     onError(err) {
-      console.log("err", err.graphQLErrors[0]);
       setErrors(err.graphQLErrors[0].extensions.exception.errors);
     },
     variables: values,

@@ -16,13 +16,13 @@ function Groups(args = {}) {
   const uid = user.id;
   let history = useHistory();
 
-  useEffect(() => {
-    console.log("notifArray: ", notifArray);
-  }, [notifArray]);
+  useEffect(() => {}, [notifArray]);
 
   useEffect(() => {
-    fetchGroups();
-    fetchUserFollowedGroups();
+    if (user.id) {
+      fetchGroups();
+      fetchUserFollowedGroups();
+    }
   }, []);
 
   const [fetchGroups, { data }] = useLazyQuery(FETCH_GROUPS_QUERY, {

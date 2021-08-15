@@ -3,11 +3,11 @@ module.exports = gql`
   type User {
     id: ID!
     email: String!
+    username: String
+    userusername: String
     # token: String
     # createdAt: String
-    # username: String
-    # userusername: String
-    # followingGroupsLists: [followingGroupsList]
+    followingGroupsLists: [followingGroupsList]
   }
   type followingGroupsList {
     id: String
@@ -87,6 +87,8 @@ module.exports = gql`
 
   type Mutation {
     # register(registerInput: RegisterInput): User!
+    oneTimeForm(username: String!, userusername: String!): User!
+    deleteOtps(email: String!): Boolean!
     verifyOtp(code: String!): Otp
     register(email: String!): User!
     login(email: String!, password: String!): User!

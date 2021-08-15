@@ -17,7 +17,7 @@ function Explore() {
 
   let groupsMarkUp;
   if (!data) {
-    groupsMarkUp = <p>Loading groups</p>;
+    groupsMarkUp = <p>Loading groupsX</p>;
   } else if (data.searchGroups.length === 0) {
     groupsMarkUp = <p>No groups found</p>;
   } else {

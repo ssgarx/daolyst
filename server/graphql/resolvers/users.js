@@ -6,7 +6,7 @@ const checkAuth = require("../../util/check-auth");
 const {
   validateRegisterInput,
   validateGroupCreation,
-  validateOtpInput,
+  validateOneTimeForm,
 } = require("../../util/validators");
 
 const { SECRET_KEY } = require("../../config");
@@ -80,7 +80,7 @@ module.exports = {
       try {
         const user = await User.findById(uid);
         let relevantGroupsIds = [];
-        for (let i = 0; i < user.followingGroupsLists.length; i++) {
+        for (let i = 0; i < user?.followingGroupsLists?.length; i++) {
           relevantGroupsIds.push(user.followingGroupsLists[i]._id);
         }
         const groups = await Group.find({
@@ -120,6 +120,44 @@ module.exports = {
     },
   },
   Mutation: {
+    async oneTimeForm(_, { username, userusername }, context) {
+      const master = checkAuth(context);
+      const { valid, errors } = validateOneTimeForm(username, userusername);
+      if (!valid) {
+        throw new UserInputError("Errors", { errors });
+      }
+      const userbyuserusername = await User.findOne({ userusername });
+      if (userbyuserusername) {
+        throw new UserInputError("UserUsername is taken", {
+          errors: {
+            email: "This UserUsername is taken",
+          },
+        });
+      }
+      //find a user with the same email in Users collection and save username and userusername to that user
+      const user = await User.findOne({ email: master.email });
+      if (user) {
+        user.username = username;
+        user.userusername = userusername;
+      }
+      await user.save();
+      return user;
+    },
+    async deleteOtps(_, { email }) {
+      try {
+        const otps = await Otp.find({
+          email,
+        });
+        for (let i = 0; i < otps.length; i++) {
+          await Otp.deleteOne({
+            _id: otps[i]._id,
+          });
+        }
+        return true;
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
     async verifyOtp(_, { code }) {
       let errors = {};
       let otp;
@@ -127,7 +165,6 @@ module.exports = {
         errors.code = "Please enter the otp";
       } else {
         const otptmp = await Otp.findOne({ code });
-        console.log("otptmp", otptmp);
         if (!otptmp) {
           errors.code = "Otp no match";
         } else {
@@ -135,28 +172,29 @@ module.exports = {
         }
       }
       //check if errors is empty
-      console.log("Object.keys(errors)", errors);
-      console.log("Object.keys(errors).length", Object.keys(errors).length);
       if (Object.keys(errors).length !== 0) {
         throw new UserInputError("Errors", { errors });
       }
       return { ...otp._doc };
     },
-
     async register(_, { email }) {
       const { valid, errors } = validateRegisterInput(email);
       if (!valid) {
         throw new UserInputError("Errors", { errors });
       }
-      const newUser = new User({
-        email,
-        createdAt: new Date().toISOString(),
-      });
 
-      const res = await newUser.save();
+      //check if user with the same email already exists.
+      let user = await User.findOne({ email });
+      if (!user) {
+        const newUser = new User({
+          email,
+          createdAt: new Date().toISOString(),
+        });
+        user = await newUser.save();
+      }
 
       let genratedOtp = Math.floor(100000 + Math.random() * 900000);
-      let token = generateToken(email, newUser._id);
+      let token = generateToken(email, user._id);
       const otp = new Otp({
         code: genratedOtp,
         token,
@@ -166,11 +204,10 @@ module.exports = {
       await otp.save();
 
       return {
-        ...res._doc,
-        id: res._id,
+        ...user._doc,
+        id: user._id,
       };
     },
-
     async createGroup(_, { groupName, groupUserName, isPrivate, uid }) {
       const user = await User.findById(uid);
       const { errors, valid } = validateGroupCreation(groupName, groupUserName);
@@ -217,20 +254,20 @@ module.exports = {
     },
     async followGroup(_, { groupId, uid }) {
       const user = await User.findById(uid);
-      const groupInUser = user.followingGroupsLists.find(
+      const groupInUser = user?.followingGroupsLists?.find(
         (group) => group.id === groupId
       );
 
       //find group by groupId in Group model
       //if there is, then remove that object from array
       if (groupInUser) {
-        user.followingGroupsLists.splice(
+        user?.followingGroupsLists?.splice(
           user.followingGroupsLists.indexOf(groupInUser),
           1
         );
       } else {
         const getgroup = await Group.findById(groupId);
-        user.followingGroupsLists.unshift({
+        user?.followingGroupsLists?.unshift({
           _id: getgroup.id,
           groupId: getgroup.groupId,
           groupName: getgroup.groupName,

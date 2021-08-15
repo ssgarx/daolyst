@@ -1,5 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
 import React, { useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Button, Container, Form } from "semantic-ui-react";
 import { AuthContext } from "../context/auth";
 import { useForm } from "../util/hooks";
@@ -7,19 +8,17 @@ import { useForm } from "../util/hooks";
 function Register(props) {
   const context = useContext(AuthContext);
   const [errors, setErrors] = useState({});
-
+  let history = useHistory();
   const { onChange, onSubmit, values } = useForm(registerUser, {
     email: "",
   });
 
   const [addUser, { loading }] = useMutation(REGISTER2_USER, {
     update(_, { data: { register: userData } }) {
-      console.log("userData", userData);
       //   context.login(userData);
-      props.history.push("/otpverification");
+      history.push("/otpverification");
     },
     onError(err) {
-      console.log("err", err.graphQLErrors[0]);
       setErrors(err.graphQLErrors[0].extensions.exception.errors);
     },
     variables: values,

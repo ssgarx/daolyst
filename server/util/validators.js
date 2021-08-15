@@ -49,6 +49,21 @@
 //     valid: Object.keys(errors).length < 1,
 //   };
 // };
+
+module.exports.validateOneTimeForm = (username, userusername) => {
+  const errors = {};
+  if (username.trim() === "") {
+    errors.username = "Username must not be empty";
+  }
+  if (userusername.trim() === "") {
+    errors.userusername = "Userusername must not be empty";
+  }
+  return {
+    errors,
+    valid: Object.keys(errors).length < 1,
+  };
+};
+
 module.exports.validateRegisterInput = (email) => {
   const errors = {};
 
@@ -70,7 +85,6 @@ module.exports.validateRegisterInput = (email) => {
 
 const Otp = require("../models/Otp");
 module.exports.validateOtpInput = async (code) => {
-  console.log("codezzz", code);
   const errors = {};
   let otp;
   if (code.trim() === "" || !code) {

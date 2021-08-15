@@ -11,7 +11,6 @@ const NotifierContext = createContext({
 });
 
 function notifierReducer(state, action) {
-  console.log("state", state);
   switch (action.type) {
     case "CREATE_NOTIFICATION":
       return {
