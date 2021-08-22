@@ -1,6 +1,7 @@
 import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import React, { useContext, useEffect } from "react";
 import { AuthContext } from "../context/auth";
+import UnionB from "../assets/UnionB.png";
 
 function GroupInfo({ groupId, groupOwnerId }) {
   const { user } = useContext(AuthContext);
@@ -60,10 +61,27 @@ function GroupInfo({ groupId, groupOwnerId }) {
     );
   } else {
     groupData = (
-      <div>
-        <h1>{groupInfo.data.getGroupInfo.groupName}</h1>
-        <p>@{groupInfo.data.getGroupInfo.groupUserName}</p>
-        <p>{groupInfo.data.getGroupInfo.groupFollowers.length}followers</p>
+      // <div>
+      //   <h1>{groupInfo.data.getGroupInfo.groupName}</h1>
+      //   <p>@{groupInfo.data.getGroupInfo.groupUserName}</p>
+      //   <p>{groupInfo.data.getGroupInfo.groupFollowers.length}followers</p>
+      // </div>
+      <div style={{ display: "flex", padding: "7px 7px 7px 0" }}>
+        <div>
+          <img className="icon_home" src={UnionB} alt="" />
+        </div>
+        <div style={{ marginTop: 3, fontWeight: "500" }}>
+          <span className="home_name">
+            {groupInfo.data.getGroupInfo.groupName}
+          </span>
+          <span>
+            <i class="fas fa-ellipsis-v fa-sm mnu"></i>
+          </span>
+          <br />
+          <span className="home_username">
+            @{groupInfo.data.getGroupInfo.groupUserName}
+          </span>
+        </div>
       </div>
     );
   }
@@ -78,7 +96,6 @@ function GroupInfo({ groupId, groupOwnerId }) {
   } else {
     groupOwnerData = (
       <div>
-        <p>Created by: @{groupOwnerInfo.data.getOwnerInfo.username}</p>
         {groupOwnerInfo.data.getOwnerInfo.email !== user.email &&
         !userAdditionalInfo.data.getOwnerInfo.followingGroupsLists.some(
           (group) => group.id === groupInfo.data.getGroupInfo.id

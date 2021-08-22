@@ -39,7 +39,7 @@ function OneTimeForm(props) {
       minHeight="97vh"
     >
       <div className="otf">
-        <div style={{ display: "flex", padding: "7px 7px 12px 0" }}>
+        <div style={{ display: "flex", padding: "7px 7px 7px 0" }}>
           <div>
             <img className="icon" src={Union} alt="" />
           </div>

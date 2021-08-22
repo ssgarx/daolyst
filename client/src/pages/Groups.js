@@ -7,12 +7,15 @@ import { useLazyQuery } from "@apollo/client";
 import CentralPollingUnit from "../components/CentralPollingUnit";
 import { GroupSelectorContext } from "../context/groupSelector";
 import { NotifierContext } from "../context/notifier";
+import Union from "../assets/Union.png";
+import { CircularProgress } from "@material-ui/core";
 
 function Groups(args = {}) {
   const { user } = useContext(AuthContext);
   const groupSelContext = useContext(GroupSelectorContext);
   const { notifArray } = useContext(NotifierContext);
   const { groupData } = useContext(GroupSelectorContext);
+  const groupId = groupData.groupId;
   const uid = user.id;
   let history = useHistory();
 
@@ -26,6 +29,9 @@ function Groups(args = {}) {
   }, []);
 
   const [fetchGroups, { data }] = useLazyQuery(FETCH_GROUPS_QUERY, {
+    onCompleted: (data) => {
+      console.log("data", data);
+    },
     variables: {
       uid,
     },
@@ -43,26 +49,26 @@ function Groups(args = {}) {
   );
 
   // Your Groups
-  let groupsMarkUp;
+  let yourGroupsMarkup;
   if (!data) {
-    groupsMarkUp = <p>Loading groups</p>;
+    yourGroupsMarkup = <CircularProgress style={{ color: "black" }} />;
   } else if (data.getGroups.length === 0) {
-    groupsMarkUp = <p>No groups yet</p>;
+    yourGroupsMarkup = <p>No groups yet</p>;
   } else {
-    groupsMarkUp = data.getGroups.map((x, index) => (
-      <div style={{ margin: "3px" }} key={index}>
-        <span
-          style={{
-            border: "1px solid black",
-            cursor: "pointer",
-          }}
-          onClick={() => {
-            groupSelContext.createGroupSelection(x.id, x.groupId);
-          }}
-        >
-          {x.groupName}
-        </span>
+    yourGroupsMarkup = data.getGroups.map((x, index) => (
+      <div
+        className="home_gp"
+        style={
+          groupId && groupId === x.id ? { backgroundColor: "#fcf3f3" } : null
+        }
+        key={index}
+        onClick={() => {
+          groupSelContext.createGroupSelection(x.id, x.groupId);
+        }}
+      >
+        <span className="home_gp_name">{x.groupName}</span>
         <br />
+        <span className="home_gp_username">@{x.groupUserName}</span>
       </div>
     ));
   }
@@ -79,46 +85,75 @@ function Groups(args = {}) {
     followingGroupMarkUp =
       userFollowedGroups.data.getOwnerInfo.followingGroupsLists.map(
         (x, index) => (
-          <div style={{ margin: "3px" }} key={index}>
-            <span
-              style={{
-                border: "1px solid black",
-                cursor: "pointer",
-              }}
+          <>
+            {/* <div style={{ margin: "3px" }} key={index}>
+              <span
+                style={{
+                  border: "1px solid black",
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  groupSelContext.createGroupSelection(x.id, x.groupId);
+                }}
+              >
+                <span>
+                  {x.groupName}{" "}
+                  {notifArray &&
+                    !notifArray.includes(groupData?.groupId) &&
+                    notifArray.includes(x.id) &&
+                    "*"}
+                </span>
+              </span>{" "}
+              <br />
+            </div> */}
+
+            <div
+              className="home_gp"
+              key={index}
               onClick={() => {
                 groupSelContext.createGroupSelection(x.id, x.groupId);
               }}
             >
-              <span>
-                {x.groupName}{" "}
+              <span className="home_gp_name">
+                {x.groupName}
                 {notifArray &&
                   !notifArray.includes(groupData?.groupId) &&
                   notifArray.includes(x.id) &&
                   "*"}
               </span>
-            </span>{" "}
-            <br />
-          </div>
+              <br />
+              <span className="home_gp_username">@{x.groupUserName}</span>
+            </div>
+          </>
         )
       );
   }
   return (
-    <>
-      <h1>Groups</h1>
-      <button onClick={() => history.push("/")}>Home</button>
-      <hr />
-      <h4>Your Groups</h4>
-      <div>{groupsMarkUp}</div>
-      <hr />
-      <h4>Groups you follow</h4>
-      <div>{followingGroupMarkUp}</div>
-      <div>
-        <button onClick={() => history.push("/creategroup")}>
-          CreateGroup
+    <div style={{ height: "95vh" }}>
+      <div style={{ display: "flex", padding: "7px 7px 7px 0" }}>
+        <div>
+          <img className="icon_home" src={Union} alt="" />
+        </div>
+        <div style={{ marginTop: 3, fontWeight: "500" }}>
+          <span className="home_name">Some name</span>
+          <span>
+            <i class="fas fa-ellipsis-v fa-sm mnu"></i>
+          </span>
+          <br />
+          <span className="home_username">@username</span>
+        </div>
+      </div>
+      <div className="home_posts">{yourGroupsMarkup}</div>
+      <div className="hm_create_div">
+        <button
+          className="hm_create_btn"
+          onClick={() => history.push("/creategroup")}
+        >
+          +
         </button>
       </div>
       <CentralPollingUnit />
-    </>
+    </div>
   );
 }
 

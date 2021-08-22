@@ -56,7 +56,7 @@ function Group(props, args = {}) {
     }
   };
 
-  const [fetchPosts, { data }] = useLazyQuery(FETCH_LINKS_QUERY, {
+  const [fetchPosts, { data, loading }] = useLazyQuery(FETCH_LINKS_QUERY, {
     onCompleted() {
       saveGroupMessagesToLocal(data.getGroupPosts, groupId);
     },
@@ -81,7 +81,9 @@ function Group(props, args = {}) {
   });
 
   let postsMarkUp;
-  if (!displayPosts) {
+  if (loading) {
+    postsMarkUp = <p>Loading</p>;
+  } else if (!displayPosts) {
     postsMarkUp = <p>No posts yet</p>;
   } else {
     postsMarkUp = displayPosts.map((x, index) => (
@@ -105,40 +107,52 @@ function Group(props, args = {}) {
         <>tap on group or something</>
       ) : (
         <>
-          {groupId && groupOwnerId && (
-            <GroupInfo groupId={groupId} groupOwnerId={groupOwnerId} />
-          )}
-          <hr />
-          <div>{postsMarkUp}</div>
-          <hr />
-          <>
-            {groupOwnerId === user.id && (
-              <Card fluid>
-                <Card.Content>
-                  <p>Post link here</p>
-                  <Form>
-                    <div className="ui action input fluid">
-                      <input
-                        type="text"
-                        placeholder="Post links here"
-                        value={postedLinks}
-                        onChange={(event) => setPostedLinks(event.target.value)}
-                      />
-                      <button
-                        type="submit"
-                        className="ui button teal"
-                        disabled={postedLinks.trim() === ""}
-                        onClick={() => submitPost()}
-                      >
-                        Submit
-                      </button>
-                    </div>
-                  </Form>
-                </Card.Content>
-              </Card>
+          <div style={{ height: "95vh" }}>
+            {groupId && groupOwnerId && (
+              <GroupInfo groupId={groupId} groupOwnerId={groupOwnerId} />
             )}
-            <CentralPollingUnit />
-          </>
+            <div className="home_posts">{postsMarkUp}</div>
+            <>
+              {groupOwnerId === user.id && (
+                <>
+                  <div className="home_send_parent">
+                    <form
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <div style={{ flex: 8 }}>
+                        <input
+                          className="home_send"
+                          type="text"
+                          placeholder="Post links here"
+                          value={postedLinks}
+                          onChange={(event) =>
+                            setPostedLinks(event.target.value)
+                          }
+                        />
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <button
+                          type="submit"
+                          className="home_send_btn"
+                          disabled={postedLinks.trim() === ""}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            postedLinks.trim() !== "" && submitPost();
+                          }}
+                        >
+                          send
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </>
+              )}
+              <CentralPollingUnit />
+            </>
+          </div>
         </>
       )}
     </>

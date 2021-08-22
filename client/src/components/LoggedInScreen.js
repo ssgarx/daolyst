@@ -11,19 +11,19 @@ function LoggedInScreen({ user }, args = {}) {
   console.log("user", user);
   // const { logout } = useContext(AuthContext);
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="lg">
       <Grid container>
-        <Grid md={4}>
+        <Grid md={3}>
           <div className="hm_master_blocks">
             <Groups />
           </div>
         </Grid>
-        <Grid md={4}>
+        <Grid md={6}>
           <div className="hm_master_blocks">
             <Group />
           </div>
         </Grid>
-        <Grid md={4}>
+        <Grid md={3}>
           <div className="hm_master_blocks">
             <Explore />
           </div>

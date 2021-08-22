@@ -90,10 +90,113 @@ p {
 }
 
 .hm_master_blocks {
-  min-height: 96vh;
+  min-height: 95vh;
   overflow-x: hidden !important;
-  overflow: scroll;
+  overflow: hidden;
+  position: relative;
 }
+
+.icon_home {
+  width: 40px;
+  margin-top: 6px;
+}
+
+.home_name {
+  font-size: 20px;
+  margin-right: 5px;
+}
+.home_username {
+  font-size: 15px;
+}
+.mnu {
+  cursor: pointer;
+}
+
+.home_gp {
+  cursor: pointer;
+  padding: 10px;
+  transition: 0.3s ease all;
+}
+.home_gp:hover {
+  background-color: #fcf3f3;
+}
+.home_gp:active {
+  background-color: #f3e2e2;
+}
+.home_gp_name {
+  font-size: 20px;
+  font-weight: 500;
+  background-color: transparent;
+}
+.home_gp_username {
+  font-size: 15px;
+  font-weight: 500;
+  background-color: transparent;
+}
+.hm_create_div {
+  padding: 10px;
+}
+.hm_create_btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  color: white;
+  background-color: rgb(26, 26, 26);
+  font-size: 35px;
+  cursor: pointer;
+  position: absolute;
+  bottom: 15px;
+  transition: 0.3s ease all;
+
+  -webkit-box-shadow: 0px 3px 14px -3px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 3px 14px -3px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 3px 14px -3px rgba(0, 0, 0, 0.75);
+}
+.hm_create_btn:hover {
+  color: #ff4b33;
+}
+.hm_create_btn:active {
+  background: #000000;
+}
+.home_send_parent {
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  padding-top: 5px;
+}
+.home_send {
+  border: 1px solid black;
+  font-size: 15px;
+  padding: 5px;
+  width: 95%;
+}
+.home_send:focus {
+  outline: none !important;
+}
+.home_posts {
+  margin: 3px;
+  overflow: scroll;
+  height: 100%;
+  margin-bottom: 15px;
+}
+.home_send_btn {
+  font-size: 15px;
+  padding: 5px;
+  /* width: 80%; */
+
+  border: 2px solid #ffe2e2;
+  cursor: pointer;
+  color: black;
+}
+.home_send_btn:hover {
+  background: #fcf3f3;
+}
+.home_send_btn:active {
+  background: #f3e2e2;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 5px;
@@ -101,15 +204,15 @@ p {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f150;
+  background: none;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: none;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: rgb(207, 207, 207);
 }
