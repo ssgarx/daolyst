@@ -86,27 +86,6 @@ function Groups(args = {}) {
       userFollowedGroups.data.getOwnerInfo.followingGroupsLists.map(
         (x, index) => (
           <>
-            {/* <div style={{ margin: "3px" }} key={index}>
-              <span
-                style={{
-                  border: "1px solid black",
-                  cursor: "pointer",
-                }}
-                onClick={() => {
-                  groupSelContext.createGroupSelection(x.id, x.groupId);
-                }}
-              >
-                <span>
-                  {x.groupName}{" "}
-                  {notifArray &&
-                    !notifArray.includes(groupData?.groupId) &&
-                    notifArray.includes(x.id) &&
-                    "*"}
-                </span>
-              </span>{" "}
-              <br />
-            </div> */}
-
             <div
               className="home_gp"
               key={index}
@@ -137,7 +116,7 @@ function Groups(args = {}) {
         <div style={{ marginTop: 3, fontWeight: "500" }}>
           <span className="home_name">Some name</span>
           <span>
-            <i class="fas fa-ellipsis-v fa-sm mnu"></i>
+            <i className="fas fa-ellipsis-v fa-sm mnu"></i>
           </span>
           <br />
           <span className="home_username">@username</span>

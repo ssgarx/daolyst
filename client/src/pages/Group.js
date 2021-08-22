@@ -7,7 +7,6 @@ import GroupInfo from "../components/GroupInfo";
 import CentralPollingUnit from "../components/CentralPollingUnit";
 import { NotifierContext } from "../context/notifier";
 import { GroupSelectorContext } from "../context/groupSelector";
-
 function Group(props, args = {}) {
   const { user } = useContext(AuthContext);
   const { notifArray, removeNotification } = useContext(NotifierContext);
@@ -111,7 +110,9 @@ function Group(props, args = {}) {
             {groupId && groupOwnerId && (
               <GroupInfo groupId={groupId} groupOwnerId={groupOwnerId} />
             )}
-            <div className="home_posts">{postsMarkUp}</div>
+            <div className="home_posts">
+              <div style={{ paddingBottom: "100px" }}>{postsMarkUp}</div>
+            </div>
             <>
               {groupOwnerId === user.id && (
                 <>

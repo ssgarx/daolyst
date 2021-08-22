@@ -75,7 +75,7 @@ function GroupInfo({ groupId, groupOwnerId }) {
             {groupInfo.data.getGroupInfo.groupName}
           </span>
           <span>
-            <i class="fas fa-ellipsis-v fa-sm mnu"></i>
+            <i className="fas fa-ellipsis-v fa-sm mnu"></i>
           </span>
           <br />
           <span className="home_username">

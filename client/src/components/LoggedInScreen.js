@@ -8,7 +8,6 @@ import Explore from "../pages/Explore";
 import { Container, Grid } from "@material-ui/core";
 
 function LoggedInScreen({ user }, args = {}) {
-  console.log("user", user);
   // const { logout } = useContext(AuthContext);
   return (
     <Container maxWidth="lg">

@@ -110,6 +110,10 @@ p {
 }
 .mnu {
   cursor: pointer;
+  padding: 5px;
+}
+.mnu:hover {
+  color: #ff4b33;
 }
 
 .home_gp {
@@ -179,7 +183,6 @@ p {
   margin: 3px;
   overflow: scroll;
   height: 100%;
-  margin-bottom: 15px;
 }
 .home_send_btn {
   font-size: 15px;
