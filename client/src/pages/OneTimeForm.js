@@ -1,8 +1,9 @@
 import { gql, useMutation } from "@apollo/client";
+import { Box } from "@material-ui/core";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Button, Container, Form } from "semantic-ui-react";
 import { useForm } from "../util/hooks";
+import Union from "../../src/assets/Union.png";
 
 function OneTimeForm(props) {
   let history = useHistory();
@@ -31,41 +32,62 @@ function OneTimeForm(props) {
   }
 
   return (
-    <Container>
-      <Form onSubmit={onSubmit} noValidate>
-        <h1>Please complete this OTF</h1>
-        <Form.Input
-          label="Username"
-          placeholder="Username"
-          name="username"
-          type="username"
-          value={values.username}
-          error={errors.username ? true : false}
-          onChange={onChange}
-        />
-        <Form.Input
-          label="Userusername"
-          placeholder="Userusername"
-          name="userusername"
-          type="userusername"
-          value={values.userusername}
-          error={errors.userusername ? true : false}
-          onChange={onChange}
-        />
-        <Button type="submit" primary>
-          Done
-        </Button>
-      </Form>
-      {Object.keys(errors).length > 0 && (
-        <div className="ui error message">
-          <ul className="list">
-            {Object.values(errors).map((value) => (
-              <li key={value}>{value}</li>
-            ))}
-          </ul>
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="97vh"
+    >
+      <div className="otf">
+        <div style={{ display: "flex", padding: "7px 7px 12px 0" }}>
+          <div>
+            <img className="icon" src={Union} alt="" />
+          </div>
+          <div style={{ marginTop: 3, fontWeight: "500" }}>
+            sET UP YOUR PROFILE,
+            <br />
+            tHIS IS A ONE TIME PROCESS.
+          </div>
         </div>
-      )}
-    </Container>
+        <form onSubmit={onSubmit} noValidate>
+          <span className="otf_label">Your name</span>
+          <br />
+          <input
+            className="email_input"
+            placeholder="Username"
+            name="username"
+            type="username"
+            value={values.username}
+            onChange={onChange}
+          />
+          <br />
+          <br />
+          <span className="otf_label">choose a username</span>
+          <br />
+          <input
+            className="email_input"
+            placeholder="Userusername"
+            name="userusername"
+            type="userusername"
+            value={values.userusername}
+            onChange={onChange}
+          />
+          <br />
+          <br />
+          <button className="reg_button" type="submit" primary>
+            Done
+          </button>
+        </form>
+        <br />
+        {Object.keys(errors).length > 0 && (
+          <div className="error_msgs">
+            {Object.values(errors).map((value) => (
+              <div key={value}>{value}</div>
+            ))}
+          </div>
+        )}
+      </div>
+    </Box>
   );
 }
 

@@ -1,8 +1,9 @@
 import { gql, useMutation } from "@apollo/client";
+import { Box } from "@material-ui/core";
 import React, { useContext, useState } from "react";
-import { Button, Container, Form } from "semantic-ui-react";
 import { AuthContext } from "../context/auth";
 import { useForm } from "../util/hooks";
+import Union from "../../src/assets/Union.png";
 
 function OtpVerification(props) {
   const context = useContext(AuthContext);
@@ -28,31 +29,44 @@ function OtpVerification(props) {
   }
 
   return (
-    <Container>
-      <Form noValidate onSubmit={onSubmit} className={loading ? "loading" : ""}>
-        <h1>ValidateOtp</h1>
-        <Form.Input
-          label="oTP LABEL"
-          placeholder="ADD OT[.."
-          name="code"
-          value={values.code}
-          error={errors.code ? true : false}
-          onChange={onChange}
-        />
-        <Button type="submit" primary>
-          Send otp
-        </Button>
-      </Form>
-      {Object.keys(errors).length > 0 && (
-        <div className="ui error message">
-          <ul className="list">
-            {Object.values(errors).map((value) => (
-              <li key={value}>{value}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </Container>
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="97vh"
+    >
+      <div>
+        <img className="icon" src={Union} alt="" />
+        <form noValidate onSubmit={onSubmit}>
+          <div className="ip_plus_error">
+            <input
+              className="otp_input"
+              placeholder="enter 6 digit otp"
+              name="code"
+              value={values.code}
+              onChange={onChange}
+            />
+            {Object.keys(errors).length > 0 ? (
+              <div className="error_msgs">
+                {Object.values(errors).map((value) => (
+                  <div key={value}>{value}</div>
+                ))}
+              </div>
+            ) : (
+              <div
+                style={{ color: "#949494", fontSize: 13 }}
+                className="error_msgs"
+              >
+                Check your email for otp
+              </div>
+            )}
+          </div>
+          <button className="reg_button" type="submit">
+            verify otp
+          </button>
+        </form>
+      </div>
+    </Box>
   );
 }
 

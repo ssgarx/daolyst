@@ -6,6 +6,7 @@ import LoggedInScreen from "../components/LoggedInScreen";
 import OneTimeForm from "./OneTimeForm";
 import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import Register from "./Register";
+import { Box, CircularProgress } from "@material-ui/core";
 
 function Home(props) {
   const [isNewUser, setIsNewUser] = useState(true);
@@ -48,7 +49,7 @@ function Home(props) {
 
   let markUp;
   if (loading) {
-    markUp = <div>Loading...</div>;
+    markUp = <CircularProgress style={{ color: "black" }} />;
   } else {
     user
       ? isNewUser
@@ -56,7 +57,16 @@ function Home(props) {
         : (markUp = <LoggedInScreen user={user} />)
       : (markUp = <Register />);
   }
-  return <>{markUp}</>;
+  return (
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="97vh"
+    >
+      {markUp}
+    </Box>
+  );
 }
 
 const DELETE_OTP = gql`
