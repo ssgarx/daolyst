@@ -10,7 +10,7 @@
   bottom: 0;
   padding-top: 5px;
   .home_send {
-    border: 1px solid black;
+    border: 2px solid black;
     font-size: 15px;
     padding: 5px;
     width: 95%;
@@ -26,9 +26,11 @@
     border: 2px solid #ffe2e2;
     cursor: pointer;
     color: black;
+    transition: 0.3s all;
   }
   .home_send_btn:hover {
     background: #fcf3f3;
+    border: 2px solid black;
   }
   .home_send_btn:active {
     background: #f3e2e2;

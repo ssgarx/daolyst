@@ -3,6 +3,10 @@
   /* background-color: #fffefe; */
   text-transform: lowercase;
 }
+p {
+  padding: 0;
+  margin: 0;
+}
 /* width */
 ::-webkit-scrollbar {
   width: 5px;
@@ -15,10 +19,10 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: none;
+  background: rgb(207, 207, 207);
 }
 
 /* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
+/* ::-webkit-scrollbar-thumb:hover {
   background: rgb(207, 207, 207);
-}
+} */

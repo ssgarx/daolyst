@@ -13,12 +13,8 @@ import { CircularProgress } from "@material-ui/core";
 import style from "./groups.module.scss";
 import { Tooltip } from "@material-ui/core";
 
-import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme, makeStyles } from "@material-ui/core/styles";
 import CreateGroup from "./CreateGroup";
@@ -49,7 +45,6 @@ function Groups(args = {}) {
   const { groupData } = useContext(GroupSelectorContext);
   const groupId = groupData.groupId;
   const uid = user.id;
-  let history = useHistory();
 
   useEffect(() => {}, [notifArray]);
 
@@ -157,13 +152,17 @@ function Groups(args = {}) {
           <span className={style.home_username}>@username</span>
         </div>
       </div>
-      <div className={style.home_posts}>{yourGroupsMarkup}</div>
+      <div className={style.scrollbox} tabindex="0">
+        <div tabindex="0" className={style.scrollbox_content}>
+          {yourGroupsMarkup}
+        </div>
+      </div>
+
       <div className={style.hm_create_div}>
         <Tooltip title="Create new group" placement="top">
           <button
             className={style.hm_create_btn}
             onClick={() => {
-              // history.push("/creategroup");
               handleClickOpen();
             }}
           >
