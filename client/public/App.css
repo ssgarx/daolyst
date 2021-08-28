@@ -11,6 +11,7 @@
   box-sizing: border-box;
   font-weight: bold;
   font-size: 9vw;
+  margin-right: 30px;
 }
 .leftSide > p:nth-child(3) {
   color: #ff4b33;

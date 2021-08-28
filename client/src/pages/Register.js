@@ -35,7 +35,7 @@ function Register(props) {
       alignItems="center"
       minHeight="97vh"
     >
-      <Container maxWidth="md">
+      <Container maxWidth="xl">
         <Grid container>
           <Grid md={6} xs={12}>
             <div className="leftSide">
