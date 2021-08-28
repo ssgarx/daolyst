@@ -6,6 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import { Container } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import Union from "../../src/assets/Union.png";
+import style from "./register.module.scss";
 
 function Register(props) {
   const [errors, setErrors] = useState({});
@@ -25,7 +26,7 @@ function Register(props) {
   });
 
   function registerUser() {
-    addUser();
+    !loading && addUser();
   }
 
   return (
@@ -38,7 +39,7 @@ function Register(props) {
       <Container maxWidth="xl">
         <Grid container>
           <Grid md={6} xs={12}>
-            <div className="leftSide">
+            <div className={style.leftSide}>
               <p>all</p>
               <p>your</p>
               <p>bookmarks</p>
@@ -46,16 +47,12 @@ function Register(props) {
             </div>
           </Grid>
           <Grid item md={6} xs={12}>
-            <div className="rightSide">
-              <img className="icon" src={Union} alt="" />
-              <form
-                noValidate
-                onSubmit={onSubmit}
-                className={loading ? "loading" : ""}
-              >
-                <div className="ip_plus_error">
+            <div className={style.rightSide}>
+              <img className={style.icon} src={Union} alt="" />
+              <form noValidate onSubmit={onSubmit}>
+                <div className={style.ip_plus_error}>
                   <input
-                    className="email_input"
+                    className={style.email_input}
                     placeholder="enter your email"
                     name="email"
                     type="email"
@@ -64,15 +61,21 @@ function Register(props) {
                   />
                   <br />
                   {Object.keys(errors).length > 0 && (
-                    <div className="error_msgs">
+                    <div className={style.error_msgs}>
                       {Object.values(errors).map((value) => (
                         <div key={value}>{value}</div>
                       ))}
                     </div>
                   )}
                 </div>
-                <button className="reg_button" type="submit">
-                  send otp
+                <button className={style.reg_button} type="submit">
+                  {!loading ? (
+                    "send otp"
+                  ) : (
+                    <span>
+                      sending <i className="fas fa-circle-notch"></i>
+                    </span>
+                  )}
                 </button>
               </form>
             </div>

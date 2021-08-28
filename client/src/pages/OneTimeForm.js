@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useForm } from "../util/hooks";
 import Union from "../../src/assets/Union.png";
+import style from "./oneTimeForm.module.scss";
 
 function OneTimeForm(props) {
   let history = useHistory();
@@ -38,10 +39,10 @@ function OneTimeForm(props) {
       alignItems="center"
       minHeight="97vh"
     >
-      <div className="otf">
+      <div className={style.otf}>
         <div style={{ display: "flex", padding: "7px 7px 7px 0" }}>
           <div>
-            <img className="icon" src={Union} alt="" />
+            <img className={style.icon} src={Union} alt="" />
           </div>
           <div style={{ marginTop: 3, fontWeight: "500" }}>
             sET UP YOUR PROFILE,
@@ -50,10 +51,10 @@ function OneTimeForm(props) {
           </div>
         </div>
         <form onSubmit={onSubmit} noValidate>
-          <span className="otf_label">Your name</span>
+          <span className={style.otf_label}>Your name</span>
           <br />
           <input
-            className="email_input"
+            className={style.email_input}
             placeholder="Username"
             name="username"
             type="username"
@@ -62,10 +63,10 @@ function OneTimeForm(props) {
           />
           <br />
           <br />
-          <span className="otf_label">choose a username</span>
+          <span className={style.otf_label}>choose a username</span>
           <br />
           <input
-            className="email_input"
+            className={style.email_input}
             placeholder="Userusername"
             name="userusername"
             type="userusername"
@@ -74,13 +75,13 @@ function OneTimeForm(props) {
           />
           <br />
           <br />
-          <button className="reg_button" type="submit" primary>
+          <button className={style.reg_button} type="submit" primary>
             Done
           </button>
         </form>
         <br />
         {Object.keys(errors).length > 0 && (
-          <div className="error_msgs">
+          <div className={style.error_msgs}>
             {Object.values(errors).map((value) => (
               <div key={value}>{value}</div>
             ))}

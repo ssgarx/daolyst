@@ -6,6 +6,7 @@ import Groups from "../pages/Groups";
 import Group from "../pages/Group";
 import Explore from "../pages/Explore";
 import { Container, Grid } from "@material-ui/core";
+import style from "./loggedInScreen.module.scss";
 
 function LoggedInScreen({ user }, args = {}) {
   // const { logout } = useContext(AuthContext);
@@ -13,17 +14,17 @@ function LoggedInScreen({ user }, args = {}) {
     <Container maxWidth="lg">
       <Grid container>
         <Grid md={3}>
-          <div className="hm_master_blocks">
+          <div className={style.hm_master_blocks}>
             <Groups />
           </div>
         </Grid>
         <Grid md={6}>
-          <div className="hm_master_blocks">
+          <div className={style.hm_master_blocks}>
             <Group />
           </div>
         </Grid>
         <Grid md={3}>
-          <div className="hm_master_blocks">
+          <div className={style.hm_master_blocks}>
             <Explore />
           </div>
         </Grid>

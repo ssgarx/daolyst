@@ -2,7 +2,7 @@ import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import React, { useContext, useEffect } from "react";
 import { AuthContext } from "../context/auth";
 import UnionB from "../assets/UnionB.png";
-
+import style from "./groupInfo.module.scss";
 function GroupInfo({ groupId, groupOwnerId }) {
   const { user } = useContext(AuthContext);
 
@@ -68,17 +68,20 @@ function GroupInfo({ groupId, groupOwnerId }) {
       // </div>
       <div style={{ display: "flex", padding: "7px 7px 7px 0" }}>
         <div>
-          <img className="icon_home" src={UnionB} alt="" />
+          <img className={style.icon_home} src={UnionB} alt="" />
         </div>
         <div style={{ marginTop: 3, fontWeight: "500" }}>
-          <span className="home_name">
+          <span className={style.home_name}>
             {groupInfo.data.getGroupInfo.groupName}
           </span>
           <span>
-            <i className="fas fa-ellipsis-v fa-sm mnu"></i>
+            <i
+              style={{ cursor: "pointer", padding: "5px" }}
+              className="fas fa-ellipsis-v fa-sm "
+            ></i>
           </span>
           <br />
-          <span className="home_username">
+          <span className={style.home_username}>
             @{groupInfo.data.getGroupInfo.groupUserName}
           </span>
         </div>

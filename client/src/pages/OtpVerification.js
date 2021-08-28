@@ -4,7 +4,7 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../context/auth";
 import { useForm } from "../util/hooks";
 import Union from "../../src/assets/Union.png";
-
+import style from "./otpVerification.module.scss";
 function OtpVerification(props) {
   const context = useContext(AuthContext);
   const [errors, setErrors] = useState({});
@@ -36,18 +36,18 @@ function OtpVerification(props) {
       minHeight="97vh"
     >
       <div>
-        <img className="icon" src={Union} alt="" />
+        <img className={style.icon} src={Union} alt="" />
         <form noValidate onSubmit={onSubmit}>
-          <div className="ip_plus_error">
+          <div className={style.ip_plus_error}>
             <input
-              className="otp_input"
+              className={style.otp_input}
               placeholder="enter 6 digit otp"
               name="code"
               value={values.code}
               onChange={onChange}
             />
             {Object.keys(errors).length > 0 ? (
-              <div className="error_msgs">
+              <div className={style.error_msgs}>
                 {Object.values(errors).map((value) => (
                   <div key={value}>{value}</div>
                 ))}
@@ -55,13 +55,13 @@ function OtpVerification(props) {
             ) : (
               <div
                 style={{ color: "#949494", fontSize: 13 }}
-                className="error_msgs"
+                className={style.error_msgs}
               >
                 Check your email for otp
               </div>
             )}
           </div>
-          <button className="reg_button" type="submit">
+          <button className={style.reg_button} type="submit">
             verify otp
           </button>
         </form>

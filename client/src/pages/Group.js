@@ -7,6 +7,7 @@ import GroupInfo from "../components/GroupInfo";
 import CentralPollingUnit from "../components/CentralPollingUnit";
 import { NotifierContext } from "../context/notifier";
 import { GroupSelectorContext } from "../context/groupSelector";
+import style from "./group.module.scss";
 function Group(props, args = {}) {
   const { user } = useContext(AuthContext);
   const { notifArray, removeNotification } = useContext(NotifierContext);
@@ -110,13 +111,13 @@ function Group(props, args = {}) {
             {groupId && groupOwnerId && (
               <GroupInfo groupId={groupId} groupOwnerId={groupOwnerId} />
             )}
-            <div className="home_posts">
+            <div className={style.home_posts}>
               <div style={{ paddingBottom: "100px" }}>{postsMarkUp}</div>
             </div>
             <>
               {groupOwnerId === user.id && (
                 <>
-                  <div className="home_send_parent">
+                  <div className={style.home_send_parent}>
                     <form
                       style={{
                         display: "flex",
@@ -125,7 +126,7 @@ function Group(props, args = {}) {
                     >
                       <div style={{ flex: 8 }}>
                         <input
-                          className="home_send"
+                          className={style.home_send}
                           type="text"
                           placeholder="Post links here"
                           value={postedLinks}
@@ -137,7 +138,7 @@ function Group(props, args = {}) {
                       <div style={{ flex: 1 }}>
                         <button
                           type="submit"
-                          className="home_send_btn"
+                          className={style.home_send_btn}
                           disabled={postedLinks.trim() === ""}
                           onClick={(e) => {
                             e.preventDefault();

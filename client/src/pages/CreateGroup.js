@@ -1,8 +1,10 @@
 import { gql, useMutation } from "@apollo/client";
+import { Box, FormControlLabel, Switch } from "@material-ui/core";
 import React, { useContext, useState } from "react";
 import { Button, Container, Form } from "semantic-ui-react";
 import { AuthContext } from "../context/auth";
-
+import { GroupUpdaterContext } from "../context/groupsUpdater";
+import style from "./createGroup.module.scss";
 function CreateGroup(props) {
   const { user } = useContext(AuthContext);
   const [errors, setErrors] = useState({});
@@ -10,9 +12,12 @@ function CreateGroup(props) {
   const [groupUserName, setGroupUserName] = useState("");
   const [isPrivate, setIsPrivate] = useState(true);
   const uid = user.id;
+  const { updateNumberOfGroups } = useContext(GroupUpdaterContext);
 
   const [onSubmit, { loading }] = useMutation(CREATE_GROUP, {
     update() {
+      updateNumberOfGroups("ADD");
+      props.handleClose();
       props.history.push("/");
     },
     onError(err) {
@@ -27,16 +32,18 @@ function CreateGroup(props) {
   });
 
   return (
-    <>
-      <Container style={{ width: "500px" }}>
-        <Form
-          onSubmit={onSubmit}
-          noValidate
-          className={loading ? "loading" : ""}
-        >
-          <h1>Create Group</h1>
-          <Form.Input
-            label="Groupname"
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight={props.fullScreen && "97vh"}
+    >
+      <div className={style.cg}>
+        <form noValidate>
+          <span className={style.cg_label}>group name</span>
+          <br />
+          <input
+            className={style.cg_input}
             placeholder="Groupname.."
             name="groupname"
             type="text"
@@ -44,8 +51,11 @@ function CreateGroup(props) {
             error={errors.groupname ? true : false}
             onChange={(event) => setGroupName(event.target.value)}
           />
-          <Form.Input
-            label="Groupusername"
+          <br />
+          <span className={style.cg_label}>your group name</span>
+          <br />
+          <input
+            className={style.cg_input}
             placeholder="Groupusername.."
             name="groupusername"
             type="groupusername"
@@ -53,31 +63,64 @@ function CreateGroup(props) {
             error={errors.groupusername ? true : false}
             onChange={(event) => setGroupUserName(event.target.value)}
           />
-          <Form.Input
-            label={isPrivate ? "GroupPrivacy :Private" : "GroupPrivacy :Public"}
-            name="groupPrivacy"
-            type="checkbox"
-            value={isPrivate}
-            checked={isPrivate ? true : false}
-            error={errors.groupPrivacy ? true : false}
-            onChange={() => setIsPrivate(!isPrivate)}
+          <br />
+          <span className={style.cg_label}>Group Privacy </span>
+          <br />
+          <FormControlLabel
+            control={
+              <Switch
+                checked={isPrivate ? true : false}
+                onChange={() => setIsPrivate(!isPrivate)}
+                name="checkedA"
+              />
+            }
+            label={
+              <span className={style.cg_label}>
+                {isPrivate ? "Private" : "Public"}
+              </span>
+            }
           />
-
-          <Button type="submit" primary>
-            Create group
-          </Button>
-        </Form>
-        {Object.keys(errors).length > 0 && (
-          <div className="ui error message">
-            <ul className="list">
+          <br />
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              // onSubmit={onSubmit}
+              !loading && onSubmit();
+            }}
+            className={style.cg_button}
+            type="submit"
+          >
+            {!loading ? (
+              "Create group"
+            ) : (
+              <span>
+                creating <i className="fas fa-circle-notch"></i>
+              </span>
+            )}
+          </button>
+        </form>
+        <div style={{ marginTop: 7 }}>
+          {Object.keys(errors).length > 0 && (
+            <div className={style.error_msgs}>
               {Object.values(errors).map((value) => (
-                <li key={value}>{value}</li>
+                <div key={value}>{value}</div>
               ))}
-            </ul>
+            </div>
+          )}
+        </div>
+        {props.fullScreen && (
+          <div style={{ textAlign: "right" }}>
+            <button
+              className={style.close_button}
+              onClick={props.handleClose}
+              color="primary"
+            >
+              close
+            </button>
           </div>
         )}
-      </Container>
-    </>
+      </div>
+    </Box>
   );
 }
 
