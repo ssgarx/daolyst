@@ -1,7 +1,6 @@
 import { gql, useLazyQuery } from "@apollo/client";
 import { LinearProgress, makeStyles } from "@material-ui/core";
 import React, { useContext, useState } from "react";
-import { Card, Form } from "semantic-ui-react";
 import { AuthContext } from "../context/auth";
 import { GroupSelectorContext } from "../context/groupSelector";
 import style from "./explore.module.scss";
@@ -37,7 +36,6 @@ function Explore() {
     setSearchedText(e.target.value);
     clearTimeout(searchTimer);
     searchTimer = setTimeout(() => {
-      console.log("SEARCHING");
       submitSearchedText();
     }, 2000);
   };
@@ -49,19 +47,19 @@ function Explore() {
     groupsMarkUp = <p>No groups found</p>;
   } else {
     groupsMarkUp = data.searchGroups.map((x, index) => (
-      <div style={{ margin: "3px", border: "1pz solid black" }} key={index}>
-        <span
-          style={{
-            border: "1px solid black",
-            cursor: "pointer",
-          }}
+      <>
+        <div
+          className={style.home_gp}
+          key={index}
           onClick={() => {
             groupSelContext.createGroupSelection(x.id, x.groupId);
           }}
         >
-          {x.groupName}
-        </span>
-      </div>
+          <span className={style.home_gp_name}>{x.groupName}</span>
+          <br />
+          <span className={style.home_gp_username}>@{x.groupUserName}</span>
+        </div>
+      </>
     ));
   }
   return (

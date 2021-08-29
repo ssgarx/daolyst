@@ -1,7 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
 import { Box, FormControlLabel, Switch } from "@material-ui/core";
 import React, { useContext, useState } from "react";
-import { Button, Container, Form } from "semantic-ui-react";
 import { AuthContext } from "../context/auth";
 import { GroupUpdaterContext } from "../context/groupsUpdater";
 import style from "./createGroup.module.scss";

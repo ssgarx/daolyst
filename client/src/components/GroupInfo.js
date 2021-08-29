@@ -3,6 +3,8 @@ import React, { useContext, useEffect } from "react";
 import { AuthContext } from "../context/auth";
 import UnionB from "../assets/UnionB.png";
 import style from "./groupInfo.module.scss";
+import Skeleton from "@material-ui/lab/Skeleton";
+
 function GroupInfo({ groupId, groupOwnerId }) {
   const { user } = useContext(AuthContext);
 
@@ -55,17 +57,24 @@ function GroupInfo({ groupId, groupOwnerId }) {
   let groupData;
   if (!groupInfo.data) {
     groupData = (
-      <div>
-        <h1>Loading group data...</h1>
+      <div
+        style={{ display: "flex", maxHeight: "55px", padding: "7px 7px 7px 0" }}
+      >
+        <div>
+          <img className={style.icon_home} src={UnionB} alt="" />
+        </div>
+        <div style={{ marginTop: 3, fontWeight: "500" }}>
+          <p className={style.home_name}>
+            <Skeleton width={200} height={30}></Skeleton>
+          </p>
+          <p className={style.home_username}>
+            <Skeleton width={150} height={20}></Skeleton>
+          </p>
+        </div>
       </div>
     );
   } else {
     groupData = (
-      // <div>
-      //   <h1>{groupInfo.data.getGroupInfo.groupName}</h1>
-      //   <p>@{groupInfo.data.getGroupInfo.groupUserName}</p>
-      //   <p>{groupInfo.data.getGroupInfo.groupFollowers.length}followers</p>
-      // </div>
       <div style={{ display: "flex", padding: "7px 7px 7px 0" }}>
         <div>
           <img className={style.icon_home} src={UnionB} alt="" />
@@ -93,7 +102,9 @@ function GroupInfo({ groupId, groupOwnerId }) {
   if (!groupOwnerInfo.data || !userAdditionalInfo.data || !groupInfo.data) {
     groupOwnerData = (
       <div>
-        <h1>Loading group data...</h1>
+        <p className={style.home_username}>
+          <Skeleton width={50} height={20}></Skeleton>
+        </p>
       </div>
     );
   } else {

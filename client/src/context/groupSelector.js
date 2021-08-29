@@ -3,6 +3,13 @@ const initialState = {
   groupData: { groupId: null, groupOwnerId: null },
 };
 
+if (localStorage.getItem("groupClickedData")) {
+  const retrivedData = localStorage.getItem("groupClickedData");
+  //convert the string to an object
+  const groupData = JSON.parse(retrivedData);
+  initialState.groupData = groupData;
+}
+
 const GroupSelectorContext = createContext({
   groupData: { groupId: null, groupOwnerId: null },
   createGroupSelection: (groupId, groupOwnerId) => {},
@@ -28,6 +35,10 @@ function GroupSelectorProvider(props) {
   const [state, dispatch] = useReducer(groupSelectorReducer, initialState);
 
   function createGroupSelection(groupId, groupOwnerId) {
+    //create an object with the groupId and groupOwnerId
+    const groupData = { groupId, groupOwnerId };
+    //save the groupData to the local storage
+    localStorage.setItem("groupClickedData", JSON.stringify(groupData));
     dispatch({
       type: "SELECT_GROUP",
       payload: { groupId, groupOwnerId },

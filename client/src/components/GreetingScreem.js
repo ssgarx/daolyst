@@ -46,7 +46,7 @@ function GreetingScreem() {
       </div>
       <div className={style.exp_publicfolder_informer_parent}>
         <div>
-          <img src={Curved2} alt="" srcset="" />
+          <img src={Curved2} alt="img" srcset="" />
         </div>
         <div>
           popular public folders <br /> will appear here. 🏅
@@ -55,19 +55,19 @@ function GreetingScreem() {
       <div className={style.follow_informer_parent}>
         <div>
           <div>
-            <img className={style.img1} src={Follow} alt="" srcset="" />
+            <img className={style.img1} src={Follow} alt="img" />
           </div>
           <div>
-            <img className={style.img2} src={PointLeft} alt="" srcset="" />
+            <img className={style.img2} src={PointLeft} alt="img" />
           </div>
           <div>
-            <img className={style.img3} src={PointUp} alt="" srcset="" />
+            <img className={style.img3} src={PointUp} alt="img" />
           </div>
           <div>
-            <img className={style.img4} src={PointBottom} alt="" srcset="" />
+            <img className={style.img4} src={PointBottom} alt="img" />
           </div>
           <div>
-            <img className={style.img5} src={UnionB} alt="" srcset="" />
+            <img className={style.img5} src={UnionB} alt="img" />
           </div>
         </div>
         <div>tap on this to follow/unfollow a folder</div>

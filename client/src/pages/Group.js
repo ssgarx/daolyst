@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/auth";
-import { Card, Form } from "semantic-ui-react";
 import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import GroupInfo from "../components/GroupInfo";
 import CentralPollingUnit from "../components/CentralPollingUnit";
@@ -44,8 +43,6 @@ function Group(props, args = {}) {
     let groupMessages = data;
     localStorage.setItem(groupId, JSON.stringify(groupMessages));
     setDisplayPosts(groupMessages);
-    // if (!JSON.parse(localStorage.getItem(groupId))) {
-    // }
   };
 
   const addMessageToLocal = (message, groupId) => {

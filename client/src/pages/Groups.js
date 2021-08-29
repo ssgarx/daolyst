@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import gql from "graphql-tag";
 import { AuthContext } from "../context/auth";
 import { useLazyQuery } from "@apollo/client";
@@ -9,7 +8,6 @@ import { GroupSelectorContext } from "../context/groupSelector";
 import { NotifierContext } from "../context/notifier";
 import { GroupUpdaterContext } from "../context/groupsUpdater";
 import Union from "../assets/Union.png";
-import { CircularProgress } from "@material-ui/core";
 import style from "./groups.module.scss";
 import { Tooltip } from "@material-ui/core";
 
@@ -18,11 +16,10 @@ import DialogActions from "@material-ui/core/DialogActions";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme, makeStyles } from "@material-ui/core/styles";
 import CreateGroup from "./CreateGroup";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
-    // height: "80%",
-    // width: "50%",
     borderRadius: 0,
   },
 }));
@@ -39,10 +36,10 @@ function Groups(args = {}) {
     setOpen(false);
   };
   const { user } = useContext(AuthContext);
-  const groupSelContext = useContext(GroupSelectorContext);
+  const { createGroupSelection, groupData } = useContext(GroupSelectorContext);
   const { notifArray } = useContext(NotifierContext);
   const { noOfGroups } = useContext(GroupUpdaterContext);
-  const { groupData } = useContext(GroupSelectorContext);
+  // const { groupData } = useContext(GroupSelectorContext);
   const groupId = groupData.groupId;
   const uid = user.id;
 
@@ -56,9 +53,6 @@ function Groups(args = {}) {
   }, [noOfGroups]);
 
   const [fetchGroups, { data }] = useLazyQuery(FETCH_GROUPS_QUERY, {
-    onCompleted: (data) => {
-      console.log("data", data);
-    },
     variables: {
       uid,
     },
@@ -78,7 +72,15 @@ function Groups(args = {}) {
   // Your Groups
   let yourGroupsMarkup;
   if (!data) {
-    yourGroupsMarkup = <CircularProgress style={{ color: "black" }} />;
+    yourGroupsMarkup = (
+      <>
+        {[...Array(6)].map((x, index) => (
+          <div className={style.home_gp} key={index}>
+            <Skeleton variant="text" width={275} height={75}></Skeleton>
+          </div>
+        ))}
+      </>
+    );
   } else if (data.getGroups.length === 0) {
     yourGroupsMarkup = <p>No groups yet</p>;
   } else {
@@ -90,7 +92,7 @@ function Groups(args = {}) {
         }
         key={index}
         onClick={() => {
-          groupSelContext.createGroupSelection(x.id, x.groupId);
+          createGroupSelection(x.id, x.groupId);
         }}
       >
         <span className={style.home_gp_name}>{x.groupName}</span>
@@ -117,7 +119,7 @@ function Groups(args = {}) {
               className={style.home_gp}
               key={index}
               onClick={() => {
-                groupSelContext.createGroupSelection(x.id, x.groupId);
+                createGroupSelection(x.id, x.groupId);
               }}
             >
               <span className={style.home_gp_name}>
@@ -136,7 +138,9 @@ function Groups(args = {}) {
   }
   return (
     <div style={{ height: "95vh" }}>
-      <div style={{ display: "flex", padding: "7px 7px 7px 0" }}>
+      <div
+        style={{ display: "flex", maxHeight: "55px", padding: "7px 7px 7px 0" }}
+      >
         <div>
           <img className={style.icon_home} src={Union} alt="" />
         </div>
