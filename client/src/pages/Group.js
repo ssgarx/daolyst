@@ -8,6 +8,7 @@ import CentralPollingUnit from "../components/CentralPollingUnit";
 import { NotifierContext } from "../context/notifier";
 import { GroupSelectorContext } from "../context/groupSelector";
 import style from "./group.module.scss";
+import GreetingScreem from "../components/GreetingScreem";
 function Group(props, args = {}) {
   const { user } = useContext(AuthContext);
   const { notifArray, removeNotification } = useContext(NotifierContext);
@@ -104,7 +105,7 @@ function Group(props, args = {}) {
   return (
     <>
       {!groupId && !groupOwnerId ? (
-        <>tap on group or something</>
+        <GreetingScreem />
       ) : (
         <>
           <div style={{ height: "95vh" }}>
