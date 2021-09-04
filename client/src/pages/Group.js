@@ -69,6 +69,7 @@ function Group(props, args = {}) {
       setPostedLinks("");
     },
     onCompleted(data) {
+      console.log("MESSAGE SENT", data);
       addMessageToLocal(data.createGroupPost, groupId);
     },
     variables: {

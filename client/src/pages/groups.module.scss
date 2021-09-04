@@ -88,3 +88,17 @@
 .close_button:active {
   opacity: 1;
 }
+.menu_icon {
+  border: none;
+  background-color: transparent;
+  border-radius: 53px;
+  height: 25px;
+  width: 25px;
+  transition: 0.3s ease all;
+}
+.menu_icon:hover {
+  background-color: #fcf3f3;
+}
+.menu_icon:active {
+  background-color: #f3e2e2;
+}

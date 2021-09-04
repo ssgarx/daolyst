@@ -34,11 +34,11 @@ function Register(props) {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      minHeight="97vh"
+      minHeight={97}
     >
       <Container maxWidth="xl">
         <Grid container>
-          <Grid md={6} xs={12}>
+          <Grid item={true} md={6} xs={12}>
             <div className={style.leftSide}>
               <p>all</p>
               <p>your</p>
@@ -46,7 +46,7 @@ function Register(props) {
               <p>in one place</p>
             </div>
           </Grid>
-          <Grid item md={6} xs={12}>
+          <Grid item={true} md={6} xs={12}>
             <div className={style.rightSide}>
               <img className={style.icon} src={Union} alt="" />
               <form noValidate onSubmit={onSubmit}>

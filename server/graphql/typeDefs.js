@@ -14,6 +14,7 @@ module.exports = gql`
     groupId: String
     createdAt: String
     groupName: String
+    groupUserName: String
   }
   type Group {
     id: ID

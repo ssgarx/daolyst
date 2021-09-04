@@ -35,7 +35,7 @@ function CreateGroup(props) {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      minHeight={props.fullScreen && "97vh"}
+      minHeight={props.fullScreen && 95}
     >
       <div className={style.cg}>
         <form noValidate>

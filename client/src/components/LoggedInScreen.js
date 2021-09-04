@@ -13,17 +13,17 @@ function LoggedInScreen({ user }, args = {}) {
   return (
     <Container maxWidth="lg">
       <Grid container>
-        <Grid md={3}>
+        <Grid item={true} md={3}>
           <div className={style.hm_master_blocks}>
             <Groups />
           </div>
         </Grid>
-        <Grid md={6}>
+        <Grid item={true} md={6}>
           <div className={style.hm_master_blocks}>
             <Group />
           </div>
         </Grid>
-        <Grid md={3}>
+        <Grid item={true} md={3}>
           <div className={style.hm_master_blocks}>
             <Explore />
           </div>

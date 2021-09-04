@@ -1,12 +1,40 @@
 import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import React, { useContext, useEffect } from "react";
 import { AuthContext } from "../context/auth";
-import UnionB from "../assets/UnionB.png";
+import followbkm from "../assets/followbkm.png";
+import unfollowbkm from "../assets/unfollowbkm.png";
 import style from "./groupInfo.module.scss";
 import Skeleton from "@material-ui/lab/Skeleton";
+import { GroupUpdaterContext } from "../context/groupsUpdater";
+import {
+  Dialog,
+  DialogActions,
+  makeStyles,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
+import GroupInfoMenu from "./GroupInfoMenu";
+
+const useStyles = makeStyles((theme) => ({
+  dialogPaper: {
+    borderRadius: 0,
+  },
+}));
 
 function GroupInfo({ groupId, groupOwnerId }) {
   const { user } = useContext(AuthContext);
+  const { updateNumberOfGroups } = useContext(GroupUpdaterContext);
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   //SHOW GROUP NAME /GET GROUP INFO
   useEffect(() => {
@@ -25,6 +53,7 @@ function GroupInfo({ groupId, groupOwnerId }) {
 
   const [groupConnection] = useMutation(GROUP_ACTION_MUTATION, {
     update() {
+      updateNumberOfGroups("ADD");
       fetchGroupInfo();
       fetchGroupOwnerInfo();
     },
@@ -54,19 +83,62 @@ function GroupInfo({ groupId, groupOwnerId }) {
     }
   );
 
+  let groupOwnerData;
+  if (!groupOwnerInfo.data || !userAdditionalInfo.data || !groupInfo.data) {
+    groupOwnerData = (
+      <div>
+        <p className={style.home_username}>
+          <Skeleton width={20} height={20}></Skeleton>
+        </p>
+      </div>
+    );
+  } else {
+    groupOwnerData = (
+      <div>
+        {groupOwnerInfo.data.getOwnerInfo.email !== user.email ? (
+          !userAdditionalInfo.data.getOwnerInfo.followingGroupsLists.some(
+            (group) => group.id === groupInfo.data.getGroupInfo.id
+          ) ? (
+            <span onClick={() => groupConnection()}>
+              <img
+                className={style.followBtn}
+                src={followbkm}
+                alt=""
+                srcset=""
+              />
+            </span>
+          ) : groupOwnerInfo.data.getOwnerInfo.email === user.email ? null : (
+            <span onClick={() => groupConnection()}>
+              <img
+                className={style.followBtn}
+                src={unfollowbkm}
+                alt=""
+                srcset=""
+              />
+            </span>
+          )
+        ) : (
+          <span>
+            <img
+              className={style.followBtn}
+              src={unfollowbkm}
+              alt=""
+              srcset=""
+            />
+          </span>
+        )}
+      </div>
+    );
+  }
+
   let groupData;
   if (!groupInfo.data) {
     groupData = (
       <div
         style={{ display: "flex", maxHeight: "55px", padding: "7px 7px 7px 0" }}
       >
-        <div>
-          <img className={style.icon_home} src={UnionB} alt="" />
-        </div>
         <div style={{ marginTop: 3, fontWeight: "500" }}>
-          <p className={style.home_name}>
-            <Skeleton width={200} height={30}></Skeleton>
-          </p>
+          <p className={style.home_name}></p>
           <p className={style.home_username}>
             <Skeleton width={150} height={20}></Skeleton>
           </p>
@@ -76,18 +148,56 @@ function GroupInfo({ groupId, groupOwnerId }) {
   } else {
     groupData = (
       <div style={{ display: "flex", padding: "7px 7px 7px 0" }}>
-        <div>
-          <img className={style.icon_home} src={UnionB} alt="" />
+        <div style={{ top: "12px", position: "relative" }}>
+          {groupOwnerData}
         </div>
-        <div style={{ marginTop: 3, fontWeight: "500" }}>
+        <div style={{ marginTop: 3, marginLeft: 10, fontWeight: "500" }}>
           <span className={style.home_name}>
             {groupInfo.data.getGroupInfo.groupName}
           </span>
           <span>
-            <i
-              style={{ cursor: "pointer", padding: "5px" }}
-              className="fas fa-ellipsis-v fa-sm "
-            ></i>
+            <button
+              onClick={() => {
+                handleClickOpen();
+              }}
+              className={style.menu_icon}
+            >
+              {" "}
+              <i
+                style={{ padding: 3 }}
+                className="fas fa-ellipsis-v fa-sm "
+              ></i>
+            </button>
+            <Dialog
+              classes={{ paper: classes.dialogPaper }}
+              fullScreen={fullScreen}
+              open={open}
+              // onClose={handleClose}
+              onClose={(event, reason) => {
+                if (reason !== "backdropClick") {
+                  handleClose();
+                }
+              }}
+              aria-labelledby="responsive-dialog-title"
+              disableEscapeKeyDown={true}
+              // onBackdropClick="false"
+            >
+              <GroupInfoMenu
+                handleClose={handleClose}
+                fullScreen={fullScreen}
+              />
+              {!fullScreen && (
+                <DialogActions>
+                  <button
+                    className={style.close_button}
+                    onClick={handleClose}
+                    color="primary"
+                  >
+                    close
+                  </button>
+                </DialogActions>
+              )}
+            </Dialog>
           </span>
           <br />
           <span className={style.home_username}>
@@ -98,35 +208,11 @@ function GroupInfo({ groupId, groupOwnerId }) {
     );
   }
 
-  let groupOwnerData;
-  if (!groupOwnerInfo.data || !userAdditionalInfo.data || !groupInfo.data) {
-    groupOwnerData = (
-      <div>
-        <p className={style.home_username}>
-          <Skeleton width={50} height={20}></Skeleton>
-        </p>
-      </div>
-    );
-  } else {
-    groupOwnerData = (
-      <div>
-        {groupOwnerInfo.data.getOwnerInfo.email !== user.email &&
-        !userAdditionalInfo.data.getOwnerInfo.followingGroupsLists.some(
-          (group) => group.id === groupInfo.data.getGroupInfo.id
-        ) ? (
-          <button onClick={() => groupConnection()}>Follow</button>
-        ) : groupOwnerInfo.data.getOwnerInfo.email === user.email ? null : (
-          <button onClick={() => groupConnection()}>Unfollow</button>
-        )}
-      </div>
-    );
-  }
-
   //SHOW OWNER NAME
   return (
     <>
       <div>{groupData}</div>
-      <div>{groupOwnerData}</div>
+      {/* <div>{groupOwnerData}</div> */}
     </>
   );
 }

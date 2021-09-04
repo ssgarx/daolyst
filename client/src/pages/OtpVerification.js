@@ -33,7 +33,7 @@ function OtpVerification(props) {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      minHeight="97vh"
+      minHeight={97}
     >
       <div>
         <img className={style.icon} src={Union} alt="" />

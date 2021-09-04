@@ -13,6 +13,7 @@ const userDataSchema = new Schema({
       groupId: String,
       createdAt: String,
       groupName: String,
+      groupUserName: String,
     },
   ],
 });

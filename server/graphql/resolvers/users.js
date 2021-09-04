@@ -304,6 +304,7 @@ module.exports = {
           _id: getgroup.id,
           groupId: getgroup.groupId,
           groupName: getgroup.groupName,
+          groupUserName: getgroup.groupUserName,
           createdAt: new Date().toISOString(),
         });
       }

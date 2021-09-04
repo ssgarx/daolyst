@@ -37,7 +37,7 @@ function OneTimeForm(props) {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      minHeight="97vh"
+      minHeight={97}
     >
       <div className={style.otf}>
         <div style={{ display: "flex", padding: "7px 7px 7px 0" }}>
@@ -75,7 +75,7 @@ function OneTimeForm(props) {
           />
           <br />
           <br />
-          <button className={style.reg_button} type="submit" primary>
+          <button className={style.reg_button} type="submit">
             Done
           </button>
         </form>
