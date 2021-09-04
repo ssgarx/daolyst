@@ -34,7 +34,7 @@ function Register(props) {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      minHeight={97}
+      minHeight="97vh"
     >
       <Container maxWidth="xl">
         <Grid container>

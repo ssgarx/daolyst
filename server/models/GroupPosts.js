@@ -6,6 +6,11 @@ const groupPostsSchema = new Schema({
   userusername: String,
   postBody: String,
   createdAt: String,
+
+  postTitle: String,
+  postDescription: String,
+  postDomain: String,
+  postImage: String,
   postLikes: [
     {
       username: String,

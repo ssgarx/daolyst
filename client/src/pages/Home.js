@@ -62,7 +62,7 @@ function Home(props) {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      minHeight={95}
+      minHeight={"95vh"}
     >
       {markUp}
     </Box>

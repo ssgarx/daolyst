@@ -35,7 +35,7 @@ function UserInfo(props) {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      minHeight={props.fullScreen && 95}
+      minHeight={props.fullScreen && "95vh"}
     >
       <p>User info</p>
       <div className={style.cg}>

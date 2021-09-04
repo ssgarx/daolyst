@@ -37,7 +37,7 @@ function OneTimeForm(props) {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      minHeight={97}
+      minHeight="97vh"
     >
       <div className={style.otf}>
         <div style={{ display: "flex", padding: "7px 7px 7px 0" }}>

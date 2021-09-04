@@ -16,7 +16,7 @@ function GreetingScreem() {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      minHeight={95}
+      minHeight="95vh"
     >
       <div className={style.settings_informer_parent}>
         <div>

@@ -16,7 +16,7 @@ function CentralPollingUnit() {
 
   useInterval(() => {
     fetchData();
-  }, 1000 * 10);
+  }, 1000 * 20);
 
   const sortData = async (arrayOfArray) => {
     let sortedArray = [];
@@ -69,6 +69,12 @@ const GET_ALL_RELEVENT_DATA = gql`
       userusername
       postBody
       createdAt
+
+      postTitle
+      postDescription
+      postDomain
+      postImage
+
       postLikes {
         username
       }

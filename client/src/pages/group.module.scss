@@ -2,6 +2,9 @@
   margin: 3px;
   overflow: scroll;
   height: 100%;
+
+  display: flex;
+  justify-content: center;
 }
 .home_send_parent {
   text-align: center;
@@ -9,6 +12,7 @@
   width: 100%;
   bottom: 0;
   padding-top: 5px;
+  background-color: white;
   .home_send {
     border: 2px solid black;
     font-size: 15px;

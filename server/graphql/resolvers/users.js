@@ -3,7 +3,12 @@ const jwt = require("jsonwebtoken");
 const { UserInputError } = require("apollo-server");
 const checkAuth = require("../../util/check-auth");
 const nodemailer = require("nodemailer");
+const linkPreviewGenerator = require("link-preview-generator");
 
+async function generateLinkPreview(postedLink) {
+  const previewData = await linkPreviewGenerator(postedLink);
+  return previewData;
+}
 async function sendOtpMail(otp) {
   // Generate test SMTP service account from ethereal.email
   // Only needed if you don't have a real mail account for testing
@@ -130,6 +135,7 @@ module.exports = {
           });
           postsArray.push(posts);
         }
+        console.log("postsArray", postsArray);
         return postsArray;
       } catch (err) {
         throw new Error(err);
@@ -270,6 +276,11 @@ module.exports = {
     },
     async createGroupPost(_, { uid, groupId, body }) {
       const user = await User.findById(uid);
+      const { title, description, domain, img } = await generateLinkPreview(
+        body
+      );
+      //desctructuring the previewData
+
       //create a newPost from GroupPosts
       const newPost = new GroupPosts({
         postsId: groupId,
@@ -277,12 +288,18 @@ module.exports = {
         userusername: user.userusername,
         postBody: body,
         createdAt: new Date().toISOString(),
+
+        postTitle: title,
+        postDescription: description,
+        postDomain: domain,
+        postImage: img,
       });
       await newPost.save();
       // return newPost;
       const groupPosts = await GroupPosts.find({
         postsId: groupId,
       });
+      //add previewData as additional property to groupPosts
       return newPost;
     },
     async followGroup(_, { groupId, uid }) {

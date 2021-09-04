@@ -40,6 +40,12 @@ module.exports = gql`
     userusername: String
     postBody: String
     createdAt: String
+
+    postTitle: String
+    postDescription: String
+    postDomain: String
+    postImage: String
+
     postLikes: [PostLike]
     postViews: [PostView]
     likeCount: Int

@@ -8,6 +8,8 @@ import { NotifierContext } from "../context/notifier";
 import { GroupSelectorContext } from "../context/groupSelector";
 import style from "./group.module.scss";
 import GreetingScreem from "../components/GreetingScreem";
+import Posts from "../components/Posts";
+
 function Group(props, args = {}) {
   const { user } = useContext(AuthContext);
   const { notifArray, removeNotification } = useContext(NotifierContext);
@@ -69,7 +71,6 @@ function Group(props, args = {}) {
       setPostedLinks("");
     },
     onCompleted(data) {
-      console.log("MESSAGE SENT", data);
       addMessageToLocal(data.createGroupPost, groupId);
     },
     variables: {
@@ -79,26 +80,26 @@ function Group(props, args = {}) {
     },
   });
 
-  let postsMarkUp;
-  if (loading) {
-    postsMarkUp = <p>Loading</p>;
-  } else if (!displayPosts) {
-    postsMarkUp = <p>No posts yet</p>;
-  } else {
-    postsMarkUp = displayPosts.map((x, index) => (
-      <div style={{ margin: "3px" }} key={index}>
-        <span
-          style={{
-            border: "1px solid black",
-          }}
-        >
-          {x.postBody}
-        </span>{" "}
-        <br />
-        <span>By {x.username}</span>
-      </div>
-    ));
-  }
+  // let postsMarkUp;
+  // if (loading) {
+  //   postsMarkUp = <p>Loading</p>;
+  // } else if (!displayPosts) {
+  //   postsMarkUp = <p>No posts yet</p>;
+  // } else {
+  //   postsMarkUp = displayPosts.map((x, index) => (
+  //     <div style={{ margin: "3px" }} key={index}>
+  //       <span
+  //         style={{
+  //           border: "1px solid black",
+  //         }}
+  //       >
+  //         {x.postBody}
+  //       </span>{" "}
+  //       <br />
+  //       <span>By {x.username}</span>
+  //     </div>
+  //   ));
+  // }
 
   return (
     <>
@@ -111,7 +112,9 @@ function Group(props, args = {}) {
               <GroupInfo groupId={groupId} groupOwnerId={groupOwnerId} />
             )}
             <div className={style.home_posts}>
-              <div style={{ paddingBottom: "100px" }}>{postsMarkUp}</div>
+              <div>
+                <Posts loading={loading} displayPosts={displayPosts} />
+              </div>
             </div>
             <>
               {groupOwnerId === user.id && (
@@ -121,6 +124,7 @@ function Group(props, args = {}) {
                       style={{
                         display: "flex",
                         justifyContent: "space-between",
+                        backgroundColor: "white",
                       }}
                     >
                       <div style={{ flex: 8 }}>
@@ -166,6 +170,12 @@ const SUBMIT_LINKS_MUTATION = gql`
       id
       likeCount
       postBody
+
+      postTitle
+      postDescription
+      postDomain
+      postImage
+
       postLikes {
         username
       }
@@ -189,6 +199,12 @@ const FETCH_LINKS_QUERY = gql`
       userusername
       postBody
       createdAt
+
+      postTitle
+      postDescription
+      postDomain
+      postImage
+
       postLikes {
         username
       }
