@@ -9,7 +9,6 @@ import { Container, Grid } from "@material-ui/core";
 import style from "./loggedInScreen.module.scss";
 
 function LoggedInScreen({ user }, args = {}) {
-  // const { logout } = useContext(AuthContext);
   return (
     <Container maxWidth="lg">
       <Grid container>

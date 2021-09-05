@@ -93,7 +93,7 @@ function Explore() {
                 <i
                   onClick={() => setSearchedText("")}
                   style={{ cursor: "pointer", color: "#FF4B33" }}
-                  class="fas fa-times fa-lg"
+                  className="fas fa-times fa-lg"
                 ></i>
               </span>
             )}

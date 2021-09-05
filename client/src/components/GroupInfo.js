@@ -103,8 +103,7 @@ function GroupInfo({ groupId, groupOwnerId }) {
               <img
                 className={style.followBtn}
                 src={followbkm}
-                alt=""
-                srcset=""
+                alt="follow_btn"
               />
             </span>
           ) : groupOwnerInfo.data.getOwnerInfo.email === user.email ? null : (
@@ -112,8 +111,7 @@ function GroupInfo({ groupId, groupOwnerId }) {
               <img
                 className={style.followBtn}
                 src={unfollowbkm}
-                alt=""
-                srcset=""
+                alt="unfollow_btn"
               />
             </span>
           )
@@ -122,8 +120,7 @@ function GroupInfo({ groupId, groupOwnerId }) {
             <img
               className={style.followBtn}
               src={unfollowbkm}
-              alt=""
-              srcset=""
+              alt="unfollow_btn"
             />
           </span>
         )}
@@ -158,7 +155,8 @@ function GroupInfo({ groupId, groupOwnerId }) {
           <span>
             <button
               onClick={() => {
-                handleClickOpen();
+                groupOwnerInfo.data.getOwnerInfo.email === user.email &&
+                  handleClickOpen();
               }}
               className={style.menu_icon}
             >
@@ -185,6 +183,7 @@ function GroupInfo({ groupId, groupOwnerId }) {
               <GroupInfoMenu
                 handleClose={handleClose}
                 fullScreen={fullScreen}
+                groupData={groupInfo?.data?.getGroupInfo}
               />
               {!fullScreen && (
                 <DialogActions>

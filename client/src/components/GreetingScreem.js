@@ -20,13 +20,13 @@ function GreetingScreem() {
     >
       <div className={style.settings_informer_parent}>
         <div>
-          <img src={Swirly_point} alt="" srcset="" />
+          <img src={Swirly_point} alt="" />
         </div>
         <div>Access settings from here ⚙️</div>
       </div>
       <div className={style.exp_search_informer_parent}>
         <div>
-          <img src={Up_right} alt="" srcset="" />
+          <img src={Up_right} alt="" />
         </div>
         <div>
           Search for any <br /> public folder here 🔎
@@ -34,7 +34,7 @@ function GreetingScreem() {
       </div>
       <div className={style.your_folders_informer_parent}>
         <div>
-          <img src={Curved} alt="" srcset="" />
+          <img src={Curved} alt="" />
         </div>
         <div>
           <p>your folders will show up here.</p>
@@ -46,7 +46,7 @@ function GreetingScreem() {
       </div>
       <div className={style.exp_publicfolder_informer_parent}>
         <div>
-          <img src={Curved2} alt="img" srcset="" />
+          <img src={Curved2} alt="img" />
         </div>
         <div>
           popular public folders <br /> will appear here. 🏅

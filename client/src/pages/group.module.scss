@@ -7,17 +7,19 @@
   justify-content: center;
 }
 .home_send_parent {
-  text-align: center;
+  border: 2px solid black;
+  text-align: left;
   position: absolute;
-  width: 100%;
+  width: 98%;
   bottom: 0;
-  padding-top: 5px;
+  // padding-top: 5px;
   background-color: white;
   .home_send {
-    border: 2px solid black;
+    border: 2px solid rgba(245, 0, 0, 0);
     font-size: 15px;
     padding: 5px;
     width: 95%;
+    text-align: center;
   }
   .home_send:focus {
     outline: none !important;
@@ -31,9 +33,10 @@
     cursor: pointer;
     color: black;
     transition: 0.3s all;
+    background: #fcf3f3;
   }
   .home_send_btn:hover {
-    background: #fcf3f3;
+    color: rgb(255, 75, 51);
     border: 2px solid black;
   }
   .home_send_btn:active {

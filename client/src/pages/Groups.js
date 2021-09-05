@@ -147,59 +147,7 @@ function Groups(args = {}) {
   // *****************************************************************
   return (
     <div style={{ height: "95vh" }}>
-      <div
-        style={{ display: "flex", maxHeight: "55px", padding: "7px 7px 7px 0" }}
-      >
-        <div>
-          <img className={style.icon_home} src={Union} alt="" />
-        </div>
-        <div style={{ marginTop: 3, fontWeight: "500" }}>
-          <span className={style.home_name}>Some name</span>
-          <span>
-            <button
-              onClick={() => {
-                handleClickOpen1();
-              }}
-              className={style.menu_icon}
-            >
-              {" "}
-              <i
-                style={{ padding: 3 }}
-                className="fas fa-ellipsis-v fa-sm "
-              ></i>
-            </button>
-            <Dialog
-              classes={{ paper: classes.dialogPaper }}
-              fullScreen={fullScreen}
-              open={open1}
-              // onClose={handleClose}
-              onClose={(event, reason) => {
-                if (reason !== "backdropClick") {
-                  handleClose1();
-                }
-              }}
-              aria-labelledby="responsive-dialog-title"
-              disableEscapeKeyDown={true}
-              // onBackdropClick="false"
-            >
-              <UserInfo handleClose={handleClose1} fullScreen={fullScreen} />
-              {!fullScreen && (
-                <DialogActions>
-                  <button
-                    className={style.close_button}
-                    onClick={handleClose1}
-                    color="primary"
-                  >
-                    close
-                  </button>
-                </DialogActions>
-              )}
-            </Dialog>
-          </span>
-          <br />
-          <span className={style.home_username}>@username</span>
-        </div>
-      </div>
+      <UserInfo />
       <div className={style.scrollbox} tabIndex="0">
         <div tabIndex="0" className={style.scrollbox_content}>
           {yourGroupsMarkup}

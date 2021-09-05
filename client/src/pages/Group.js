@@ -80,27 +80,6 @@ function Group(props, args = {}) {
     },
   });
 
-  // let postsMarkUp;
-  // if (loading) {
-  //   postsMarkUp = <p>Loading</p>;
-  // } else if (!displayPosts) {
-  //   postsMarkUp = <p>No posts yet</p>;
-  // } else {
-  //   postsMarkUp = displayPosts.map((x, index) => (
-  //     <div style={{ margin: "3px" }} key={index}>
-  //       <span
-  //         style={{
-  //           border: "1px solid black",
-  //         }}
-  //       >
-  //         {x.postBody}
-  //       </span>{" "}
-  //       <br />
-  //       <span>By {x.username}</span>
-  //     </div>
-  //   ));
-  // }
-
   return (
     <>
       {!groupId && !groupOwnerId ? (
@@ -116,7 +95,7 @@ function Group(props, args = {}) {
                 <Posts loading={loading} displayPosts={displayPosts} />
               </div>
             </div>
-            <>
+            <div style={{ border: "5px solid white" }}>
               {groupOwnerId === user.id && (
                 <>
                   <div className={style.home_send_parent}>
@@ -127,7 +106,7 @@ function Group(props, args = {}) {
                         backgroundColor: "white",
                       }}
                     >
-                      <div style={{ flex: 8 }}>
+                      <div style={{ flex: 12 }}>
                         <input
                           className={style.home_send}
                           type="text"
@@ -138,25 +117,27 @@ function Group(props, args = {}) {
                           }
                         />
                       </div>
-                      <div style={{ flex: 1 }}>
-                        <button
-                          type="submit"
-                          className={style.home_send_btn}
-                          disabled={postedLinks.trim() === ""}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            postedLinks.trim() !== "" && submitPost();
-                          }}
-                        >
-                          send
-                        </button>
-                      </div>
+                      {postedLinks && (
+                        <div style={{ flex: 1 }}>
+                          <button
+                            type="submit"
+                            className={style.home_send_btn}
+                            disabled={postedLinks.trim() === ""}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              postedLinks.trim() !== "" && submitPost();
+                            }}
+                          >
+                            send
+                          </button>
+                        </div>
+                      )}
                     </form>
                   </div>
                 </>
               )}
               <CentralPollingUnit />
-            </>
+            </div>
           </div>
         </>
       )}

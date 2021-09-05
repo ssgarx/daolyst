@@ -94,6 +94,17 @@ module.exports = gql`
 
   type Mutation {
     # register(registerInput: RegisterInput): User!
+    changeGroupInfo(
+      groupId: String!
+      groupName: String
+      groupUserName: String
+      isPrivate: Boolean
+    ): Group!
+    changeUserInfo(
+      email: String!
+      username: String
+      userusername: String
+    ): User!
     oneTimeForm(username: String!, userusername: String!): User!
     deleteOtps(email: String!): Boolean!
     verifyOtp(code: String!): Otp

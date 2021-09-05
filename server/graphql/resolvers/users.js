@@ -1,4 +1,3 @@
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { UserInputError } = require("apollo-server");
 const checkAuth = require("../../util/check-auth");
@@ -45,6 +44,7 @@ const {
   validateRegisterInput,
   validateGroupCreation,
   validateOneTimeForm,
+  validateGroupRenameForm,
 } = require("../../util/validators");
 
 const { SECRET_KEY } = require("../../config");
@@ -135,7 +135,6 @@ module.exports = {
           });
           postsArray.push(posts);
         }
-        console.log("postsArray", postsArray);
         return postsArray;
       } catch (err) {
         throw new Error(err);
@@ -159,6 +158,134 @@ module.exports = {
     },
   },
   Mutation: {
+    //create a new mutation named changeGroupInfo that takes groupId, groupName, groupUserName, isPrivate  as input,
+    //then it should update the group with the given groupId and return the updated group
+    async changeGroupInfo(_, { groupId, groupName, groupUserName, isPrivate }) {
+      //make sure the fields are not empty
+      const { valid, errors } = validateGroupRenameForm(
+        groupName,
+        groupUserName
+      );
+      if (!valid) {
+        throw new UserInputError("Errors", { errors });
+      }
+      //when fields are not empty.
+      try {
+        //find the group with the given groupId
+        const group = await Group.findById(groupId);
+        //if groupName and groupUserName are same as previous values, then return the group
+        if (
+          group.groupName === groupName &&
+          group.groupUserName === groupUserName &&
+          group.isPrivate === isPrivate
+        ) {
+          return group;
+        }
+        //if groupName is different from previous value, then update the groupName
+        if (group.groupName !== groupName) {
+          //update the groupName
+          await Group.findByIdAndUpdate(groupId, {
+            groupName,
+          });
+        }
+        //if groupUserName is different from previous value, then update the groupUserName
+        if (group.groupUserName !== groupUserName) {
+          //check if the groupUserName is already taken
+          const groupUserNameExists = await Group.findOne({
+            groupUserName,
+          });
+          if (groupUserNameExists) {
+            throw new UserInputError("UserUsername is taken", {
+              errors: {
+                email: "This UserUsername is taken",
+              },
+            });
+          } else {
+            //update the groupUserName
+            await Group.findByIdAndUpdate(groupId, {
+              groupUserName,
+            });
+          }
+        }
+        //if isPrivate is different from previous value, then update the isPrivate
+
+        if (group.isPrivate !== isPrivate) {
+          await Group.findByIdAndUpdate(groupId, {
+            isPrivate,
+          });
+          //update the isPrivate
+        }
+        //return the updated group
+        return await Group.findById(groupId);
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+
+    //create a new mutation named changeUserInfo that takes email, username and userusername as input,
+    //then it should find a user with the same email in Users collection and update the username and userusername.
+    //return true if it is successful
+    async changeUserInfo(_, { email, username, userusername }) {
+      //make sure the fields are not empty
+      const { valid, errors } = validateOneTimeForm(username, userusername);
+      if (!valid) {
+        throw new UserInputError("Errors", { errors });
+      }
+      //when fields are not empty.
+      try {
+        const user = await User.findOne({
+          email,
+        });
+        //if both username and userusername are same as previous.
+        if (user.username === username && user.userusername === userusername) {
+          return user;
+        }
+        //if username us diffrent than previous.
+        if (user.username !== username) {
+          await User.updateOne(
+            {
+              email,
+            },
+            {
+              $set: {
+                username,
+              },
+            }
+          );
+        }
+        //if userusername is diffrent than previous.
+        if (user.userusername !== userusername) {
+          //check if userusername is already taken.
+          const userbyuserusername = await User.findOne({ userusername });
+          if (userbyuserusername) {
+            //if userusername is already taken.
+            throw new UserInputError("UserUsername is taken", {
+              errors: {
+                email: "This UserUsername is taken",
+              },
+            });
+          } else {
+            //if userusername is not taken.
+            await User.updateOne(
+              {
+                email,
+              },
+              {
+                $set: {
+                  userusername,
+                },
+              }
+            );
+          }
+        }
+        const userUpdated = await User.findOne({
+          email,
+        });
+        return userUpdated;
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
     async oneTimeForm(_, { username, userusername }, context) {
       const master = checkAuth(context);
       const { valid, errors } = validateOneTimeForm(username, userusername);
