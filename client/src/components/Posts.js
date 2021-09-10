@@ -25,7 +25,7 @@ import style from "./posts.module.scss";
 //   </div>
 // );
 
-function Posts({ loading, displayPosts }) {
+function Posts({ loading, displayPosts, groupId }) {
   let postsMarkUp;
   if (loading) {
     postsMarkUp = <p>Loading</p>;
@@ -34,17 +34,24 @@ function Posts({ loading, displayPosts }) {
   } else {
     postsMarkUp = (
       <div className={style.posts_box}>
-        {displayPosts.map((x, index) => (
-          <div key={index} className={style.fence}>
-            <a href={x.postBody} target="_blank" rel="noopener noreferrer">
-              <div className={style.image}>
-                <img src={x.postImage} alt="link_img" />
+        {displayPosts.map(
+          (x, index) =>
+            x.postsId === groupId && (
+              <div id={x.id} key={index} className={style.fence}>
+                <a href={x.postBody} target="_blank" rel="noopener noreferrer">
+                  <div className={style.image}>
+                    <img src={x.postImage} alt="link_img" />
+                  </div>
+                  <div className={style.desc}>{x.postDescription}</div>
+                  <div className={style.domain}>{x.postDomain}</div>
+                </a>
               </div>
-              <div className={style.desc}>{x.postDescription}</div>
-              <div className={style.domain}>{x.postDomain}</div>
-            </a>
-          </div>
-        ))}
+            )
+        )}
+        <div
+          id="refrenceBlock2"
+          // style={{ height: 15, backgroundColor: "red" }}
+        ></div>
       </div>
     );
   }

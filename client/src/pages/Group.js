@@ -56,6 +56,58 @@ function Group(props, args = {}) {
     }
   };
 
+  const isElementVisible = (el) => {
+    let rect = el.getBoundingClientRect(),
+      vWidth = window.innerWidth || document.documentElement.clientWidth,
+      vHeight = window.innerHeight || document.documentElement.clientHeight,
+      efp = function (x, y) {
+        return document.elementFromPoint(x, y);
+      };
+
+    // Return false if it's not in the viewport
+    if (
+      rect.right < 0 ||
+      rect.bottom < 0 ||
+      rect.left > vWidth ||
+      rect.top > vHeight
+    )
+      return false;
+
+    // Return true if any of its four corners are visible
+    return (
+      el.contains(efp(rect.left, rect.top)) ||
+      el.contains(efp(rect.right, rect.top)) ||
+      el.contains(efp(rect.right, rect.bottom)) ||
+      el.contains(efp(rect.left, rect.bottom))
+    );
+  };
+
+  const handleAfterPostTasks = (postedContent) => {
+    let tempDataObj = {
+      id: "refrenceBlock1",
+      postBody: postedContent,
+      postImage: "",
+      postDescription: postedContent,
+      domain: "xyz.com",
+      postsId: groupId,
+    };
+    //save to local storage
+    let groupMessages = JSON.parse(localStorage.getItem(groupId));
+    groupMessages.push(tempDataObj);
+    setDisplayPosts(groupMessages);
+
+    //SCROLLL TO BOTTOM
+    setTimeout(() => {
+      let element = document.getElementById("refrenceBlock1");
+      element &&
+        !isElementVisible(element) &&
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+        });
+    }, 200);
+  };
+
   const [fetchPosts, { data, loading }] = useLazyQuery(FETCH_LINKS_QUERY, {
     onCompleted() {
       saveGroupMessagesToLocal(data.getGroupPosts, groupId);
@@ -66,19 +118,31 @@ function Group(props, args = {}) {
     fetchPolicy: "network-only",
   });
 
-  const [submitPost] = useMutation(SUBMIT_LINKS_MUTATION, {
-    update() {
-      setPostedLinks("");
-    },
-    onCompleted(data) {
-      addMessageToLocal(data.createGroupPost, groupId);
-    },
-    variables: {
-      uid,
-      groupId,
-      body: postedLinks,
-    },
-  });
+  const [submitPost, isPreviewLoading = loading] = useMutation(
+    SUBMIT_LINKS_MUTATION,
+    {
+      update(data) {
+        // setPostedLinks("");
+      },
+      onCompleted(data) {
+        addMessageToLocal(data.createGroupPost, groupId);
+        data.createGroupPost.postsId === groupId &&
+          setTimeout(() => {
+            let element = document.getElementById("refrenceBlock2");
+            element &&
+              element.scrollIntoView({
+                behavior: "smooth",
+                block: "end",
+              });
+          }, 200);
+      },
+      variables: {
+        uid,
+        groupId,
+        body: postedLinks,
+      },
+    }
+  );
 
   return (
     <>
@@ -86,58 +150,73 @@ function Group(props, args = {}) {
         <GreetingScreem />
       ) : (
         <>
-          <div style={{ height: "95vh" }}>
+          <div style={{ height: "90vh" }}>
             {groupId && groupOwnerId && (
               <GroupInfo groupId={groupId} groupOwnerId={groupOwnerId} />
             )}
             <div className={style.home_posts}>
               <div>
-                <Posts loading={loading} displayPosts={displayPosts} />
+                <Posts
+                  loading={loading}
+                  displayPosts={displayPosts}
+                  groupId={groupId}
+                />
               </div>
             </div>
-            <div style={{ border: "5px solid white" }}>
-              {groupOwnerId === user.id && (
-                <>
-                  <div className={style.home_send_parent}>
-                    <form
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        backgroundColor: "white",
-                      }}
-                    >
-                      <div style={{ flex: 12 }}>
-                        <input
-                          className={style.home_send}
-                          type="text"
-                          placeholder="Post links here"
-                          value={postedLinks}
-                          onChange={(event) =>
-                            setPostedLinks(event.target.value)
-                          }
-                        />
+          </div>
+
+          <div
+            style={{
+              backgroundColor: "white",
+              position: "sticky",
+              bottom: 0,
+              // padding: "15px 0px",
+              // paddingBottom: "15px",
+            }}
+          >
+            {groupOwnerId === user.id && (
+              <>
+                <div className={style.home_send_parent}>
+                  <form
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      backgroundColor: "white",
+                    }}
+                  >
+                    <div style={{ flex: 12 }}>
+                      <input
+                        className={style.home_send}
+                        type="text"
+                        placeholder="Post links here"
+                        value={postedLinks}
+                        onChange={(event) => setPostedLinks(event.target.value)}
+                      />
+                    </div>
+                    {postedLinks && (
+                      <div style={{ flex: 1 }}>
+                        <button
+                          type="submit"
+                          className={style.home_send_btn}
+                          disabled={postedLinks.trim() === ""}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            postedLinks.trim() !== "" &&
+                              !isPreviewLoading?.loading &&
+                              submitPost();
+                            handleAfterPostTasks(postedLinks);
+                            setPostedLinks("");
+                          }}
+                        >
+                          send
+                        </button>
                       </div>
-                      {postedLinks && (
-                        <div style={{ flex: 1 }}>
-                          <button
-                            type="submit"
-                            className={style.home_send_btn}
-                            disabled={postedLinks.trim() === ""}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              postedLinks.trim() !== "" && submitPost();
-                            }}
-                          >
-                            send
-                          </button>
-                        </div>
-                      )}
-                    </form>
-                  </div>
-                </>
-              )}
-              <CentralPollingUnit />
-            </div>
+                    )}
+                  </form>
+                </div>
+              </>
+            )}
+            <CentralPollingUnit />
           </div>
         </>
       )}

@@ -18,7 +18,6 @@ function GroupInfoMenu({ fullScreen, handleClose, groupData }) {
 
   const [onSubmit, { loading }] = useMutation(CHANGE_GP_INFO, {
     onCompleted({ changeGroupInfo }) {
-      console.log("changeGroupInfo", changeGroupInfo);
       handleClose();
     },
     onError(err) {
