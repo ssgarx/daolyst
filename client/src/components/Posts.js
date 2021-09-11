@@ -25,6 +25,27 @@ import style from "./posts.module.scss";
 //   </div>
 // );
 
+// let x = {
+//   id: "refrenceBlock1",
+//   postBody: "https://www.youtube.com/watch?v=RBumgq5yVrA&ab_channel=Passenger",
+//   postImage: "",
+//   postDescription:
+//     "The new album 'Songs For The Drunk And Broken Hearted' is out now and available from https://www.passengermusic.com 'Let Her Go' from the album 'All the Litt...",
+//   domain: "xyz.com",
+//   postsId: "61339e87c3f3d9471818876d",
+// };
+
+// postsMarkUp = (
+//   <div className={style.posts_box}>
+//     <div id={x.id} className={style.fence}>
+//       <a href={x.postBody} target="_blank" rel="noopener noreferrer">
+//         <div className={style.desc}>{x.postBody}</div>
+//       </a>
+//     </div>
+//     <div id="refrenceBlock2"></div>
+//   </div>
+// );
+
 function Posts({ loading, displayPosts, groupId }) {
   let postsMarkUp;
   if (loading) {
@@ -39,19 +60,22 @@ function Posts({ loading, displayPosts, groupId }) {
             x.postsId === groupId && (
               <div id={x.id} key={index} className={style.fence}>
                 <a href={x.postBody} target="_blank" rel="noopener noreferrer">
-                  <div className={style.image}>
-                    <img src={x.postImage} alt="link_img" />
+                  {x.postImage && (
+                    <div className={style.image}>
+                      <img src={x.postImage} alt="link_img" />
+                    </div>
+                  )}
+                  <div className={style.desc}>
+                    {x.postDescription ?? x.postBody}
                   </div>
-                  <div className={style.desc}>{x.postDescription}</div>
-                  <div className={style.domain}>{x.postDomain}</div>
+                  {x.postDomain && (
+                    <div className={style.domain}>{x.postDomain}</div>
+                  )}
                 </a>
               </div>
             )
         )}
-        <div
-          id="refrenceBlock2"
-          // style={{ height: 15, backgroundColor: "red" }}
-        ></div>
+        <div id="refrenceBlock2"></div>
       </div>
     );
   }
