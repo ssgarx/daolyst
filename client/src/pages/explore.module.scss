@@ -19,6 +19,17 @@
     }
   }
 }
+//when screen size is less than 800px
+@media screen and (max-width: 1430px) {
+  .exp_srch_pt {
+    .fake_searchbox {
+      .explore_input {
+        width: 230px;
+      }
+    }
+  }
+}
+
 .home_gp {
   text-align: left;
   cursor: pointer;
@@ -54,4 +65,53 @@
 }
 .search_invisible {
   display: none;
+}
+
+@media screen and (max-width: 1330px) {
+  .exp_srch_pt {
+    .fake_searchbox {
+      .explore_input {
+        width: 220px;
+      }
+    }
+  }
+  .search_visible {
+    width: 298px;
+  }
+}
+@media screen and (max-width: 1230px) {
+  .exp_srch_pt {
+    .fake_searchbox {
+      .explore_input {
+        width: 200px;
+      }
+    }
+  }
+  .search_visible {
+    width: 280px;
+  }
+}
+@media screen and (max-width: 1130px) {
+  .exp_srch_pt {
+    .fake_searchbox {
+      .explore_input {
+        width: 180px;
+      }
+    }
+  }
+  .search_visible {
+    width: 250px;
+  }
+}
+@media screen and (max-width: 1030px) {
+  .exp_srch_pt {
+    .fake_searchbox {
+      .explore_input {
+        width: 150px;
+      }
+    }
+  }
+  .search_visible {
+    width: 230px;
+  }
 }
