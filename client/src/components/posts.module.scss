@@ -26,8 +26,26 @@
   .domain {
     padding: 0px 10px 10px 10px;
     color: black;
+    margin: 0;
   }
-}
-.posts_box {
-  // margin-bottom: 40px;
+  .postMenuSpan {
+    float: right;
+    // margin-bottom: 40px;
+    .menu_icon {
+      cursor: pointer;
+      transform: rotate(90deg);
+      border: none;
+      background-color: transparent;
+      border-radius: 53px;
+      height: 25px;
+      width: 25px;
+      transition: 0.3s ease all;
+    }
+    .menu_icon:hover {
+      background-color: #fcf3f3;
+    }
+    .menu_icon:active {
+      background-color: #f3e2e2;
+    }
+  }
 }

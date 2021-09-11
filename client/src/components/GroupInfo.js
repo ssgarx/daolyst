@@ -10,6 +10,7 @@ import {
   Dialog,
   DialogActions,
   makeStyles,
+  Tooltip,
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
@@ -100,28 +101,34 @@ function GroupInfo({ groupId, groupOwnerId }) {
             (group) => group.id === groupInfo.data.getGroupInfo.id
           ) ? (
             <span onClick={() => groupConnection()}>
-              <img
-                className={style.followBtn}
-                src={followbkm}
-                alt="follow_btn"
-              />
+              <Tooltip title="follow" arrow>
+                <img
+                  className={style.followBtn}
+                  src={followbkm}
+                  alt="follow_btn"
+                />
+              </Tooltip>
             </span>
           ) : groupOwnerInfo.data.getOwnerInfo.email === user.email ? null : (
             <span onClick={() => groupConnection()}>
+              <Tooltip title="Unfollow" arrow>
+                <img
+                  className={style.followBtn}
+                  src={unfollowbkm}
+                  alt="unfollow_btn"
+                />
+              </Tooltip>
+            </span>
+          )
+        ) : (
+          <span>
+            <Tooltip title="Can't unfollow your own group" arrow>
               <img
                 className={style.followBtn}
                 src={unfollowbkm}
                 alt="unfollow_btn"
               />
-            </span>
-          )
-        ) : (
-          <span>
-            <img
-              className={style.followBtn}
-              src={unfollowbkm}
-              alt="unfollow_btn"
-            />
+            </Tooltip>
           </span>
         )}
       </div>

@@ -158,6 +158,22 @@ module.exports = {
     },
   },
   Mutation: {
+    //create a mutataion that accepts groupId and postId as input and deletes the post from the groupPosts collection
+    async deletePost(_, { id }) {
+      try {
+        //find the post by id and delete it
+        //find post by id
+        const post = await GroupPosts.findById(id);
+        if (post) {
+          await GroupPosts.findByIdAndDelete(id);
+          return true;
+        }
+        return false;
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+
     //create a new mutation named changeGroupInfo that takes groupId, groupName, groupUserName, isPrivate  as input,
     //then it should update the group with the given groupId and return the updated group
     async changeGroupInfo(_, { groupId, groupName, groupUserName, isPrivate }) {

@@ -1,52 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import style from "./posts.module.scss";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import { makeStyles } from "@material-ui/core/styles";
+import { gql, useMutation } from "@apollo/client";
 
-// let tmpData = {
-//   postsId: "61339e87c3f3d9471818876d",
-//   username: "sagar1",
-//   userusername: "ssgarx1",
-//   postBody: "https://www.youtube.com/watch?v=RBumgq5yVrA&ab_channel=Passenger",
-//   createdAt: "2021-09-04T16:40:08.931Z",
-//   postTitle: "Passenger | Let Her Go (Official Video)",
-//   postDescription:
-//     "The new album 'Songs For The Drunk And Broken Hearted' is out now and available from https://www.passengermusic.com 'Let Her Go' from the album 'All the Litt...",
-//   postDomain: "youtube.com",
-//   postImage: "https://i.ytimg.com/vi/RBumgq5yVrA/maxresdefault.jpg",
-// };
-// postsMarkUp = (
-//   <div className={style.fence}>
-//     <a href={tmpData.postBody} target="_blank" rel="noopener noreferrer">
-//       <div className={style.image}>
-//         <img src={tmpData.postImage} alt="link_img" />
-//       </div>
-//       <div className={style.desc}>{tmpData.postDescription}</div>
-//       <div className={style.domain}>{tmpData.postDomain}</div>
-//     </a>
-//   </div>
-// );
+const useStyles = makeStyles({
+  menu: {
+    "& .MuiPopover-paper": {
+      boxShadow:
+        "rgb(148 148 148 / 0%) 0px 0px 15px, rgb(230 230 230 / 15%) 0px 0px 3px 1px",
+    },
+  },
+});
 
-// let x = {
-//   id: "refrenceBlock1",
-//   postBody: "https://www.youtube.com/watch?v=RBumgq5yVrA&ab_channel=Passenger",
-//   postImage: "",
-//   postDescription:
-//     "The new album 'Songs For The Drunk And Broken Hearted' is out now and available from https://www.passengermusic.com 'Let Her Go' from the album 'All the Litt...",
-//   domain: "xyz.com",
-//   postsId: "61339e87c3f3d9471818876d",
-// };
+function Posts({ loading, displayPosts, groupId, setDisplayPosts }) {
+  const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  // const [deletePostId, setDeletePostId] = useState(null);
 
-// postsMarkUp = (
-//   <div className={style.posts_box}>
-//     <div id={x.id} className={style.fence}>
-//       <a href={x.postBody} target="_blank" rel="noopener noreferrer">
-//         <div className={style.desc}>{x.postBody}</div>
-//       </a>
-//     </div>
-//     <div id="refrenceBlock2"></div>
-//   </div>
-// );
+  const [selectedData, setSelectedData] = useState({
+    deletePostId: null,
+    postLink: null,
+  });
 
-function Posts({ loading, displayPosts, groupId }) {
+  const handleClick = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const [deletePost] = useMutation(DELETE_POST, {
+    onCompleted: (data) => {
+      let posts = JSON.parse(localStorage.getItem(groupId));
+      posts = posts.filter((post) => post.id !== selectedData.deletePostId);
+      setDisplayPosts(posts);
+      localStorage.setItem(groupId, JSON.stringify(posts));
+      //set deletePostId in setSelectedData to null
+      setSelectedData({
+        ...selectedData,
+        deletePostId: null,
+      });
+      // setDeletePostId(null);
+    },
+    onError(err) {
+      alert("Failed to delete, refresh and try again.");
+    },
+  });
+
   let postsMarkUp;
   if (loading) {
     postsMarkUp = <p>Loading</p>;
@@ -58,7 +60,7 @@ function Posts({ loading, displayPosts, groupId }) {
         {displayPosts.map(
           (x, index) =>
             x.postsId === groupId && (
-              <div id={x.id} key={index} className={style.fence}>
+              <div key={index} className={style.fence}>
                 <a href={x.postBody} target="_blank" rel="noopener noreferrer">
                   {x.postImage && (
                     <div className={style.image}>
@@ -68,9 +70,83 @@ function Posts({ loading, displayPosts, groupId }) {
                   <div className={style.desc}>
                     {x.postDescription ?? x.postBody}
                   </div>
-                  {x.postDomain && (
-                    <div className={style.domain}>{x.postDomain}</div>
-                  )}
+                  <span>
+                    <span className={style.domain}>{x.postDomain ?? ""}</span>
+                    <div className={style.postMenuSpan}>
+                      <button
+                        aria-controls="simple-menu"
+                        aria-haspopup="true"
+                        onClick={(e) => {
+                          //prevent anchor tag from opening
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleClick(e);
+                          // setDeletePostId(x.id);
+
+                          setSelectedData({
+                            deletePostId: x.id,
+                            postLink: x.postBody,
+                          });
+                        }}
+                        className={style.menu_icon}
+                      >
+                        {" "}
+                        <i
+                          style={{ padding: 3 }}
+                          className="fas fa-ellipsis-v fa-sm "
+                        ></i>
+                      </button>
+                      <Menu
+                        id="simple-menu"
+                        anchorEl={anchorEl}
+                        anchorOrigin={{
+                          vertical: "bottom",
+                          horizontal: "right",
+                        }}
+                        transformOrigin={{
+                          vertical: "bottom",
+                          horizontal: "right",
+                        }}
+                        getContentAnchorEl={null}
+                        keepMounted
+                        open={Boolean(anchorEl)}
+                        onClose={handleClose}
+                        className={classes.menu}
+                      >
+                        <MenuItem
+                          onClick={() => {
+                            deletePost({
+                              variables: {
+                                id: selectedData.deletePostId,
+                              },
+                            });
+                            handleClose();
+                          }}
+                        >
+                          <i
+                            class="far fa-trash-alt"
+                            style={{ marginRight: "8px", color: "red" }}
+                          ></i>{" "}
+                          Delete
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() => {
+                            //when clicked copy selectedData.postLink to clipboard
+                            navigator.clipboard.writeText(
+                              selectedData.postLink
+                            );
+                            handleClose();
+                          }}
+                        >
+                          <i
+                            class="far fa-copy"
+                            style={{ marginRight: "8px" }}
+                          ></i>{" "}
+                          Copy
+                        </MenuItem>
+                      </Menu>
+                    </div>
+                  </span>
                 </a>
               </div>
             )
@@ -81,5 +157,9 @@ function Posts({ loading, displayPosts, groupId }) {
   }
   return <div>{postsMarkUp}</div>;
 }
-
+const DELETE_POST = gql`
+  mutation deletePost($id: String!) {
+    deletePost(id: $id)
+  }
+`;
 export default Posts;

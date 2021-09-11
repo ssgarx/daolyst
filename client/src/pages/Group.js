@@ -160,6 +160,7 @@ function Group(props, args = {}) {
                   loading={loading}
                   displayPosts={displayPosts}
                   groupId={groupId}
+                  setDisplayPosts={setDisplayPosts}
                 />
               </div>
             </div>
