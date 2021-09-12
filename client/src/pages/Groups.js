@@ -194,6 +194,7 @@ function Groups(args = {}) {
           )}
         </Dialog>
       </div>
+
       <CentralPollingUnit />
     </div>
   );
