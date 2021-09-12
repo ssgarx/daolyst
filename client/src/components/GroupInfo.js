@@ -1,5 +1,5 @@
 import { gql, useLazyQuery, useMutation } from "@apollo/client";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/auth";
 import followbkm from "../assets/followbkm.png";
 import unfollowbkm from "../assets/unfollowbkm.png";
@@ -15,6 +15,7 @@ import {
   useTheme,
 } from "@material-ui/core";
 import GroupInfoMenu from "./GroupInfoMenu";
+import { useWindowSize } from "../util/hooks";
 
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
@@ -29,6 +30,16 @@ function GroupInfo({ groupId, groupOwnerId }) {
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const [showBackBtn, setShowBackBtn] = useState(false);
+  let windowWidth = useWindowSize().width;
+
+  useEffect(() => {
+    if (window.location.href.includes("groups") && windowWidth < 600) {
+      setShowBackBtn(true);
+    } else {
+      setShowBackBtn(false);
+    }
+  }, [windowWidth]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -151,66 +162,79 @@ function GroupInfo({ groupId, groupOwnerId }) {
     );
   } else {
     groupData = (
-      <div style={{ display: "flex", padding: "7px 7px 7px 0" }}>
-        <div style={{ top: "12px", position: "relative" }}>
-          {groupOwnerData}
-        </div>
-        <div style={{ marginTop: 3, marginLeft: 10, fontWeight: "500" }}>
-          <span className={style.home_name}>
-            {groupInfo.data.getGroupInfo.groupName}
-          </span>
-          <span>
-            <button
-              onClick={() => {
-                groupOwnerInfo.data.getOwnerInfo.email === user.email &&
-                  handleClickOpen();
-              }}
-              className={style.menu_icon}
-            >
-              {" "}
+      <>
+        <div style={{ display: "flex", padding: "7px 7px 7px 0" }}>
+          {showBackBtn && (
+            <div className={style.back_button}>
               <i
-                style={{ padding: 3 }}
-                className="fas fa-ellipsis-v fa-sm "
+                className="fas fa-arrow-left fa-2x"
+                onClick={() => {
+                  //go back page
+                  window.history.back();
+                }}
               ></i>
-            </button>
-            <Dialog
-              classes={{ paper: classes.dialogPaper }}
-              fullScreen={fullScreen}
-              open={open}
-              // onClose={handleClose}
-              onClose={(event, reason) => {
-                if (reason !== "backdropClick") {
-                  handleClose();
-                }
-              }}
-              aria-labelledby="responsive-dialog-title"
-              disableEscapeKeyDown={true}
-              // onBackdropClick="false"
-            >
-              <GroupInfoMenu
-                handleClose={handleClose}
+            </div>
+          )}
+          <div style={{ top: "12px", position: "relative" }}>
+            {groupOwnerData}
+          </div>
+          <div style={{ marginTop: 3, marginLeft: 10, fontWeight: "500" }}>
+            <span className={style.home_name}>
+              {groupInfo.data.getGroupInfo.groupName}
+            </span>
+            <span>
+              <button
+                onClick={() => {
+                  groupOwnerInfo.data.getOwnerInfo.email === user.email &&
+                    handleClickOpen();
+                }}
+                className={style.menu_icon}
+              >
+                {" "}
+                <i
+                  style={{ padding: 3 }}
+                  className="fas fa-ellipsis-v fa-sm "
+                ></i>
+              </button>
+              <Dialog
+                classes={{ paper: classes.dialogPaper }}
                 fullScreen={fullScreen}
-                groupData={groupInfo?.data?.getGroupInfo}
-              />
-              {!fullScreen && (
-                <DialogActions>
-                  <button
-                    className={style.close_button}
-                    onClick={handleClose}
-                    color="primary"
-                  >
-                    close
-                  </button>
-                </DialogActions>
-              )}
-            </Dialog>
-          </span>
-          <br />
-          <span className={style.home_username}>
-            @{groupInfo.data.getGroupInfo.groupUserName}
-          </span>
+                open={open}
+                // onClose={handleClose}
+                onClose={(event, reason) => {
+                  if (reason !== "backdropClick") {
+                    handleClose();
+                  }
+                }}
+                aria-labelledby="responsive-dialog-title"
+                disableEscapeKeyDown={true}
+                // onBackdropClick="false"
+              >
+                <GroupInfoMenu
+                  handleClose={handleClose}
+                  fullScreen={fullScreen}
+                  groupData={groupInfo?.data?.getGroupInfo}
+                />
+                {!fullScreen && (
+                  <DialogActions>
+                    <button
+                      className={style.close_button}
+                      onClick={handleClose}
+                      color="primary"
+                    >
+                      close
+                    </button>
+                  </DialogActions>
+                )}
+              </Dialog>
+            </span>
+            <br />
+            <span className={style.home_username}>
+              @{groupInfo.data.getGroupInfo.groupUserName}
+            </span>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 

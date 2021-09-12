@@ -41,3 +41,11 @@
 .menu_icon:active {
   background-color: #f3e2e2;
 }
+.back_button {
+  > i {
+    top: 8px;
+    position: relative;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+}

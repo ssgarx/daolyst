@@ -9,6 +9,7 @@ import { NotifierContext } from "../context/notifier";
 import { GroupUpdaterContext } from "../context/groupsUpdater";
 import style from "./groups.module.scss";
 import { Tooltip } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Groups(args = {}) {
+function GroupsMobile(args = {}) {
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -35,6 +36,8 @@ function Groups(args = {}) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const history = useHistory();
 
   const { user } = useContext(AuthContext);
   const { createGroupSelection, groupData } = useContext(GroupSelectorContext);
@@ -94,6 +97,7 @@ function Groups(args = {}) {
         key={index}
         onClick={() => {
           createGroupSelection(x.id, x.groupId);
+          history.push(`/groups/${x.id}`);
         }}
       >
         <span className={style.home_gp_name}>{x.groupName}</span>
@@ -223,4 +227,4 @@ const FETCH_USERFOLLOWEDGROUPS_QUERY = gql`
   }
 `;
 
-export default Groups;
+export default GroupsMobile;

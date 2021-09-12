@@ -9,13 +9,21 @@ import { GroupSelectorContext } from "../context/groupSelector";
 import style from "./group.module.scss";
 import GreetingScreem from "../components/GreetingScreem";
 import Posts from "../components/Posts";
+import { useWindowSize } from "../util/hooks";
 
 function Group(props, args = {}) {
+  let windowWidth = useWindowSize().width;
   const { user } = useContext(AuthContext);
   const { notifArray, removeNotification } = useContext(NotifierContext);
   const { groupData } = useContext(GroupSelectorContext);
   const groupId = groupData.groupId;
   const groupOwnerId = groupData.groupOwnerId;
+
+  useEffect(() => {
+    if (window.location.pathname !== "/" && windowWidth > 600) {
+      props.history.push("/");
+    }
+  }, [windowWidth]);
 
   const uid = user.id;
   const [postedLinks, setPostedLinks] = useState("");
