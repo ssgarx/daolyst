@@ -2,6 +2,7 @@ import { gql, useMutation } from "@apollo/client";
 import { Box, FormControlLabel, Switch } from "@material-ui/core";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../context/auth";
+import { GroupSelectorContext } from "../context/groupSelector";
 import { GroupUpdaterContext } from "../context/groupsUpdater";
 import style from "./createGroup.module.scss";
 function CreateGroup(props) {
@@ -12,8 +13,12 @@ function CreateGroup(props) {
   const [isPrivate, setIsPrivate] = useState(true);
   const uid = user.id;
   const { updateNumberOfGroups } = useContext(GroupUpdaterContext);
+  const { createGroupSelection } = useContext(GroupSelectorContext);
 
   const [onSubmit, { loading }] = useMutation(CREATE_GROUP, {
+    onCompleted: ({ createGroup }) => {
+      createGroupSelection(createGroup.id, createGroup.groupId);
+    },
     update() {
       updateNumberOfGroups("ADD");
       props.handleClose();

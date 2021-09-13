@@ -94,6 +94,7 @@ module.exports = gql`
 
   type Mutation {
     # register(registerInput: RegisterInput): User!
+    deleteGroup(groupId: String!, userId: String!): Boolean!
     deletePost(id: String!): Boolean!
     changeGroupInfo(
       groupId: String!

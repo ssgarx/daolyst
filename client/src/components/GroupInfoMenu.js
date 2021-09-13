@@ -1,23 +1,30 @@
 import { gql, useMutation } from "@apollo/client";
 import { Box, Divider, FormControlLabel, Switch } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../context/auth";
+import { GroupSelectorContext } from "../context/groupSelector";
+import { GroupUpdaterContext } from "../context/groupsUpdater";
 import style from "./groupInfoMenu.module.scss";
+
 function GroupInfoMenu({ fullScreen, handleClose, groupData }) {
   const { id, groupName, groupUserName, isPrivate, groupFollowers } = groupData;
-
+  const { user } = useContext(AuthContext);
   const [gpName, setGpName] = useState("");
   const [gpUsername, setGpUsername] = useState("");
   const [gpPrivacy, setGpPrivacy] = useState(null);
   const [errors, setErrors] = useState({});
+  const { createGroupSelection } = useContext(GroupSelectorContext);
+  const { updateNumberOfGroups } = useContext(GroupUpdaterContext);
 
   useEffect(() => {
     setGpName(groupName);
     setGpUsername(groupUserName);
     setGpPrivacy(isPrivate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [onSubmit, { loading }] = useMutation(CHANGE_GP_INFO, {
-    onCompleted({ changeGroupInfo }) {
+    onCompleted() {
       handleClose();
     },
     onError(err) {
@@ -28,6 +35,24 @@ function GroupInfoMenu({ fullScreen, handleClose, groupData }) {
       groupName: gpName,
       groupUserName: gpUsername,
       isPrivate: gpPrivacy,
+    },
+  });
+  const [deleteGp, { loading2 = loading }] = useMutation(DELETE_GP, {
+    onCompleted({ deleteGroup }) {
+      if (deleteGroup) {
+        //find the group in local storage by key = groupId and delete it
+        localStorage.removeItem(id);
+        createGroupSelection(null, null);
+        updateNumberOfGroups("REMOVE");
+        handleClose();
+      }
+    },
+    onError(err) {
+      setErrors(err.graphQLErrors[0].extensions.exception.errors);
+    },
+    variables: {
+      groupId: id,
+      userId: user.id,
     },
   });
 
@@ -109,6 +134,24 @@ function GroupInfoMenu({ fullScreen, handleClose, groupData }) {
         <span className={style.cg_label}>
           {groupFollowers.length} followers
         </span>
+        <Divider />
+        <br />
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            deleteGp();
+          }}
+          className={style.delete_button}
+          type="submit"
+        >
+          {!loading2 ? (
+            "Delete folder"
+          ) : (
+            <span>
+              deleting <i className="fas fa-circle-notch"></i>
+            </span>
+          )}
+        </button>
         {fullScreen && (
           <div style={{ textAlign: "right" }}>
             <button
@@ -147,6 +190,11 @@ const CHANGE_GP_INFO = gql`
       groupUserName
       isPrivate
     }
+  }
+`;
+const DELETE_GP = gql`
+  mutation deleteGroup($groupId: String!, $userId: String!) {
+    deleteGroup(groupId: $groupId, userId: $userId)
   }
 `;
 

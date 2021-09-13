@@ -158,6 +158,20 @@ module.exports = {
     },
   },
   Mutation: {
+    //create a mutation named delete group that takes groupId as input, verifies the user is the owner of the group and deletes the group.
+    async deleteGroup(_, { groupId, userId }) {
+      try {
+        const group = await Group.findById(groupId);
+        if (group.groupId.toString() === userId) {
+          await Group.findByIdAndDelete(groupId);
+          return true;
+        }
+        return false;
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+
     //create a mutataion that accepts groupId and postId as input and deletes the post from the groupPosts collection
     async deletePost(_, { id }) {
       try {
