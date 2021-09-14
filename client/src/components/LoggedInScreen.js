@@ -24,14 +24,14 @@ function LoggedInScreen({ user }, args = {}) {
       <Container maxWidth="lg">
         <Grid container>
           <Hidden xsDown>
-            <Grid item={true} sm={4} md={2}>
+            <Grid item={true} sm={4} md={3}>
               <div className={style.hm_master_blocks}>
                 <Groups />
               </div>
             </Grid>
           </Hidden>
           <Hidden xsDown>
-            <Grid item={true} sm={8} md={7}>
+            <Grid item={true} sm={8} md={6}>
               <div className={style.hm_master_blocks}>
                 <Group />
               </div>
