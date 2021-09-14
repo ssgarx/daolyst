@@ -13,6 +13,7 @@ import Explore from "./pages/Explore";
 import Register from "./pages/Register";
 import OtpVerification from "./pages/OtpVerification";
 import { GroupUpdaterProvider } from "./context/groupsUpdater";
+import ExploreResized from "./pages/ExploreResized";
 
 function App() {
   return (
@@ -30,7 +31,7 @@ function App() {
               <AuthRoute exact path="/register" component={Register} />
               <AuthRoute2 exact path="/groups" component={Groups} />
               <AuthRoute2 exact path="/groups/:groupId" component={Group} />
-              <AuthRoute2 exact path="/explore" component={Explore} />
+              <AuthRoute2 exact path="/explore" component={ExploreResized} />
             </Router>
           </GroupSelectorProvider>
         </GroupUpdaterProvider>

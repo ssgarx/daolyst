@@ -149,16 +149,17 @@ function Groups(args = {}) {
       </div>
 
       <div className={style.hm_create_div}>
-        <Tooltip title="Create new group" placement="top">
+        <Tooltip title="Create new group" placement="right">
           <button
             className={style.hm_create_btn}
             onClick={() => {
               handleClickOpen();
             }}
           >
-            +
+            <span>+</span>
           </button>
         </Tooltip>
+
         <Dialog
           classes={{ paper: classes.dialogPaper }}
           fullScreen={fullScreen}

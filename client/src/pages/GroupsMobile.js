@@ -18,6 +18,7 @@ import { useTheme, makeStyles } from "@material-ui/core/styles";
 import CreateGroup from "./CreateGroup";
 import Skeleton from "@material-ui/lab/Skeleton";
 import UserInfo from "../components/UserInfo";
+import ExploreResized from "./ExploreResized";
 
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
@@ -43,7 +44,6 @@ function GroupsMobile(args = {}) {
   const { createGroupSelection, groupData } = useContext(GroupSelectorContext);
   const { notifArray } = useContext(NotifierContext);
   const { noOfGroups } = useContext(GroupUpdaterContext);
-  // const { groupData } = useContext(GroupSelectorContext);
   const groupId = groupData.groupId;
   const uid = user.id;
 
@@ -163,6 +163,7 @@ function GroupsMobile(args = {}) {
             +
           </button>
         </Tooltip>
+        {fullScreen && <ExploreResized />}
         <Dialog
           classes={{ paper: classes.dialogPaper }}
           fullScreen={fullScreen}

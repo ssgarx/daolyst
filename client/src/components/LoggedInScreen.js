@@ -52,6 +52,7 @@ function LoggedInScreen({ user }, args = {}) {
             </Grid>
           )}
         </Grid>
+
         <CentralPollingUnit />
       </Container>
     </>

@@ -42,7 +42,11 @@ function Explore() {
 
   let groupsMarkUp;
   if (!data) {
-    groupsMarkUp = loading && <p>Loading groupsX</p>;
+    groupsMarkUp = loading ? (
+      <p>Loading groupsX</p>
+    ) : (
+      <p>Search for folders or articles</p>
+    );
   } else if (data.searchGroups.length === 0) {
     groupsMarkUp = <p>No groups found</p>;
   } else {
