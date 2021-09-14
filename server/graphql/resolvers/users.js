@@ -3,7 +3,7 @@ const { UserInputError } = require("apollo-server");
 const checkAuth = require("../../util/check-auth");
 const nodemailer = require("nodemailer");
 const linkPreviewGenerator = require("link-preview-generator");
-
+require("dotenv").config();
 async function generateLinkPreview(postedLink) {
   const previewData = await linkPreviewGenerator(postedLink);
   return previewData;
@@ -47,7 +47,7 @@ const {
   validateGroupRenameForm,
 } = require("../../util/validators");
 
-const { SECRET_KEY } = require("../../config");
+// const { SECRET_KEY } = require("../../config");
 const User = require("../../models/User");
 const Group = require("../../models/Group");
 const GroupPosts = require("../../models/GroupPosts");
@@ -59,7 +59,7 @@ function generateToken(email, id) {
       email,
       id,
     },
-    SECRET_KEY,
+    process.env.SECRET_KEY,
     { expiresIn: "12h" }
   );
 }
