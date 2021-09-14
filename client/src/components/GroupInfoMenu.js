@@ -37,7 +37,7 @@ function GroupInfoMenu({ fullScreen, handleClose, groupData }) {
       isPrivate: gpPrivacy,
     },
   });
-  const [deleteGp, { loading2 = loading }] = useMutation(DELETE_GP, {
+  const [deleteGp, loading2 = { loading }] = useMutation(DELETE_GP, {
     onCompleted({ deleteGroup }) {
       if (deleteGroup) {
         //find the group in local storage by key = groupId and delete it
@@ -144,7 +144,7 @@ function GroupInfoMenu({ fullScreen, handleClose, groupData }) {
           className={style.delete_button}
           type="submit"
         >
-          {!loading2 ? (
+          {loading2 ? (
             "Delete folder"
           ) : (
             <span>
