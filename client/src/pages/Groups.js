@@ -17,6 +17,7 @@ import { useTheme, makeStyles } from "@material-ui/core/styles";
 import CreateGroup from "./CreateGroup";
 import Skeleton from "@material-ui/lab/Skeleton";
 import UserInfo from "../components/UserInfo";
+import ExploreResized from "./ExploreResized";
 
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
@@ -160,7 +161,7 @@ function Groups(args = {}) {
             <span>+</span>
           </button>
         </Tooltip>
-
+        {fullScreen && <ExploreResized />}
         <Dialog
           classes={{ paper: classes.dialogPaper }}
           fullScreen={fullScreen}

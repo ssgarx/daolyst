@@ -105,6 +105,7 @@ function ExploreResized() {
                   fontSize: 35,
                   marginTop: 3,
                   marginRight: 10,
+                  cursor: "pointer",
                 }}
                 onClick={handleClose}
                 className="fas fa-arrow-left"

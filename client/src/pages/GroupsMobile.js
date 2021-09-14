@@ -125,14 +125,16 @@ function GroupsMobile(args = {}) {
               className={style.home_gp}
               onClick={() => {
                 createGroupSelection(x.id, x.groupId);
+                history.push(`/groups/${x.id}`);
               }}
             >
               <span className={style.home_gp_name}>
                 {x.groupName}
                 {notifArray &&
                   !notifArray.includes(groupData?.groupId) &&
-                  notifArray.includes(x.id) &&
-                  "*"}
+                  notifArray.includes(x.id) && (
+                    <span style={{ color: "#FF4B33" }}>*</span>
+                  )}
               </span>
               <br />
               <span className={style.home_gp_username}>@{x.groupUserName}</span>
