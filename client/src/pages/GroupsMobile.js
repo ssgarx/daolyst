@@ -97,7 +97,7 @@ function GroupsMobile(args = {}) {
         key={index}
         onClick={() => {
           createGroupSelection(x.id, x.groupId);
-          history.push(`/groups/${x.id}`);
+          history.push(`/groups/${x.id}`, "groupsMobile");
         }}
       >
         <span className={style.home_gp_name}>{x.groupName}</span>

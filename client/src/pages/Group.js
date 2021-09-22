@@ -56,11 +56,16 @@ function Group(props, args = {}) {
   };
 
   const addMessageToLocal = (message, groupId) => {
-    let groupMessages = JSON.parse(localStorage.getItem(groupId));
+    let groupIdX = message.postsId;
+
+    let groupMessages = JSON.parse(localStorage.getItem(groupIdX));
+    groupMessages = groupMessages.filter((item) => !item.isTemp);
     if (!groupMessages.find((item) => item.id === message.id)) {
       groupMessages.push(message);
-      localStorage.setItem(groupId, JSON.stringify(groupMessages));
-      setDisplayPosts(groupMessages);
+      localStorage.setItem(groupIdX, JSON.stringify(groupMessages));
+      if (groupId === message.postsId) {
+        setDisplayPosts(groupMessages);
+      }
     }
   };
 
@@ -98,11 +103,19 @@ function Group(props, args = {}) {
       postDescription: postedContent,
       domain: "xyz.com",
       postsId: groupId,
+      isTemp: true,
     };
-    //save to local storage
-    let groupMessages = JSON.parse(localStorage.getItem(groupId));
-    groupMessages.push(tempDataObj);
-    setDisplayPosts(groupMessages);
+    //check if localStorage is has the group id
+    if (JSON.parse(localStorage.getItem(groupId))) {
+      let groupMessages = JSON.parse(localStorage.getItem(groupId));
+      groupMessages.push(tempDataObj);
+      localStorage.setItem(groupId, JSON.stringify(groupMessages));
+      setDisplayPosts(groupMessages);
+    } else {
+      let groupMessages = [tempDataObj];
+      localStorage.setItem(groupId, JSON.stringify(groupMessages));
+      setDisplayPosts(groupMessages);
+    }
 
     //SCROLLL TO BOTTOM
     setTimeout(() => {
@@ -134,6 +147,7 @@ function Group(props, args = {}) {
       },
       onCompleted(data) {
         addMessageToLocal(data.createGroupPost, groupId);
+        //find in local storage by group id and delete the object with isTemp = true
         data.createGroupPost.postsId === groupId &&
           setTimeout(() => {
             let element = document.getElementById("refrenceBlock2");

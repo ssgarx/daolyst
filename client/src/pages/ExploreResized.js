@@ -1,5 +1,5 @@
-import { useLazyQuery } from "@apollo/client";
-import { DialogActions, LinearProgress } from "@material-ui/core";
+import { gql, useLazyQuery } from "@apollo/client";
+import { LinearProgress } from "@material-ui/core";
 import {
   Dialog,
   makeStyles,
@@ -7,8 +7,11 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
-import React, { useState } from "react";
-import Explore from "./Explore";
+import React, { useState, useContext } from "react";
+import { useHistory } from "react-router";
+import { AuthContext } from "../context/auth";
+import { GroupSelectorContext } from "../context/groupSelector";
+
 import style from "./exploreResized.module.scss";
 
 const useStyles = makeStyles((theme) => ({
@@ -17,21 +20,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+let searchTimer;
 function ExploreResized() {
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
+  const { user } = useContext(AuthContext);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [searchedText, setSearchedText] = useState("");
+  const groupSelContext = useContext(GroupSelectorContext);
+  const history = useHistory();
 
-  const [submitSearchedText, { data, loading }] = useLazyQuery();
-  // FETCH_SEARCH_RESULT,
-  // {
-  //   variables: {
-  //     searchedText,
-  //     uid: user.id,
-  //   },
-  // }
+  const [submitSearchedText, { data, loading }] = useLazyQuery(
+    FETCH_SEARCH_RESULT,
+    {
+      variables: {
+        searchedText,
+        uid: user.id,
+      },
+    }
+  );
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -41,10 +49,10 @@ function ExploreResized() {
   };
   const handleSearch = async (e) => {
     setSearchedText(e.target.value);
-    // clearTimeout(searchTimer);
-    // searchTimer = setTimeout(() => {
-    //   submitSearchedText();
-    // }, 2000);
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+      submitSearchedText();
+    }, 2000);
   };
   let groupsMarkUp;
   if (!data) {
@@ -62,7 +70,8 @@ function ExploreResized() {
           className={style.home_gp}
           key={index}
           onClick={() => {
-            // groupSelContext.createGroupSelection(x.id, x.groupId);
+            groupSelContext.createGroupSelection(x.id, x.groupId);
+            history.push(`/groups/${x.id}`, "exploreResized");
           }}
         >
           <span className={style.home_gp_name}>{x.groupName}</span>
@@ -166,5 +175,22 @@ function ExploreResized() {
     </div>
   );
 }
+
+const FETCH_SEARCH_RESULT = gql`
+  query searchGroups($searchedText: String!, $uid: ID!) {
+    searchGroups(searchedText: $searchedText, uid: $uid) {
+      id
+      groupId
+      groupName
+      groupUserName
+      isPrivate
+      createdAt
+      groupFollowers {
+        followersId
+        createdAt
+      }
+    }
+  }
+`;
 
 export default ExploreResized;
