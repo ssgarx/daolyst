@@ -66,6 +66,7 @@ export const useWindowSize = () => {
     }
     window.addEventListener("resize", handleResize); // <-- I am only interested in window.innerWidth !
     return () => window.removeEventListener("resize", handleResize);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Empty array ensures that effect is only run on mount and unmount
 
   return windowSize;

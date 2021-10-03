@@ -13,7 +13,7 @@ function OtpVerification(props) {
     code: "",
   });
 
-  const [addUser, { loading }] = useMutation(VERIFY_OTP, {
+  const [addUser] = useMutation(VERIFY_OTP, {
     update(_, { data: { verifyOtp: userData } }) {
       context.login(userData);
       props.history.push("/");

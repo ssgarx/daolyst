@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import style from "./posts.module.scss";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -145,7 +145,7 @@ function Posts({ loading, displayPosts, groupId, setDisplayPosts, isOwner }) {
                           }}
                         >
                           <i
-                            class="far fa-copy"
+                            className="far fa-copy"
                             style={{ marginRight: "8px" }}
                           ></i>{" "}
                           Copy

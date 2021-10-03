@@ -9,7 +9,6 @@ import { AuthRoute, AuthRoute2 } from "./util/AuthRoute"; //2 IF REGISTERED THEN
 import Home from "./pages/Home";
 import Groups from "./pages/Groups";
 import Group from "./pages/Group";
-import Explore from "./pages/Explore";
 import Register from "./pages/Register";
 import OtpVerification from "./pages/OtpVerification";
 import { GroupUpdaterProvider } from "./context/groupsUpdater";
