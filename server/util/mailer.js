@@ -31,7 +31,7 @@ module.exports.sendOtpMail = async (otp, email) => {
 
     from: "qurate6@gmail.com", // sender address
     to: email, // list of receivers
-    subject: "Some subject", // Subject line
+    subject: "Some subject", // subject line
     text: "Hello world?", // plain text body
     html: `
     <!DOCTYPE html>
