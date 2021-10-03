@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   },
 });
 
-function Posts({ loading, displayPosts, groupId, setDisplayPosts }) {
+function Posts({ loading, displayPosts, groupId, setDisplayPosts, isOwner }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   // const [deletePostId, setDeletePostId] = useState(null);
@@ -60,7 +60,11 @@ function Posts({ loading, displayPosts, groupId, setDisplayPosts }) {
         {displayPosts.map(
           (x, index) =>
             x.postsId === groupId && (
-              <div key={index} className={style.fence}>
+              <div
+                style={x?.isTemp ? { opacity: 0.5 } : { opacity: 1 }}
+                key={index}
+                className={style.fence}
+              >
                 <a href={x.postBody} target="_blank" rel="noopener noreferrer">
                   {x.postImage && (
                     <div className={style.image}>
@@ -113,22 +117,24 @@ function Posts({ loading, displayPosts, groupId, setDisplayPosts }) {
                         onClose={handleClose}
                         className={classes.menu}
                       >
-                        <MenuItem
-                          onClick={() => {
-                            deletePost({
-                              variables: {
-                                id: selectedData.deletePostId,
-                              },
-                            });
-                            handleClose();
-                          }}
-                        >
-                          <i
-                            class="far fa-trash-alt"
-                            style={{ marginRight: "8px", color: "red" }}
-                          ></i>{" "}
-                          Delete
-                        </MenuItem>
+                        {isOwner && (
+                          <MenuItem
+                            onClick={() => {
+                              deletePost({
+                                variables: {
+                                  id: selectedData.deletePostId,
+                                },
+                              });
+                              handleClose();
+                            }}
+                          >
+                            <i
+                              class="far fa-trash-alt"
+                              style={{ marginRight: "8px", color: "red" }}
+                            ></i>{" "}
+                            Delete
+                          </MenuItem>
+                        )}
                         <MenuItem
                           onClick={() => {
                             //when clicked copy selectedData.postLink to clipboard

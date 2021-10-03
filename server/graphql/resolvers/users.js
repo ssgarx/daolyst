@@ -3,6 +3,7 @@ const { UserInputError } = require("apollo-server");
 const checkAuth = require("../../util/check-auth");
 const linkPreviewGenerator = require("link-preview-generator");
 require("dotenv").config();
+
 async function generateLinkPreview(postedLink) {
   const previewData = await linkPreviewGenerator(postedLink);
   return previewData;

@@ -10,6 +10,7 @@ import style from "./group.module.scss";
 import GreetingScreem from "../components/GreetingScreem";
 import Posts from "../components/Posts";
 import { useWindowSize } from "../util/hooks";
+import isUrl from "validator/lib/isURL";
 
 function Group(props, args = {}) {
   let windowWidth = useWindowSize().width;
@@ -18,6 +19,7 @@ function Group(props, args = {}) {
   const { groupData } = useContext(GroupSelectorContext);
   const groupId = groupData.groupId;
   const groupOwnerId = groupData.groupOwnerId;
+  const [isLinkValid, setIsLinkValid] = useState(true);
 
   useEffect(() => {
     if (window.location.pathname !== "/" && windowWidth > 600) {
@@ -183,6 +185,7 @@ function Group(props, args = {}) {
                   displayPosts={displayPosts}
                   groupId={groupId}
                   setDisplayPosts={setDisplayPosts}
+                  isOwner={groupOwnerId === user.id}
                 />
               </div>
             </div>
@@ -224,11 +227,20 @@ function Group(props, args = {}) {
                           disabled={postedLinks.trim() === ""}
                           onClick={(e) => {
                             e.preventDefault();
-                            postedLinks.trim() !== "" &&
-                              !isPreviewLoading?.loading &&
-                              submitPost();
-                            handleAfterPostTasks(postedLinks);
-                            setPostedLinks("");
+                            if (isUrl(postedLinks)) {
+                              postedLinks.trim() !== "" &&
+                                !isPreviewLoading?.loading &&
+                                submitPost();
+                              handleAfterPostTasks(postedLinks);
+                              setPostedLinks("");
+                              setIsLinkValid(true);
+                            } else {
+                              setIsLinkValid(false);
+                              //make it true after 2 sec
+                              setTimeout(() => {
+                                setIsLinkValid(true);
+                              }, 1000);
+                            }
                           }}
                         >
                           send
@@ -238,6 +250,11 @@ function Group(props, args = {}) {
                   </form>
                 </div>
               </>
+            )}
+            {!isLinkValid && postedLinks.trim() !== "" && (
+              <p style={{ color: "red", fontSize: 12 }}>
+                oops, only links allowed
+              </p>
             )}
             <CentralPollingUnit />
           </div>
