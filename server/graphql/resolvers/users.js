@@ -17,6 +17,8 @@ const {
   validateGroupRenameForm,
 } = require("../../util/validators");
 
+const { previewGenerator } = require("../../util/linkPreviewGenerator");
+
 // const { SECRET_KEY } = require("../../config");
 const User = require("../../models/User");
 const Group = require("../../models/Group");
@@ -403,9 +405,10 @@ module.exports = {
     },
     async createGroupPost(_, { uid, groupId, body }) {
       const user = await User.findById(uid);
-      const { title, description, domain, img } = await generateLinkPreview(
-        body
-      );
+      // const { title, description, domain, img } = await generateLinkPreview(
+      //   body
+      // );
+      const { title, description, domain, img } = await previewGenerator(body);
       //desctructuring the previewData
 
       //create a newPost from GroupPosts

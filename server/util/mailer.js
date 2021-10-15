@@ -14,10 +14,13 @@ module.exports.sendOtpMail = async (otp, email) => {
     //   user: testAccount.user, // generated ethereal user
     //   pass: testAccount.pass, // generated ethereal password
     // },
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 587,
+    ignoreTLS: false,
+    secure: false,
     auth: {
       user: "qurate6@gmail.com",
-      pass: "fushiarebel@1627",
+      pass: "ufbxpnrhbzueyigq",
     },
   });
 
@@ -31,7 +34,7 @@ module.exports.sendOtpMail = async (otp, email) => {
 
     from: "qurate6@gmail.com", // sender address
     to: email, // list of receivers
-    subject: "Some subject", // subject line
+    subject: "OTP for Qurate Login/Signup", // subject line
     text: "Hello world?", // plain text body
     html: `
     <!DOCTYPE html>

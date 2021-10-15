@@ -1,7 +1,7 @@
 module.exports.validateGroupRenameForm = (groupName, groupUserName) => {
   const errors = {};
   if (groupName.trim() === "") {
-    errors.username = "Group name must not be empty";
+    errors.username = "Folder name must not be empty";
   }
   if (groupUserName.trim() === "") {
     errors.userusername = "Group username must not be empty";

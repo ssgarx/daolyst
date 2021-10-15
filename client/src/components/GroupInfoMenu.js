@@ -5,6 +5,7 @@ import { AuthContext } from "../context/auth";
 import { GroupSelectorContext } from "../context/groupSelector";
 import { GroupUpdaterContext } from "../context/groupsUpdater";
 import style from "./groupInfoMenu.module.scss";
+import { useHistory } from "react-router";
 
 function GroupInfoMenu({ fullScreen, handleClose, groupData }) {
   const { id, groupName, groupUserName, isPrivate, groupFollowers } = groupData;
@@ -15,7 +16,7 @@ function GroupInfoMenu({ fullScreen, handleClose, groupData }) {
   const [errors, setErrors] = useState({});
   const { createGroupSelection } = useContext(GroupSelectorContext);
   const { updateNumberOfGroups } = useContext(GroupUpdaterContext);
-
+  const history = useHistory();
   useEffect(() => {
     setGpName(groupName);
     setGpUsername(groupUserName);
@@ -45,6 +46,8 @@ function GroupInfoMenu({ fullScreen, handleClose, groupData }) {
         createGroupSelection(null, null);
         updateNumberOfGroups("REMOVE");
         handleClose();
+        //redirect to home page using useHistory
+        history.push("/");
       }
     },
     onError(err) {
@@ -65,7 +68,7 @@ function GroupInfoMenu({ fullScreen, handleClose, groupData }) {
     >
       <div className={style.cg}>
         <form noValidate>
-          <span className={style.cg_label}>change group name</span>
+          <span className={style.cg_label}>change folder name</span>
           <br />
           <input
             className={style.cg_input}
