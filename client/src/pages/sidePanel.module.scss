@@ -1,0 +1,37 @@
+@mixin verticalAlign() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.box {
+  padding: 35px 10px;
+  .box1 {
+    display: flex;
+    justify-content: center;
+    > div:nth-child(1) {
+      display: flex;
+      justify-content: space-between;
+      border: 2px solid rgb(0, 0, 0);
+      width: 100%;
+      @include verticalAlign();
+      > div:nth-child(2) {
+        width: 100%;
+        > input {
+          width: 100%;
+          line-height: 25px;
+          font-size: 18px;
+          border: none;
+          //on focus
+          &:focus {
+            outline: none !important;
+          }
+        }
+      }
+    }
+  }
+  .box2 {
+    > p {
+      font-size: 17px;
+    }
+  }
+}

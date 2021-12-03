@@ -1,0 +1,31 @@
+@mixin verticalAlign() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.box {
+  padding: 10px;
+  //   background-color: white;
+  transition: 0.3s ease all;
+
+  .box1 {
+    display: flex;
+    justify-content: space-between;
+    .box1A {
+      > img {
+        width: 130px;
+        @include verticalAlign();
+      }
+    }
+  }
+  .box1B {
+    cursor: pointer;
+  }
+}
+.notifPanel {
+  background-color: white;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  transition: 0.2s ease-in-out all;
+}

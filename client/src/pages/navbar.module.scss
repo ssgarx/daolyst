@@ -1,0 +1,68 @@
+@mixin verticalAlign() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.box {
+  padding: 10px;
+  // background-color: white;
+  transition: 0.2s ease all;
+  .box1 {
+    display: flex;
+    justify-content: space-between;
+    .box1A {
+      > img {
+        width: 130px;
+        @include verticalAlign();
+      }
+    }
+    .box1B {
+      display: flex;
+      > div {
+        @include verticalAlign();
+        padding: 0 10px;
+        // font-weight: 600;
+        font-size: 17px;
+        cursor: pointer;
+        &:hover {
+          color: #fc4444;
+        }
+        transition: 0.3s ease all;
+      }
+      //target 1st child
+      > div:nth-child(1) {
+        //box1B1
+        border: 2px solid rgb(0, 0, 0);
+        width: 250px;
+        display: flex;
+        justify-content: space-between;
+        > div:nth-child(1) {
+          flex: 1;
+          > img {
+            position: relative;
+            left: -7px;
+            top: 1px;
+          }
+        }
+        > div:nth-child(2) {
+          flex: 9;
+
+          > input {
+            width: 100%;
+            line-height: 25px;
+            font-size: 18px;
+            border: none;
+            //on focus
+            &:focus {
+              outline: none !important;
+            }
+          }
+        }
+        > div:nth-child(3) {
+          flex: 1;
+          @include verticalAlign();
+        }
+      }
+    }
+  }
+}
