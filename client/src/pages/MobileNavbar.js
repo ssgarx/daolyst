@@ -5,7 +5,7 @@ import hamIcon from "../assets/hamIcon.svg";
 import hamIconRotated from "../assets/hamIconRotated.svg";
 import SidePanel from "./SidePanel";
 
-function MobileNavbar({ setOpen }) {
+function MobileNavbar({ setOpen, user }) {
   const [isHamOpen, setIsHamOpen] = useState(false);
 
   return (
@@ -48,7 +48,7 @@ function MobileNavbar({ setOpen }) {
         }
         className={style.notifPanel}
       >
-        <SidePanel setOpen={setOpen} />
+        <SidePanel user={user} setOpen={setOpen} />
       </div>
     </>
   );

@@ -6,7 +6,7 @@ import hamIconRotated from "../assets/hamIconRotated.svg";
 import searchIcon from "../assets/searchIcon.svg";
 import crossIcon from "../assets/crossIcon.svg";
 
-function Navbar({ setOpen }) {
+function Navbar({ setOpen, user }) {
   return (
     <div className={style.box}>
       <div className={style.box1}>
@@ -37,13 +37,17 @@ function Navbar({ setOpen }) {
           <div>community</div>
           <div>about</div>
           <div>lyst my DAO⚡</div>
-          <div
-            onClick={() => {
-              setOpen(true);
-            }}
-          >
-            log in
-          </div>
+          {!user ? (
+            <div
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
+              log in
+            </div>
+          ) : (
+            <div>logged in</div>
+          )}
         </div>
       </div>
     </div>

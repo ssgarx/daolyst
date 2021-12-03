@@ -3,7 +3,7 @@ import style from "./sidePanel.module.scss";
 import searchIcon from "../assets/searchIcon.svg";
 import crossIcon from "../assets/crossIcon.svg";
 
-function SidePanel({ setOpen }) {
+function SidePanel({ setOpen, user }) {
   return (
     <div className={style.box}>
       <div className={style.box1}>
@@ -33,13 +33,23 @@ function SidePanel({ setOpen }) {
         <p>about</p>
         <p>lyst my DAO⚡</p>
         <>
-          <p
-            onClick={() => {
-              setOpen(true);
-            }}
-          >
-            log in
-          </p>
+          {!user ? (
+            <p
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
+              log in
+            </p>
+          ) : (
+            <p
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
+              logged in
+            </p>
+          )}
         </>
       </div>
     </div>
