@@ -1,12 +1,12 @@
 import React from "react";
 import style from "./navbar.module.scss";
-import logo from "../assets/mainLogo.svg";
-import hamIcon from "../assets/hamIcon.svg";
-import hamIconRotated from "../assets/hamIconRotated.svg";
-import searchIcon from "../assets/searchIcon.svg";
-import crossIcon from "../assets/crossIcon.svg";
+import logo from "../../assets/mainLogo.svg";
+import hamIcon from "../../assets/hamIcon.svg";
+import hamIconRotated from "../../assets/hamIconRotated.svg";
+import searchIcon from "../../assets/searchIcon.svg";
+import crossIcon from "../../assets/crossIcon.svg";
 
-function Navbar({ setOpen, user }) {
+function Navbar({ setOpen, user, setOpenLyst }) {
   return (
     <div className={style.box}>
       <div className={style.box1}>
@@ -36,7 +36,13 @@ function Navbar({ setOpen, user }) {
           </div>
           <div>community</div>
           <div>about</div>
-          <div>lyst my DAO⚡</div>
+          <div
+            onClick={() => {
+              setOpenLyst(true);
+            }}
+          >
+            lyst my DAO⚡
+          </div>
           {!user ? (
             <div
               onClick={() => {

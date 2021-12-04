@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import style from "./mobileNavbar.module.scss";
-import logo from "../assets/mainLogo.svg";
-import hamIcon from "../assets/hamIcon.svg";
-import hamIconRotated from "../assets/hamIconRotated.svg";
+import logo from "../../assets/mainLogo.svg";
+import hamIcon from "../../assets/hamIcon.svg";
+import hamIconRotated from "../../assets/hamIconRotated.svg";
 import SidePanel from "./SidePanel";
 
-function MobileNavbar({ setOpen, user }) {
+function MobileNavbar({ setOpen, user, setOpenLyst }) {
   const [isHamOpen, setIsHamOpen] = useState(false);
 
   return (
@@ -48,7 +48,7 @@ function MobileNavbar({ setOpen, user }) {
         }
         className={style.notifPanel}
       >
-        <SidePanel user={user} setOpen={setOpen} />
+        <SidePanel user={user} setOpen={setOpen} setOpenLyst={setOpenLyst} />
       </div>
     </>
   );

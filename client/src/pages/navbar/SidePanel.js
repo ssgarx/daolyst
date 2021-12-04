@@ -1,9 +1,9 @@
 import React from "react";
 import style from "./sidePanel.module.scss";
-import searchIcon from "../assets/searchIcon.svg";
-import crossIcon from "../assets/crossIcon.svg";
+import searchIcon from "../../assets/searchIcon.svg";
+import crossIcon from "../../assets/crossIcon.svg";
 
-function SidePanel({ setOpen, user }) {
+function SidePanel({ setOpen, user, setOpenLyst }) {
   return (
     <div className={style.box}>
       <div className={style.box1}>
@@ -31,7 +31,13 @@ function SidePanel({ setOpen, user }) {
         </p>
         <p>community</p>
         <p>about</p>
-        <p>lyst my DAO⚡</p>
+        <p
+          onClick={() => {
+            setOpenLyst(true);
+          }}
+        >
+          lyst my DAO⚡
+        </p>
         <>
           {!user ? (
             <p
