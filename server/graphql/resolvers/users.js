@@ -4,7 +4,10 @@ const checkAuth = require("../../util/check-auth");
 require("dotenv").config();
 
 const { sendOtpMail } = require("../../util/mailer");
-const { validateRegisterInput } = require("../../util/validators");
+const {
+  validateRegisterInput,
+  validateOneTimeForm,
+} = require("../../util/validators");
 
 // const { SECRET_KEY } = require("../../config");
 const User = require("../../models/User");
@@ -103,6 +106,29 @@ module.exports = {
       } catch (err) {
         throw new Error(err);
       }
+    },
+    async oneTimeForm(_, { username, userProfileImg }, context) {
+      // userusername;
+      const master = checkAuth(context);
+      const { valid, errors } = validateOneTimeForm(username);
+      if (!valid) {
+        throw new UserInputError("Errors", { errors });
+      }
+      const userbyusername = await User.findOne({ username });
+      if (userbyusername) {
+        throw new UserInputError("Username is taken", {
+          errors: {
+            email: "This Username is taken",
+          },
+        });
+      }
+      //find a user with the same email in Users collection and save username and username to that user
+      const user = await User.findOne({ email: master.email });
+      if (user) {
+        user.username = username;
+      }
+      await user.save();
+      return user;
     },
   },
 };

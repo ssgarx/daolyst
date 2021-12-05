@@ -12,6 +12,7 @@ import {
   useTheme,
 } from "@material-ui/core";
 import Login from "./login/Login";
+import IdentificationForm1 from "./Onboarding/IdentificationForm1";
 
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
@@ -24,6 +25,7 @@ function Home(props) {
   const [open, setOpen] = useState(false);
   //IS TRUE ONLY WHEN USER HAS LOGGED VIA OTP BUT HAS A INCOMPLETE PROFILE
   const [isNewUser, setIsNewUser] = useState(true);
+  console.log("isNewUser", isNewUser);
   const { user } = useContext(AuthContext);
   console.log("user", user);
   const classes = useStyles();
@@ -90,31 +92,11 @@ function Home(props) {
           alignItems="center"
           minHeight={fullScreen && "95vh"}
         >
-          <Login setOpen={setOpen} />
-        </Box>
-      </Dialog>
-      {/* FOR CREATE LYST POPUP */}
-      <Dialog
-        classes={{ paper: classes.dialogPaper }}
-        fullScreen={fullScreen}
-        open={openLyst}
-        // onClose={handleClose}
-        onClose={(event, reason) => {
-          if (reason !== "backdropClick") {
-            setOpenLyst(false);
-          }
-        }}
-        aria-labelledby="responsive-dialog-title"
-        disableEscapeKeyDown={true}
-        // onBackdropClick="false"
-      >
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          minHeight={fullScreen && "95vh"}
-        >
-          <h1>Lyst my dao </h1>
+          {isNewUser && !user ? (
+            <Login setOpen={setOpen} />
+          ) : (
+            <IdentificationForm1 setOpen={setOpen} />
+          )}
         </Box>
       </Dialog>
     </div>

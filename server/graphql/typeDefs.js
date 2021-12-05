@@ -18,5 +18,6 @@ module.exports = gql`
     register(email: String!): User!
     verifyOtp(code: String!): Otp
     deleteOtps(email: String!): Boolean!
+    oneTimeForm(username: String!): User!
   }
 `;
