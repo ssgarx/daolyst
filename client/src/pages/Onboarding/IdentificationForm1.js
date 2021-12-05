@@ -13,7 +13,6 @@ function IdentificationForm1({ setOpen }) {
   });
   const [submitOtf] = useMutation(SUBMIT_OTF, {
     update(_, { data: { oneTimeForm: userData } }) {
-      console.log("userDatax", userData);
       setOpen(false);
       history.push("/");
     },

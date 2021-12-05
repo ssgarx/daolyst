@@ -9,6 +9,7 @@ module.exports = gql`
     code: String
     token: String
     email: String
+    username: String
     createdAt: String
   }
   type Query {

@@ -15,13 +15,15 @@ function OtpForm({
   });
   const history = useHistory();
   const [email, setEmail] = useState(null);
+  const { user } = useContext(AuthContext);
 
   const [addUser, { loading }] = useMutation(VERIFY_OTP, {
     update(_, { data: { verifyOtp: userData } }) {
       setEmail(userData?.email);
       context.login(userData);
-      console.log("userData", userData);
-      // setOpen(false);
+      console.log("userData OTP", userData);
+      console.log("userData?.username", userData?.username);
+      userData?.username && setOpen(false);
       deleteOtps();
       // history.push("/");
     },
@@ -101,6 +103,7 @@ const VERIFY_OTP = gql`
       code
       token
       email
+      username
       createdAt
     }
   }

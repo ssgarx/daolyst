@@ -11,7 +11,6 @@ function EmailForm({ setIsOtpSent }) {
   const [addUser, { loading }] = useMutation(REGISTER2_USER, {
     onCompleted() {
       setIsOtpSent(true);
-      console.log("COMPLETED");
     },
     onError(err) {
       setErrors(err.graphQLErrors[0].extensions.exception.errors);

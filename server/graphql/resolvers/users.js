@@ -13,11 +13,12 @@ const {
 const User = require("../../models/User");
 const Otp = require("../../models/Otp");
 
-function generateToken(email, id) {
+function generateToken(email, id, username) {
   return jwt.sign(
     {
       email,
       id,
+      username,
     },
     process.env.SECRET_KEY,
     { expiresIn: "8760h" }
@@ -58,14 +59,16 @@ module.exports = {
       }
 
       let genratedOtp = Math.floor(100000 + Math.random() * 900000);
-      let token = generateToken(email, user._id);
+      let token = generateToken(email, user._id, user?.username ?? "");
       const otp = new Otp({
         code: genratedOtp,
         token,
         email,
+        username: user?.username ?? "",
         createdAt: new Date().toISOString(),
       });
       await otp.save();
+
       // await sendOtpMail(genratedOtp, email);
       console.log("genratedOtp", genratedOtp);
       return {
