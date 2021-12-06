@@ -26,7 +26,7 @@ function Home(props) {
   //IS TRUE ONLY WHEN USER HAS LOGGED VIA OTP BUT HAS A INCOMPLETE PROFILE
   const [isNewUser, setIsNewUser] = useState(true);
   const { user } = useContext(AuthContext);
-  console.log("userhomr", user);
+  console.log('user', user)
   const classes = useStyles();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -40,10 +40,6 @@ function Home(props) {
       checkIfNewUser();
     }
   }, []);
-
-  useEffect(() => {
-    console.log("openc", open);
-  }, [open]);
 
   const [checkIfNewUser, { loading }] = useLazyQuery(CHECK_FOR_NEWUSER, {
     onCompleted: (data) => {

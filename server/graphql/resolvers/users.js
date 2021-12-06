@@ -13,12 +13,13 @@ const {
 const User = require("../../models/User");
 const Otp = require("../../models/Otp");
 
-function generateToken(email, id, username) {
+function generateToken(email, id, username, userProfileImg) {
   return jwt.sign(
     {
       email,
       id,
       username,
+      userProfileImg,
     },
     process.env.SECRET_KEY,
     { expiresIn: "8760h" }
@@ -59,12 +60,18 @@ module.exports = {
       }
 
       let genratedOtp = Math.floor(100000 + Math.random() * 900000);
-      let token = generateToken(email, user._id, user?.username ?? "");
+      let token = generateToken(
+        email,
+        user?._id,
+        user?.username ?? "",
+        user?.userProfileImg ?? ""
+      );
       const otp = new Otp({
         code: genratedOtp,
         token,
         email,
         username: user?.username ?? "",
+        userProfileImg: user?.userProfileImg ?? "",
         createdAt: new Date().toISOString(),
       });
       await otp.save();
@@ -111,7 +118,6 @@ module.exports = {
       }
     },
     async oneTimeForm(_, { username, userProfileImg }, context) {
-      // userusername;
       const master = checkAuth(context);
       const { valid, errors } = validateOneTimeForm(username);
       if (!valid) {
@@ -129,6 +135,7 @@ module.exports = {
       const user = await User.findOne({ email: master.email });
       if (user) {
         user.username = username;
+        user.userProfileImg = userProfileImg;
       }
       await user.save();
       return user;

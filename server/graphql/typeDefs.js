@@ -4,12 +4,15 @@ module.exports = gql`
     id: ID!
     email: String!
     username: String
+    userProfileImg: String
+    createdAt: String
   }
   type Otp {
     code: String
     token: String
     email: String
     username: String
+    userProfileImg: String
     createdAt: String
   }
   type Query {
@@ -19,6 +22,6 @@ module.exports = gql`
     register(email: String!): User!
     verifyOtp(code: String!): Otp
     deleteOtps(email: String!): Boolean!
-    oneTimeForm(username: String!): User!
+    oneTimeForm(username: String!, userProfileImg: String): User!
   }
 `;

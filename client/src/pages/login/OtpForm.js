@@ -19,12 +19,13 @@ function OtpForm({
 
   const [addUser, { loading }] = useMutation(VERIFY_OTP, {
     update(_, { data: { verifyOtp: userData } }) {
+      deleteOtps();
       setEmail(userData?.email);
       context.login(userData);
-      console.log("userData OTP", userData);
-      console.log("userData?.username", userData?.username);
-      userData?.username && setOpen(false);
-      deleteOtps();
+      if (userData?.username) {
+        localStorage.removeItem("userData");
+        setOpen(false);
+      }
       // history.push("/");
     },
     onError(err) {

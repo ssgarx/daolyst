@@ -6,6 +6,7 @@ const userOtpSchema = new Schema({
   email: String,
   username: String,
   createdAt: String,
+  userProfileImg: String,
 });
 
 module.exports = model("Otp", userOtpSchema);
