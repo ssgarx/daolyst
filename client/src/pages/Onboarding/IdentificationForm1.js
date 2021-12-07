@@ -46,7 +46,7 @@ function IdentificationForm1({ setOpen }) {
       console.log("userData OTF", userData);
       localStorage.setItem("userData", JSON.stringify(userData));
       setOpen(false);
-      history.push("/");
+      window.location.reload();
     },
     onError(err) {
       setErrors(err.graphQLErrors[0].extensions.exception.errors);
@@ -59,28 +59,13 @@ function IdentificationForm1({ setOpen }) {
   });
 
   const onChangeFile = async (event) => {
-    // event.stopPropagation();
-    // event.preventDefault();
-    // var file = event.target.files[0];
-    // console.log("file.....:", file);
-    // const base64 = await convertBase64(file);
     try {
       const file = event.target.files[0];
       const image = await resizeFile(file);
-      console.log(image);
       setUploadedImg(image);
     } catch (err) {
       console.log(err);
     }
-  };
-
-  const convertBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
   };
 
   document?.getElementById("filex")?.addEventListener("change", onChangeFile);
@@ -118,6 +103,13 @@ function IdentificationForm1({ setOpen }) {
           </div>
         </div>
       </div>
+      {Object.keys(errors).length > 0 && (
+        <div className={style.errors}>
+          {Object.values(errors).map((value) => (
+            <div key={value}>{value}</div>
+          ))}
+        </div>
+      )}
       <div className={style.boxC}>
         <button
           onClick={(e) => {

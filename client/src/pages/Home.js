@@ -26,7 +26,6 @@ function Home(props) {
   //IS TRUE ONLY WHEN USER HAS LOGGED VIA OTP BUT HAS A INCOMPLETE PROFILE
   const [isNewUser, setIsNewUser] = useState(true);
   const { user } = useContext(AuthContext);
-  console.log('user', user)
   const classes = useStyles();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));

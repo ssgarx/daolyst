@@ -103,7 +103,6 @@ module.exports = {
       return { ...otp._doc };
     },
     async deleteOtps(_, { email }) {
-      console.log("email", email);
       try {
         const otps = await Otp.find({
           email,

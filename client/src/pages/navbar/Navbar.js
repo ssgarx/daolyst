@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import style from "./navbar.module.scss";
 import logo from "../../assets/mainLogo.svg";
-import hamIcon from "../../assets/hamIcon.svg";
-import hamIconRotated from "../../assets/hamIconRotated.svg";
 import searchIcon from "../../assets/searchIcon.svg";
 import crossIcon from "../../assets/crossIcon.svg";
-import DefaultDp from "../../assets/defaultDp.svg";
 
 function Navbar({ setOpen, user, setOpenLyst }) {
   const [localUser, setLocalUser] = useState({});
@@ -14,7 +11,6 @@ function Navbar({ setOpen, user, setOpenLyst }) {
     if (userData?.userProfileImg && userData?.username) {
       setLocalUser(userData);
     }
-    console.log("userData", userData);
   }, []);
   return (
     <div className={style.box}>
@@ -66,7 +62,7 @@ function Navbar({ setOpen, user, setOpenLyst }) {
                 <img
                   style={
                     (user?.userProfileImg?.length ||
-                      localUser.userProfileImg.length) > 0
+                      localUser?.userProfileImg?.length) > 0
                       ? {
                           borderRadius: "50%",
                           width: "25px",
@@ -78,8 +74,8 @@ function Navbar({ setOpen, user, setOpenLyst }) {
                   }
                   src={
                     user?.userProfileImg?.length > 0
-                      ? user.userProfileImg
-                      : localUser.userProfileImg
+                      ? user?.userProfileImg
+                      : localUser?.userProfileImg
                   }
                   alt="dp"
                 />
