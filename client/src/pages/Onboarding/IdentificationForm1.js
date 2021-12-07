@@ -4,12 +4,42 @@ import style from "./identificationForm1.module.scss";
 import UploadDpIcon from "../../assets/uploadIcon.svg";
 import crossIcon from "../../assets/crossIcon.svg";
 import { useHistory } from "react-router-dom";
-import { useForm } from "../../util/hooks";
+import Resizer from "react-image-file-resizer";
+
+// Resizer.imageFileResizer(
+//   file, // Is the file of the image which will resized.
+//   maxWidth, // Is the maxWidth of the resized new image.
+//   maxHeight, // Is the maxHeight of the resized new image.
+//   compressFormat, // Is the compressFormat of the resized new image.
+//   quality, // Is the quality of the resized new image.
+//   rotation, // Is the degree of clockwise rotation to apply to uploaded image.
+//   responseUriFunc, // Is the callBack function of the resized new image URI.
+//   outputType, // Is the output type of the resized new image.
+//   minWidth, // Is the minWidth of the resized new image.
+//   minHeight // Is the minHeight of the resized new image.
+// );
+
 function IdentificationForm1({ setOpen }) {
   let history = useHistory();
   const [username, setUsername] = useState("");
   const [uploadedImg, setUploadedImg] = useState(null);
   const [errors, setErrors] = useState({});
+
+  const resizeFile = (file) =>
+    new Promise((resolve) => {
+      Resizer.imageFileResizer(
+        file,
+        300,
+        300,
+        "JPEG",
+        50,
+        0,
+        (uri) => {
+          resolve(uri);
+        },
+        "base64"
+      );
+    });
 
   const [submitOtf] = useMutation(SUBMIT_OTF, {
     update(_, { data: { oneTimeForm: userData } }) {
@@ -29,13 +59,19 @@ function IdentificationForm1({ setOpen }) {
   });
 
   const onChangeFile = async (event) => {
-    event.stopPropagation();
-    event.preventDefault();
-    var file = event.target.files[0];
-    console.log("file.....:", file);
-    const base64 = await convertBase64(file);
-    //convert to string
-    setUploadedImg(base64);
+    // event.stopPropagation();
+    // event.preventDefault();
+    // var file = event.target.files[0];
+    // console.log("file.....:", file);
+    // const base64 = await convertBase64(file);
+    try {
+      const file = event.target.files[0];
+      const image = await resizeFile(file);
+      console.log(image);
+      setUploadedImg(image);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const convertBase64 = (file) => {

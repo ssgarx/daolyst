@@ -63,6 +63,16 @@
           @include verticalAlign();
         }
       }
+      .signedIn {
+        .signedInA {
+          > img {
+            width: 23px;
+            margin-right: 5px;
+            border-radius: 50%;
+            @include verticalAlign();
+          }
+        }
+      }
     }
   }
 }
