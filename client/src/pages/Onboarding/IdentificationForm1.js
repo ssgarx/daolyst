@@ -20,7 +20,6 @@ import Resizer from "react-image-file-resizer";
 // );
 
 function IdentificationForm1({ setOpen }) {
-  let history = useHistory();
   const [username, setUsername] = useState("");
   const [uploadedImg, setUploadedImg] = useState(null);
   const [errors, setErrors] = useState({});

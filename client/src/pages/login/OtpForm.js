@@ -3,19 +3,16 @@ import style from "./login.module.scss";
 import { useForm } from "../../util/hooks";
 import { gql, useMutation } from "@apollo/client";
 import { AuthContext } from "../../context/auth";
-import { useHistory } from "react-router";
 function OtpForm({
   setOpen, //TO OPEN/CLOSE THE MODAL
   setIsOtpSent, //TO TRIGGER BACK ACTION TO
 }) {
   const context = useContext(AuthContext);
   const [errors, setErrors] = useState({});
+  const [email, setEmail] = useState(null);
   const { onChange, onSubmit, values } = useForm(verifyotp, {
     code: "",
   });
-  const history = useHistory();
-  const [email, setEmail] = useState(null);
-  const { user } = useContext(AuthContext);
 
   const [addUser, { loading }] = useMutation(VERIFY_OTP, {
     update(_, { data: { verifyOtp: userData } }) {

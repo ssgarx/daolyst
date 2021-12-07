@@ -36,7 +36,7 @@ function Home(props) {
     //this check decides if show OTF or main screen
     //if user exists, call checlIfNewUser and deleteOtps function
     if (user) {
-      checkIfNewUser();
+      // checkIfNewUser();
     }
   }, []);
 
@@ -90,7 +90,7 @@ function Home(props) {
           alignItems="center"
           minHeight={fullScreen && "95vh"}
         >
-          {isNewUser && !user ? (
+          {!user ? (
             <Login setOpen={setOpen} />
           ) : (
             <IdentificationForm1 setOpen={setOpen} />
