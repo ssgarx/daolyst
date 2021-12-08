@@ -28,10 +28,10 @@ function IdentificationForm1({ setOpen }) {
     new Promise((resolve) => {
       Resizer.imageFileResizer(
         file,
-        300,
-        300,
+        100,
+        100,
         "JPEG",
-        50,
+        20,
         0,
         (uri) => {
           resolve(uri);
@@ -42,7 +42,6 @@ function IdentificationForm1({ setOpen }) {
 
   const [submitOtf] = useMutation(SUBMIT_OTF, {
     update(_, { data: { oneTimeForm: userData } }) {
-      console.log("userData OTF", userData);
       localStorage.setItem("userData", JSON.stringify(userData));
       setOpen(false);
       window.location.reload();
