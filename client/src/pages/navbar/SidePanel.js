@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import style from "./sidePanel.module.scss";
 import searchIcon from "../../assets/searchIcon.svg";
 import crossIcon from "../../assets/crossIcon.svg";
 
 function SidePanel({ setOpen, user, setOpenLyst }) {
+  const [localUser, setLocalUser] = useState({});
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    if (userData?.userProfileImg && userData?.username) {
+      setLocalUser(userData);
+    }
+  }, []);
   return (
     <div className={style.box}>
       <div className={style.box1}>
@@ -40,21 +47,43 @@ function SidePanel({ setOpen, user, setOpenLyst }) {
         </p>
         <>
           {!user ? (
-            <p
+            <div
               onClick={() => {
                 setOpen(true);
               }}
             >
               log in
-            </p>
+            </div>
           ) : (
-            <p
-              onClick={() => {
-                setOpen(true);
-              }}
-            >
-              logged in
-            </p>
+            <div className={style.signedIn}>
+              <div className={style.signedInA}>
+                <img
+                  style={
+                    (user?.userProfileImg?.length ||
+                      localUser?.userProfileImg?.length) > 0
+                      ? {
+                          borderRadius: "50%",
+                          width: "25px",
+                        }
+                      : {
+                          borderRadius: "none",
+                          width: "20px",
+                        }
+                  }
+                  src={
+                    user?.userProfileImg?.length > 0
+                      ? user?.userProfileImg
+                      : localUser?.userProfileImg
+                  }
+                  alt="dp"
+                />
+              </div>
+              <div className={style.signedInB}>
+                {user?.username?.length > 0
+                  ? user.username
+                  : localUser.username}
+              </div>
+            </div>
           )}
         </>
       </div>
