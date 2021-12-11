@@ -141,7 +141,9 @@ module.exports = {
       await user.save();
       return user;
     },
-    //create a mutation that takes accepts projectIcon,projectName,projectTag,projectDescription,projectImages,projectVideoLink as input and creates a new project
+    //create a mutation that takes accepts
+    //projectIcon,projectName,projectTag,projectDescription,projectImages,projectVideoLink
+    //as input and creates a new project
     async createProject(
       _,
       {
