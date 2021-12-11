@@ -3,58 +3,40 @@ import { useResizeDetector } from "react-resize-detector";
 import Navbar from "./navbar/Navbar";
 import MobileNavbar from "./navbar/MobileNavbar";
 import { AuthContext } from "../context/auth";
-import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import {
   Box,
+  Button,
   Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   makeStyles,
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
 import Login from "./login/Login";
 import IdentificationForm1 from "./Onboarding/IdentificationForm1";
+import LystingForm1 from "./Onboarding/LystingForm1";
 
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
     borderRadius: 0,
+    backgroundColor: "#FFFBFB",
   },
 }));
 
 function Home(props) {
   const { width, ref } = useResizeDetector();
-  const [open, setOpen] = useState(false);
-  //IS TRUE ONLY WHEN USER HAS LOGGED VIA OTP BUT HAS A INCOMPLETE PROFILE
-  const [isNewUser, setIsNewUser] = useState(true);
-  const { user } = useContext(AuthContext);
   const classes = useStyles();
   const theme = useTheme();
+
+  const [open, setOpen] = useState(false); //for login popup
+  const [openLyst, setOpenLyst] = useState(false); //for lystMyDAO popup
+
+  const { user } = useContext(AuthContext);
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  let email = user?.email;
-  const [openLyst, setOpenLyst] = useState(false);
-
-  useEffect(() => {
-    //this check decides if show OTF or main screen
-    //if user exists, call checlIfNewUser and deleteOtps function
-    if (user) {
-      // checkIfNewUser();
-    }
-  }, []);
-
-  const [checkIfNewUser, { loading }] = useLazyQuery(CHECK_FOR_NEWUSER, {
-    onCompleted: (data) => {
-      if (data.checkIfNewUser) {
-        //NEW USER DETECTED
-        setIsNewUser(true);
-      } else {
-        //OLD USER DETECTED
-        setIsNewUser(false);
-      }
-    },
-    variables: {
-      email,
-    },
-    fetchPolicy: "network-only",
-  });
+  const descriptionElementRef = React.useRef(null);
 
   return (
     <div ref={ref}>
@@ -97,14 +79,56 @@ function Home(props) {
           )}
         </Box>
       </Dialog>
+      {/* FOR LOGIN POPUPS */}
+      {/* <Dialog
+        classes={{ paper: classes.dialogPaper }}
+        fullScreen={fullScreen}
+        open={openLyst}
+        // onClose={handleClose}
+        onClose={(event, reason) => {
+          if (reason !== "backdropClick") {
+            setOpenLyst(false);
+          }
+        }}
+        aria-labelledby="responsive-dialog-title"
+        disableEscapeKeyDown={true}
+        // onBackdropClick="false"
+      >
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          minHeight={fullScreen && "95vh"}
+        >
+          {!user ? <Login setOpen={setOpen} /> : <LystingForm1 />}
+        </Box>
+      </Dialog> */}
+      <Dialog
+        classes={{ paper: classes.dialogPaper }}
+        open={openLyst}
+        // onClose={handleClose}
+        scroll={"paper"}
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
+        fullScreen={fullScreen}
+        maxWidth={"lg"}
+      >
+        <DialogContent>
+          <DialogContentText
+            id="scroll-dialog-description"
+            ref={descriptionElementRef}
+            tabIndex={-1}
+          >
+            <LystingForm1 />
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button>Cancel</Button>
+          <Button>Subscribe</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
-
-const CHECK_FOR_NEWUSER = gql`
-  query checkIfNewUser($email: String!) {
-    checkIfNewUser(email: $email)
-  }
-`;
 
 export default Home;

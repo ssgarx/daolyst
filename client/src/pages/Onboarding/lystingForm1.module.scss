@@ -1,0 +1,162 @@
+@mixin verticalAlign() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+@mixin buttonProperties() {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  &:hover {
+    opacity: 0.8;
+  }
+  &:active {
+    opacity: 1;
+  }
+}
+//creating a mixin that accepts a parameter
+@mixin editIconPos($top, $left) {
+  z-index: 1;
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  position: absolute;
+  top: $top;
+  left: $left;
+}
+.box1 {
+  //   padding: 30px;
+  .box1A {
+    display: flex;
+    justify-content: space-between;
+    .box1A1 {
+      display: flex;
+      .box1A1A {
+        .editIcon {
+          position: absolute;
+          top: 9px;
+          left: 13px;
+          z-index: 1;
+          -webkit-transform: scaleX(-1);
+          transform: scaleX(-1);
+        }
+        .logoBox {
+          width: 120px;
+          height: 120px;
+          border: 2px solid black;
+          @include verticalAlign();
+          @include buttonProperties();
+          > img {
+            filter: invert(100%);
+          }
+          &:hover {
+            background-color: #ffffff;
+          }
+        }
+      }
+      .box1A1B {
+        display: flex;
+        justify-content: center;
+        align-items: left;
+        flex-direction: column;
+        padding-left: 15px;
+        display: flex;
+        .box1A1B1 {
+          display: flex;
+          justify-content: center;
+          align-items: left;
+          flex-direction: column;
+          .editIconForName {
+            @include editIconPos($top: 16px, $left: 152px);
+          }
+          .editName {
+            display: block;
+            padding: 2px 5px;
+            width: 250px;
+            border: 2px solid black;
+            line-height: 40px;
+            font-size: 45px;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            margin-bottom: 5px;
+            background-color: #fffbfb;
+
+            &:focus {
+              outline: none !important;
+            }
+            &:hover {
+              background-color: #ffffff;
+            }
+          }
+        }
+        .box1A1B2 {
+          @include verticalAlign();
+          .editIconForName {
+            @include editIconPos($top: 16px, $left: 152px);
+          }
+          .editName {
+            display: block;
+            padding: 2px 5px;
+            width: 250px;
+            border: 2px solid black;
+            line-height: 40px;
+            font-size: 45px;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            margin-bottom: 5px;
+
+            &:focus {
+              outline: none !important;
+            }
+            &:hover {
+              background-color: #ffffff;
+            }
+          }
+          .editIconForTag {
+            @include editIconPos($top: 87px, $left: 152px);
+          }
+          .editTag {
+            padding: 2px 5px;
+            width: 300px;
+            border: 2px solid black;
+            font-size: 25px;
+            // font-weight: bold;
+            transition: all 0.2s ease;
+            margin-top: 5px;
+            background-color: #fffbfb;
+
+            &:focus {
+              outline: none !important;
+            }
+            &:hover {
+              background-color: #ffffff;
+            }
+          }
+        }
+      }
+    }
+    .box1A2 {
+      > button {
+        border: none;
+        color: white;
+        line-height: 50px;
+        width: 250px;
+        font-size: 18px;
+      }
+    }
+  }
+}
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #c4c4c4;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: #c4c4c4;
+}
+
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: #c4c4c4;
+}
