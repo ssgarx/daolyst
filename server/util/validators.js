@@ -78,3 +78,33 @@ module.exports.validateGroupCreation = (groupName, groupUserName) => {
     valid: Object.keys(errors).length < 1,
   };
 };
+
+//create a function that accepts projectIcon,projectName,projectTag,projectDescription,projectImages,projectVideoLink and make sure that all the fields are filled
+module.exports.validateProjectCreation = (
+  projectIcon,
+  projectName,
+  projectTag,
+  projectDescription,
+  projectImages
+) => {
+  const errors = {};
+  if (projectIcon.trim() === "") {
+    errors.projectIcon = "Add icon for your DAO";
+  }
+  if (projectName.trim() === "") {
+    errors.projectName = "Add name for your DAO";
+  }
+  if (projectTag.trim() === "") {
+    errors.projectTag = "Add a tagline";
+  }
+  if (projectDescription.trim() === "") {
+    errors.projectDescription = "Description can't be empty";
+  }
+  if (projectImages.length < 1) {
+    errors.projectImages = "Add atleast one image";
+  }
+  return {
+    errors,
+    valid: Object.keys(errors).length < 1,
+  };
+};

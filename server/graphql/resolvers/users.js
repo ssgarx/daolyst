@@ -7,6 +7,7 @@ const { sendOtpMail } = require("../../util/mailer");
 const {
   validateRegisterInput,
   validateOneTimeForm,
+  validateProjectCreation,
 } = require("../../util/validators");
 
 // const { SECRET_KEY } = require("../../config");
@@ -139,6 +140,53 @@ module.exports = {
       }
       await user.save();
       return user;
+    },
+    //create a mutation that takes accepts projectIcon,projectName,projectTag,projectDescription,projectImages,projectVideoLink as input and creates a new project
+    async createProject(
+      _,
+      {
+        projectIcon,
+        projectName,
+        projectTag,
+        projectDescription,
+        projectImages,
+        projectVideoLink,
+      },
+      context
+    ) {
+      const master = checkAuth(context);
+      const { valid, errors } = validateProjectCreation(
+        projectIcon,
+        projectName,
+        projectTag,
+        projectDescription,
+        projectImages
+      );
+      if (!valid) {
+        throw new UserInputError("Errors", { errors });
+      }
+      const user = await User.findOne({ email: master.email });
+      if (!user) {
+        throw new UserInputError("User not found", {
+          errors: {
+            email: "User not found",
+          },
+        });
+      } else {
+        const newProject = {
+          projectIcon,
+          projectName,
+          projectTag,
+          projectDescription,
+          projectImages,
+          projectVideoLink,
+          createdAt: new Date().toISOString(),
+        };
+        //add newProject to user's listedProjects array
+        user.listedProjects.push(newProject);
+        await user.save();
+        return user;
+      }
     },
   },
 };

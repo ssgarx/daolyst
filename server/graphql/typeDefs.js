@@ -6,6 +6,17 @@ module.exports = gql`
     username: String
     userProfileImg: String
     createdAt: String
+    listedProducts: [listedProject]
+  }
+  type listedProject {
+    _id: String
+    projectIcon: String
+    projectName: String
+    projectTag: String
+    projectDescription: String
+    projectImages: [String]
+    projectVideoLink: String
+    createdAt: String
   }
   type Otp {
     code: String
@@ -23,5 +34,13 @@ module.exports = gql`
     verifyOtp(code: String!): Otp
     deleteOtps(email: String!): Boolean!
     oneTimeForm(username: String!, userProfileImg: String): User!
+    createProject(
+      projectIcon: String!
+      projectName: String!
+      projectTag: String!
+      projectDescription: String!
+      projectImages: [String!]
+      projectVideoLink: String
+    ): User!
   }
 `;
