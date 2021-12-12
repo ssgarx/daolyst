@@ -8,6 +8,7 @@ import UploadImg3 from "../../assets/upl3.svg";
 import UploadImg4 from "../../assets/upl4.svg";
 import UploadImg5 from "../../assets/upl5.svg";
 import UploadImg6 from "../../assets/upl6.svg";
+import YtIcon from "../../assets/ytIcon.svg";
 function LystingForm1() {
   return (
     <div className={style.box1}>
@@ -51,26 +52,42 @@ function LystingForm1() {
         </div>
       </div>
       <div className={style.box1B}>
-        <div className={style.box1B1}>
-          <div className={style.imgBox1}>
-            <img src={UploadImg1} alt="" />
+        <div className={style.box1Bx}>
+          <div className={style.box1B1}>
+            <div>
+              <img src={EditIcon} alt="add_icon" />
+              <img src={UploadImg1} alt="" />
+            </div>
+            <div>
+              <img src={EditIcon} alt="add_icon" />
+              <img src={UploadImg2} alt="" />
+            </div>
+            <div>
+              <img src={EditIcon} alt="add_icon" />
+              <img src={UploadImg3} alt="" />
+            </div>
+            <div>
+              <img src={EditIcon} alt="add_icon" />
+              <img src={UploadImg4} alt="" />
+            </div>
+            <div>
+              <img src={EditIcon} alt="add_icon" />
+              <img src={UploadImg5} alt="" />
+            </div>
+            <div>
+              <img src={EditIcon} alt="add_icon" />
+              <img src={UploadImg6} alt="" />
+            </div>
           </div>
-          <div className={style.imgBox1}>
-            <img src={UploadImg2} alt="" />
-          </div>
-          <div className={style.imgBox1}>
-            <img src={UploadImg3} alt="" />
-          </div>
-        </div>
-        <div className={style.box1B1}>
-          <div className={style.imgBox1}>
-            <img src={UploadImg4} alt="" />
-          </div>
-          <div className={style.imgBox1}>
-            <img src={UploadImg5} alt="" />
-          </div>
-          <div className={style.imgBox1}>
-            <img src={UploadImg6} alt="" />
+          <div className={style.box1B2}>
+            <div className={style.inputDiv}>
+              <div>
+                <img src={YtIcon} alt="" />
+              </div>
+              <div>
+                <input placeholder="Paste youtube video link" type="text" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
