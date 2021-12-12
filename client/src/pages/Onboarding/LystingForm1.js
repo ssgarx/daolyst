@@ -1,7 +1,13 @@
 import React from "react";
 import style from "./lystingForm1.module.scss";
-import PlusIcon from "../../assets/plusIcon.svg";
+import PlusIcon from "../../assets/daoIcon.svg";
 import EditIcon from "../../assets/editIcon.svg";
+import UploadImg1 from "../../assets/upl1.svg";
+import UploadImg2 from "../../assets/upl2.svg";
+import UploadImg3 from "../../assets/upl3.svg";
+import UploadImg4 from "../../assets/upl4.svg";
+import UploadImg5 from "../../assets/upl5.svg";
+import UploadImg6 from "../../assets/upl6.svg";
 function LystingForm1() {
   return (
     <div className={style.box1}>
@@ -42,6 +48,30 @@ function LystingForm1() {
         </div>
         <div className={style.box1A2}>
           <button>upLyst this DAO</button>
+        </div>
+      </div>
+      <div className={style.box1B}>
+        <div className={style.box1B1}>
+          <div className={style.imgBox1}>
+            <img src={UploadImg1} alt="" />
+          </div>
+          <div className={style.imgBox1}>
+            <img src={UploadImg2} alt="" />
+          </div>
+          <div className={style.imgBox1}>
+            <img src={UploadImg3} alt="" />
+          </div>
+        </div>
+        <div className={style.box1B1}>
+          <div className={style.imgBox1}>
+            <img src={UploadImg4} alt="" />
+          </div>
+          <div className={style.imgBox1}>
+            <img src={UploadImg5} alt="" />
+          </div>
+          <div className={style.imgBox1}>
+            <img src={UploadImg6} alt="" />
+          </div>
         </div>
       </div>
       {[...new Array(50)]

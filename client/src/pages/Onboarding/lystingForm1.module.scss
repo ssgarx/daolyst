@@ -26,18 +26,15 @@
 .box1 {
   //   padding: 30px;
   .box1A {
+    border: 1px solid red;
     display: flex;
     justify-content: space-between;
     .box1A1 {
       display: flex;
+      position: relative;
       .box1A1A {
         .editIcon {
-          position: absolute;
-          top: 9px;
-          left: 13px;
-          z-index: 1;
-          -webkit-transform: scaleX(-1);
-          transform: scaleX(-1);
+          @include editIconPos($top: -11px, $left: -11px);
         }
         .logoBox {
           width: 120px;
@@ -45,8 +42,11 @@
           border: 2px solid black;
           @include verticalAlign();
           @include buttonProperties();
+          background-color: #ffffff;
+
           > img {
-            filter: invert(100%);
+            // filter: invert(100%);
+            opacity: 0.3;
           }
           &:hover {
             background-color: #ffffff;
@@ -66,7 +66,7 @@
           align-items: left;
           flex-direction: column;
           .editIconForName {
-            @include editIconPos($top: 16px, $left: 152px);
+            @include editIconPos($top: -4px, $left: 129px);
           }
           .editName {
             display: block;
@@ -78,7 +78,7 @@
             font-weight: bold;
             transition: all 0.2s ease;
             margin-bottom: 5px;
-            background-color: #fffbfb;
+            background-color: #ffffff;
 
             &:focus {
               outline: none !important;
@@ -89,40 +89,17 @@
           }
         }
         .box1A1B2 {
-          @include verticalAlign();
-          .editIconForName {
-            @include editIconPos($top: 16px, $left: 152px);
-          }
-          .editName {
-            display: block;
-            padding: 2px 5px;
-            width: 250px;
-            border: 2px solid black;
-            line-height: 40px;
-            font-size: 45px;
-            font-weight: bold;
-            transition: all 0.2s ease;
-            margin-bottom: 5px;
-
-            &:focus {
-              outline: none !important;
-            }
-            &:hover {
-              background-color: #ffffff;
-            }
-          }
           .editIconForTag {
-            @include editIconPos($top: 87px, $left: 152px);
+            @include editIconPos($top: 68px, $left: 129px);
           }
           .editTag {
             padding: 2px 5px;
             width: 300px;
             border: 2px solid black;
             font-size: 25px;
-            // font-weight: bold;
             transition: all 0.2s ease;
             margin-top: 5px;
-            background-color: #fffbfb;
+            background-color: #ffffff;
 
             &:focus {
               outline: none !important;
@@ -144,7 +121,31 @@
       }
     }
   }
+  .box1B {
+    .box1B1,
+    .box1B2 {
+      border: 1px solid green;
+      background-color: #ffffff;
+      margin: 25px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      > div {
+        height: 136px;
+        width: 206px;
+        background-color: #ececec;
+        margin: 0px 15px;
+        border: 2px solid black;
+        @include buttonProperties();
+        @include verticalAlign();
+        > img {
+          opacity: 0.3 !important;
+        }
+      }
+    }
+  }
 }
+
 ::placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: #c4c4c4;
