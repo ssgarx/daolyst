@@ -79,30 +79,6 @@ function Home(props) {
           )}
         </Box>
       </Dialog>
-      {/* FOR LOGIN POPUPS */}
-      {/* <Dialog
-        classes={{ paper: classes.dialogPaper }}
-        fullScreen={fullScreen}
-        open={openLyst}
-        // onClose={handleClose}
-        onClose={(event, reason) => {
-          if (reason !== "backdropClick") {
-            setOpenLyst(false);
-          }
-        }}
-        aria-labelledby="responsive-dialog-title"
-        disableEscapeKeyDown={true}
-        // onBackdropClick="false"
-      >
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          minHeight={fullScreen && "95vh"}
-        >
-          {!user ? <Login setOpen={setOpen} /> : <LystingForm1 />}
-        </Box>
-      </Dialog> */}
       <Dialog
         classes={{ paper: classes.dialogPaper }}
         open={openLyst}
@@ -119,7 +95,7 @@ function Home(props) {
             ref={descriptionElementRef}
             tabIndex={-1}
           >
-            <LystingForm1 />
+            <LystingForm1 user={user} />
           </DialogContentText>
         </DialogContent>
         <DialogActions>

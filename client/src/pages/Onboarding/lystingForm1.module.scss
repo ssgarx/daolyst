@@ -127,7 +127,7 @@
     margin: 20px 0;
     .box1Bx {
       background-color: #ffffff;
-      width: 90%;
+      width: 70%;
       .box1B1 {
         display: flex;
         flex-wrap: wrap;
@@ -155,10 +155,12 @@
       .box1B2 {
         display: flex;
         justify-content: center;
+        padding: 15px;
         .inputDiv {
           border: 2px solid black;
           display: flex;
           background-color: #ececec;
+          width: 85%;
           > div:nth-child(1) {
             // flex: 1;
           }
@@ -172,9 +174,9 @@
               margin: 0px 10px;
             }
             > input {
-              line-height: 40px;
-              font-size: 30px;
-              font-weight: bold;
+              line-height: 35px;
+              font-size: 20px;
+              // font-weight: bold;
               transition: all 0.2s ease;
               background-color: #ececec;
               border: none;
@@ -187,6 +189,36 @@
               }
             }
           }
+        }
+      }
+    }
+  }
+  .box1C {
+    display: flex;
+    justify-content: center;
+    > div {
+      width: 70%;
+      > p {
+        margin: 20px 0;
+      }
+    }
+  }
+  .box1D {
+    display: flex;
+    justify-content: center;
+    > div {
+      width: 70%;
+      background-color: #ffffff;
+      .descBox {
+        display: flex;
+        > div:nth-child(1) {
+          flex: 1;
+        }
+        > div:nth-child(2) {
+          flex: 10;
+        }
+        .userProfileImg {
+          @include verticalAlign();
         }
       }
     }

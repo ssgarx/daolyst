@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import style from "./lystingForm1.module.scss";
 import PlusIcon from "../../assets/daoIcon.svg";
 import EditIcon from "../../assets/editIcon.svg";
@@ -9,7 +9,16 @@ import UploadImg4 from "../../assets/upl4.svg";
 import UploadImg5 from "../../assets/upl5.svg";
 import UploadImg6 from "../../assets/upl6.svg";
 import YtIcon from "../../assets/ytIcon.svg";
-function LystingForm1() {
+import { useState } from "react";
+function LystingForm1({ user }) {
+  console.log("LystingForm1 user", user);
+  const [localUser, setLocalUser] = useState({});
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    if (userData?.userProfileImg && userData?.username) {
+      setLocalUser(userData);
+    }
+  }, []);
   return (
     <div className={style.box1}>
       <div className={style.box1A}>
@@ -91,14 +100,34 @@ function LystingForm1() {
           </div>
         </div>
       </div>
-      {[...new Array(50)]
-        .map(
-          () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
-        )
-        .join("\n")}
+      <div className={style.box1C}>
+        <div>
+          <p>few words from the makers</p>
+        </div>
+      </div>
+      <div className={style.box1D}>
+        <div>
+          <div className={style.descBox}>
+            <div>
+              <div className={style.userProfileImg}>
+                <img
+                  style={{
+                    borderRadius: "50%",
+                    width: "50px",
+                  }}
+                  src={
+                    user?.userProfileImg?.length > 0
+                      ? user?.userProfileImg
+                      : localUser?.userProfileImg
+                  }
+                  alt="dp"
+                />
+              </div>
+            </div>
+            <div>2</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
