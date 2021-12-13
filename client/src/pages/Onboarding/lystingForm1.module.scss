@@ -45,7 +45,7 @@
 
           > img {
             // filter: invert(100%);
-            opacity: 0.3;
+            opacity: 0.05;
           }
           &:hover {
             background-color: #ffffff;
@@ -125,6 +125,7 @@
     display: flex;
     justify-content: center;
     margin: 20px 0;
+    margin-bottom: 0px;
     .box1Bx {
       background-color: #ffffff;
       width: 70%;
@@ -145,7 +146,7 @@
             @include editIconPos($top: -13px, $left: -12px);
           }
           > img:nth-child(2) {
-            opacity: 0.3 !important;
+            opacity: 0.05 !important;
           }
           &:hover {
             background-color: #ffffff;
@@ -207,6 +208,7 @@
     display: flex;
     justify-content: center;
     > div {
+      padding: 20px 10px;
       width: 70%;
       background-color: #ffffff;
       .descBox {
@@ -220,9 +222,34 @@
         .userProfileImg {
           @include verticalAlign();
         }
+        > div:nth-child(2) {
+          > p:nth-child(1) {
+            color: #000000;
+            font-size: 18px;
+          }
+          > div {
+            > textarea {
+              width: 99% !important;
+              border: none;
+              resize: none;
+              &:focus {
+                outline: none !important;
+              }
+            }
+          }
+        }
       }
     }
   }
+}
+.lystBtn {
+  width: 350px;
+  height: 50px;
+  border: none;
+  color: white;
+  background-color: black;
+  font-size: 18px;
+  @include buttonProperties();
 }
 
 ::placeholder {

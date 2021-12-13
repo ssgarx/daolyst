@@ -3,14 +3,13 @@ import { useResizeDetector } from "react-resize-detector";
 import Navbar from "./navbar/Navbar";
 import MobileNavbar from "./navbar/MobileNavbar";
 import { AuthContext } from "../context/auth";
+import styles from "../../src/pages/Onboarding/lystingForm1.module.scss";
 import {
   Box,
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle,
   makeStyles,
   useMediaQuery,
   useTheme,
@@ -99,8 +98,7 @@ function Home(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button>Cancel</Button>
-          <Button>Subscribe</Button>
+          <button className={styles.lystBtn}>Lyst this DAO ⚡</button>
         </DialogActions>
       </Dialog>
     </div>
