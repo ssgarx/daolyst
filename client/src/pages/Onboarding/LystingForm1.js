@@ -10,23 +10,134 @@ import UploadImg5 from "../../assets/upl5.svg";
 import UploadImg6 from "../../assets/upl6.svg";
 import YtIcon from "../../assets/ytIcon.svg";
 import { useState } from "react";
+import Resizer from "react-image-file-resizer";
+
 function LystingForm1({ user }) {
   console.log("LystingForm1 user", user);
   const [localUser, setLocalUser] = useState({});
+
+  const [daoIconImg, setDaoIconImg] = useState(null);
+  const [daoName, setDaoName] = useState("");
+  const [daoTagLine, setDaoTagLine] = useState("");
+  const [expImg1, setExpImg1] = useState(null);
+  const [expImg2, setExpImg2] = useState(null);
+  const [expImg3, setExpImg3] = useState(null);
+  const [expImg4, setExpImg4] = useState(null);
+  const [expImg5, setExpImg5] = useState(null);
+  const [expImg6, setExpImg6] = useState(null);
+
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("userData"));
     if (userData?.userProfileImg && userData?.username) {
       setLocalUser(userData);
     }
   }, []);
+
+  const resizeFile = (file) =>
+    new Promise((resolve) => {
+      Resizer.imageFileResizer(
+        file,
+        100,
+        100,
+        "JPEG",
+        100,
+        0,
+        (uri) => {
+          resolve(uri);
+        },
+        "base64"
+      );
+    });
+
+  const onChangeFile = async (event, location) => {
+    try {
+      const file = event.target.files[0];
+      const image = await resizeFile(file);
+      if (location === "DAO_ICON") {
+        setDaoIconImg(image);
+      } else if (location === "EXP_IMG1") {
+        setExpImg1(image);
+      } else if (location === "EXP_IMG2") {
+        setExpImg2(image);
+      } else if (location === "EXP_IMG3") {
+        setExpImg3(image);
+      } else if (location === "EXP_IMG4") {
+        setExpImg4(image);
+      } else if (location === "EXP_IMG5") {
+        setExpImg5(image);
+      } else if (location === "EXP_IMG6") {
+        setExpImg6(image);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  document
+    ?.getElementById("DAO_ICON")
+    ?.addEventListener("change", onChangeFile);
+  document
+    ?.getElementById("EXP_IMG1")
+    ?.addEventListener("change", onChangeFile);
+  document
+    ?.getElementById("EXP_IMG2")
+    ?.addEventListener("change", onChangeFile);
+  document
+    ?.getElementById("EXP_IMG3")
+    ?.addEventListener("change", onChangeFile);
+  document
+    ?.getElementById("EXP_IMG4")
+    ?.addEventListener("change", onChangeFile);
+  document
+    ?.getElementById("EXP_IMG5")
+    ?.addEventListener("change", onChangeFile);
+  document
+    ?.getElementById("EXP_IMG6")
+    ?.addEventListener("change", onChangeFile);
+
   return (
     <div className={style.box1}>
       <div className={style.box1A}>
         <div className={style.box1A1}>
           <div className={style.box1A1A}>
             <img className={style.editIcon} src={EditIcon} alt="add_icon" />
-            <div className={style.logoBox}>
-              <img src={PlusIcon} alt="add_icon" />
+            <div
+              style={
+                daoIconImg
+                  ? {}
+                  : {
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      flexDirection: "column",
+                    }
+              }
+              className={style.logoBox}
+            >
+              <label htmlFor="DAO_ICON">
+                <img
+                  style={
+                    daoIconImg
+                      ? {
+                          opacity: "1",
+                          width: "99%",
+                          objectFit: "cover",
+                          height: "100%",
+                        }
+                      : {
+                          opacity: 0.5,
+                        }
+                  }
+                  src={daoIconImg ?? PlusIcon}
+                  alt="add_icon"
+                />
+              </label>
+              <input
+                type="file"
+                id="DAO_ICON"
+                onChange={(e) => onChangeFile(e, "DAO_ICON")}
+                style={{ display: "none" }}
+              />
             </div>
           </div>
           <div className={style.box1A1B}>
@@ -39,6 +150,7 @@ function LystingForm1({ user }) {
               <input
                 type="text"
                 placeholder="DAO name"
+                onChange={(e) => setDaoName(e.target.value)}
                 className={style.editName}
               />
             </div>
@@ -52,6 +164,7 @@ function LystingForm1({ user }) {
                 type="text"
                 placeholder="Describe your DAO in short"
                 className={style.editTag}
+                onChange={(e) => setDaoTagLine(e.target.value)}
               />
             </div>
           </div>
@@ -63,29 +176,233 @@ function LystingForm1({ user }) {
       <div className={style.box1B}>
         <div className={style.box1Bx}>
           <div className={style.box1B1}>
-            <div>
+            <div
+              style={
+                expImg1
+                  ? {}
+                  : {
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      flexDirection: "column",
+                    }
+              }
+            >
               <img src={EditIcon} alt="add_icon" />
-              <img src={UploadImg1} alt="" />
+              <input
+                type="file"
+                id="EXP_IMG1"
+                onChange={(e) => onChangeFile(e, "EXP_IMG1")}
+                style={{ display: "none" }}
+              />
+              <label htmlFor="EXP_IMG1">
+                <img
+                  style={
+                    expImg1
+                      ? {
+                          opacity: "1",
+                          width: "99%",
+                          objectFit: "cover",
+                          height: "100%",
+                        }
+                      : {
+                          opacity: 0.5,
+                        }
+                  }
+                  src={expImg1 ?? UploadImg1}
+                  alt=""
+                />
+              </label>
             </div>
-            <div>
+            <div
+              style={
+                expImg2
+                  ? {}
+                  : {
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      flexDirection: "column",
+                    }
+              }
+            >
               <img src={EditIcon} alt="add_icon" />
-              <img src={UploadImg2} alt="" />
+              <input
+                type="file"
+                id="EXP_IMG2"
+                onChange={(e) => onChangeFile(e, "EXP_IMG2")}
+                style={{ display: "none" }}
+              />
+              <label htmlFor="EXP_IMG2">
+                <img
+                  style={
+                    expImg2
+                      ? {
+                          opacity: "1",
+                          width: "99%",
+                          objectFit: "cover",
+                          height: "100%",
+                        }
+                      : {
+                          opacity: 0.5,
+                        }
+                  }
+                  src={expImg2 ?? UploadImg2}
+                  alt=""
+                />
+              </label>
             </div>
-            <div>
+            <div
+              style={
+                expImg3
+                  ? {}
+                  : {
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      flexDirection: "column",
+                    }
+              }
+            >
               <img src={EditIcon} alt="add_icon" />
-              <img src={UploadImg3} alt="" />
+              <input
+                type="file"
+                id="EXP_IMG3"
+                onChange={(e) => onChangeFile(e, "EXP_IMG3")}
+                style={{ display: "none" }}
+              />
+              <label htmlFor="EXP_IMG3">
+                <img
+                  style={
+                    expImg3
+                      ? {
+                          opacity: "1",
+                          width: "99%",
+                          objectFit: "cover",
+                          height: "100%",
+                        }
+                      : {
+                          opacity: 0.5,
+                        }
+                  }
+                  src={expImg3 ?? UploadImg3}
+                  alt=""
+                />
+              </label>
             </div>
-            <div>
+            <div
+              style={
+                expImg4
+                  ? {}
+                  : {
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      flexDirection: "column",
+                    }
+              }
+            >
               <img src={EditIcon} alt="add_icon" />
-              <img src={UploadImg4} alt="" />
+              <input
+                type="file"
+                id="EXP_IMG4"
+                onChange={(e) => onChangeFile(e, "EXP_IMG4")}
+                style={{ display: "none" }}
+              />
+              <label htmlFor="EXP_IMG4">
+                <img
+                  style={
+                    expImg4
+                      ? {
+                          opacity: "1",
+                          width: "99%",
+                          objectFit: "cover",
+                          height: "100%",
+                        }
+                      : {
+                          opacity: 0.5,
+                        }
+                  }
+                  src={expImg4 ?? UploadImg4}
+                  alt=""
+                />
+              </label>
             </div>
-            <div>
+            <div
+              style={
+                expImg5
+                  ? {}
+                  : {
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      flexDirection: "column",
+                    }
+              }
+            >
               <img src={EditIcon} alt="add_icon" />
-              <img src={UploadImg5} alt="" />
+              <input
+                type="file"
+                id="EXP_IMG5"
+                onChange={(e) => onChangeFile(e, "EXP_IMG5")}
+                style={{ display: "none" }}
+              />
+              <label htmlFor="EXP_IMG5">
+                <img
+                  style={
+                    expImg5
+                      ? {
+                          opacity: "1",
+                          width: "99%",
+                          objectFit: "cover",
+                          height: "100%",
+                        }
+                      : {
+                          opacity: 0.5,
+                        }
+                  }
+                  src={expImg5 ?? UploadImg5}
+                  alt=""
+                />
+              </label>
             </div>
-            <div>
+            <div
+              style={
+                expImg6
+                  ? {}
+                  : {
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      flexDirection: "column",
+                    }
+              }
+            >
               <img src={EditIcon} alt="add_icon" />
-              <img src={UploadImg6} alt="" />
+              <input
+                type="file"
+                id="EXP_IMG6"
+                onChange={(e) => onChangeFile(e, "EXP_IMG6")}
+                style={{ display: "none" }}
+              />
+              <label htmlFor="EXP_IMG6">
+                <img
+                  style={
+                    expImg6
+                      ? {
+                          opacity: "1",
+                          width: "99%",
+                          objectFit: "cover",
+                          height: "100%",
+                        }
+                      : {
+                          opacity: 0.5,
+                        }
+                  }
+                  src={expImg6 ?? UploadImg6}
+                  alt=""
+                />
+              </label>
             </div>
           </div>
           <div className={style.box1B2}>

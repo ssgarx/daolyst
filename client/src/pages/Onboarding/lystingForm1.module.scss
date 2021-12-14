@@ -39,13 +39,14 @@
           width: 120px;
           height: 120px;
           border: 2px solid black;
-          @include verticalAlign();
+          // @include verticalAlign();
           @include buttonProperties();
           background-color: #ececec;
-
-          > img {
-            // filter: invert(100%);
-            opacity: 0.05;
+          > label {
+            > img {
+              // filter: invert(100%);
+              opacity: 0.05;
+            }
           }
           &:hover {
             background-color: #ffffff;
@@ -141,12 +142,12 @@
           border: 2px solid black;
           position: relative;
           @include buttonProperties();
-          @include verticalAlign();
-          > img:nth-child(1) {
+          // @include verticalAlign();
+          > img {
             @include editIconPos($top: -13px, $left: -12px);
           }
-          > img:nth-child(2) {
-            opacity: 0.05 !important;
+          > label > img {
+            // opacity: 0.05 !important;
           }
           &:hover {
             background-color: #ffffff;
