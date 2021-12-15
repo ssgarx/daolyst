@@ -135,7 +135,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        > div {
+        > label > div {
           height: 136px;
           width: 206px;
           background-color: #ececec;
@@ -144,10 +144,10 @@
           position: relative;
           @include buttonProperties();
           // @include verticalAlign();
-          > img {
+          > img:nth-child(1) {
             @include editIconPos($top: -13px, $left: -12px);
           }
-          > label > img {
+          > img:nth-child(2) {
             // opacity: 0.05 !important;
             cursor: pointer;
           }

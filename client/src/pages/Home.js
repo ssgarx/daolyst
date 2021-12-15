@@ -18,6 +18,8 @@ import {
 import Login from "./login/Login";
 import IdentificationForm1 from "./Onboarding/IdentificationForm1";
 import LystingForm1 from "./Onboarding/LystingForm1";
+import gql from "graphql-tag";
+import { useMutation } from "@apollo/client";
 
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
@@ -41,15 +43,40 @@ function Home(props) {
   const [daoIconImg, setDaoIconImg] = useState(null);
   const [daoName, setDaoName] = useState("");
   const [daoTagLine, setDaoTagLine] = useState("");
-  const [expImg1, setExpImg1] = useState(null);
-  const [expImg2, setExpImg2] = useState(null);
-  const [expImg3, setExpImg3] = useState(null);
-  const [expImg4, setExpImg4] = useState(null);
-  const [expImg5, setExpImg5] = useState(null);
-  const [expImg6, setExpImg6] = useState(null);
+  const [expImg1, setExpImg1] = useState("");
+  const [expImg2, setExpImg2] = useState("");
+  const [expImg3, setExpImg3] = useState("");
+  const [expImg4, setExpImg4] = useState("");
+  const [expImg5, setExpImg5] = useState("");
+  const [expImg6, setExpImg6] = useState("");
   const [videoLink, setVideoLink] = useState("");
   const [daoDescription, setDaoDescription] = useState("");
   const [isValidForSubmit, setIsValidForSubmit] = useState(false);
+  const [lystErrors, setLystErrors] = useState({});
+
+  // $projectIcon: String!
+  //   $projectName: String!
+  //   $projectTag: String!
+  //   $projectDescription: String!
+  //   $projectImages: [String!]
+  //   $projectVideoLink: String!
+
+  const [submitLyst] = useMutation(SUBMIT_LYST_FORM, {
+    update(_, { data }) {
+      console.log("data", data);
+    },
+    onError(err) {
+      setLystErrors(err.graphQLErrors[0].extensions.exception.errors);
+    },
+    variables: {
+      projectIcon: daoIconImg,
+      projectName: daoName,
+      projectTag: daoTagLine,
+      projectDescription: daoDescription,
+      projectImages: [expImg1, expImg2, expImg3, expImg4, expImg5, expImg6],
+      projectVideoLink: videoLink,
+    },
+  });
 
   useEffect(() => {
     //check if form is valid
@@ -160,6 +187,7 @@ function Home(props) {
               setVideoLink={setVideoLink}
               daoDescription={daoDescription}
               setDaoDescription={setDaoDescription}
+              setLystErrors={setLystErrors}
             />
           </DialogContentText>
         </DialogContent>
@@ -181,6 +209,10 @@ function Home(props) {
                     }
               }
               className={styles.lystBtn}
+              onClick={() => {
+                submitLyst();
+                setOpenLyst(false);
+              }}
             >
               Lyst this DAO ⚡
             </button>
@@ -190,5 +222,31 @@ function Home(props) {
     </div>
   );
 }
+
+const SUBMIT_LYST_FORM = gql`
+  mutation createProject(
+    $projectIcon: String!
+    $projectName: String!
+    $projectTag: String!
+    $projectDescription: String!
+    $projectImages: [String!]
+    $projectVideoLink: String!
+  ) {
+    createProject(
+      projectIcon: $projectIcon
+      projectName: $projectName
+      projectTag: $projectTag
+      projectDescription: $projectDescription
+      projectImages: $projectImages
+      projectVideoLink: $projectVideoLink
+    ) {
+      id
+      email
+      username
+      userProfileImg
+      createdAt
+    }
+  }
+`;
 
 export default Home;

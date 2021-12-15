@@ -11,6 +11,8 @@ import UploadImg6 from "../../assets/upl6.svg";
 import YtIcon from "../../assets/ytIcon.svg";
 import { useState } from "react";
 import Resizer from "react-image-file-resizer";
+import gql from "graphql-tag";
+import { useMutation } from "@apollo/client";
 
 function LystingForm1({
   user,
@@ -36,8 +38,8 @@ function LystingForm1({
   setVideoLink,
   daoDescription,
   setDaoDescription,
+  setLystErrors,
 }) {
-  console.log("LystingForm1 user", user);
   const [localUser, setLocalUser] = useState({});
 
   // const [daoIconImg, setDaoIconImg] = useState(null);
@@ -127,20 +129,20 @@ function LystingForm1({
         <div className={style.box1A1}>
           <div className={style.box1A1A}>
             <img className={style.editIcon} src={EditIcon} alt="add_icon" />
-            <div
-              style={
-                daoIconImg
-                  ? {}
-                  : {
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      flexDirection: "column",
-                    }
-              }
-              className={style.logoBox}
-            >
-              <label htmlFor="DAO_ICON">
+            <label htmlFor="DAO_ICON">
+              <div
+                style={
+                  daoIconImg
+                    ? {}
+                    : {
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        flexDirection: "column",
+                      }
+                }
+                className={style.logoBox}
+              >
                 <img
                   style={
                     daoIconImg
@@ -157,14 +159,14 @@ function LystingForm1({
                   src={daoIconImg ?? PlusIcon}
                   alt="add_icon"
                 />
-              </label>
+              </div>
               <input
                 type="file"
                 id="DAO_ICON"
                 onChange={(e) => onChangeFile(e, "DAO_ICON")}
                 style={{ display: "none" }}
               />
-            </div>
+            </label>
           </div>
           <div className={style.box1A1B}>
             <div className={style.box1A1B1}>
@@ -204,26 +206,26 @@ function LystingForm1({
       <div className={style.box1B}>
         <div className={style.box1Bx}>
           <div className={style.box1B1}>
-            <div
-              style={
-                expImg1
-                  ? {}
-                  : {
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      flexDirection: "column",
-                    }
-              }
-            >
-              <img src={EditIcon} alt="add_icon" />
-              <input
-                type="file"
-                id="EXP_IMG1"
-                onChange={(e) => onChangeFile(e, "EXP_IMG1")}
-                style={{ display: "none" }}
-              />
-              <label htmlFor="EXP_IMG1">
+            <label htmlFor="EXP_IMG1">
+              <div
+                style={
+                  expImg1
+                    ? {}
+                    : {
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        flexDirection: "column",
+                      }
+                }
+              >
+                <img src={EditIcon} alt="add_icon" />
+                <input
+                  type="file"
+                  id="EXP_IMG1"
+                  onChange={(e) => onChangeFile(e, "EXP_IMG1")}
+                  style={{ display: "none" }}
+                />
                 <img
                   style={
                     expImg1
@@ -240,28 +242,28 @@ function LystingForm1({
                   src={expImg1 ?? UploadImg1}
                   alt=""
                 />
-              </label>
-            </div>
-            <div
-              style={
-                expImg2
-                  ? {}
-                  : {
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      flexDirection: "column",
-                    }
-              }
-            >
-              <img src={EditIcon} alt="add_icon" />
-              <input
-                type="file"
-                id="EXP_IMG2"
-                onChange={(e) => onChangeFile(e, "EXP_IMG2")}
-                style={{ display: "none" }}
-              />
-              <label htmlFor="EXP_IMG2">
+              </div>
+            </label>
+            <label htmlFor="EXP_IMG2">
+              <div
+                style={
+                  expImg2
+                    ? {}
+                    : {
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        flexDirection: "column",
+                      }
+                }
+              >
+                <img src={EditIcon} alt="add_icon" />
+                <input
+                  type="file"
+                  id="EXP_IMG2"
+                  onChange={(e) => onChangeFile(e, "EXP_IMG2")}
+                  style={{ display: "none" }}
+                />
                 <img
                   style={
                     expImg2
@@ -278,28 +280,28 @@ function LystingForm1({
                   src={expImg2 ?? UploadImg2}
                   alt=""
                 />
-              </label>
-            </div>
-            <div
-              style={
-                expImg3
-                  ? {}
-                  : {
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      flexDirection: "column",
-                    }
-              }
-            >
-              <img src={EditIcon} alt="add_icon" />
-              <input
-                type="file"
-                id="EXP_IMG3"
-                onChange={(e) => onChangeFile(e, "EXP_IMG3")}
-                style={{ display: "none" }}
-              />
-              <label htmlFor="EXP_IMG3">
+              </div>
+            </label>
+            <label htmlFor="EXP_IMG3">
+              <div
+                style={
+                  expImg3
+                    ? {}
+                    : {
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        flexDirection: "column",
+                      }
+                }
+              >
+                <img src={EditIcon} alt="add_icon" />
+                <input
+                  type="file"
+                  id="EXP_IMG3"
+                  onChange={(e) => onChangeFile(e, "EXP_IMG3")}
+                  style={{ display: "none" }}
+                />
                 <img
                   style={
                     expImg3
@@ -316,28 +318,28 @@ function LystingForm1({
                   src={expImg3 ?? UploadImg3}
                   alt=""
                 />
-              </label>
-            </div>
-            <div
-              style={
-                expImg4
-                  ? {}
-                  : {
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      flexDirection: "column",
-                    }
-              }
-            >
-              <img src={EditIcon} alt="add_icon" />
-              <input
-                type="file"
-                id="EXP_IMG4"
-                onChange={(e) => onChangeFile(e, "EXP_IMG4")}
-                style={{ display: "none" }}
-              />
-              <label htmlFor="EXP_IMG4">
+              </div>
+            </label>
+            <label htmlFor="EXP_IMG4">
+              <div
+                style={
+                  expImg4
+                    ? {}
+                    : {
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        flexDirection: "column",
+                      }
+                }
+              >
+                <img src={EditIcon} alt="add_icon" />
+                <input
+                  type="file"
+                  id="EXP_IMG4"
+                  onChange={(e) => onChangeFile(e, "EXP_IMG4")}
+                  style={{ display: "none" }}
+                />
                 <img
                   style={
                     expImg4
@@ -354,28 +356,28 @@ function LystingForm1({
                   src={expImg4 ?? UploadImg4}
                   alt=""
                 />
-              </label>
-            </div>
-            <div
-              style={
-                expImg5
-                  ? {}
-                  : {
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      flexDirection: "column",
-                    }
-              }
-            >
-              <img src={EditIcon} alt="add_icon" />
-              <input
-                type="file"
-                id="EXP_IMG5"
-                onChange={(e) => onChangeFile(e, "EXP_IMG5")}
-                style={{ display: "none" }}
-              />
-              <label htmlFor="EXP_IMG5">
+              </div>
+            </label>
+            <label htmlFor="EXP_IMG5">
+              <div
+                style={
+                  expImg5
+                    ? {}
+                    : {
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        flexDirection: "column",
+                      }
+                }
+              >
+                <img src={EditIcon} alt="add_icon" />
+                <input
+                  type="file"
+                  id="EXP_IMG5"
+                  onChange={(e) => onChangeFile(e, "EXP_IMG5")}
+                  style={{ display: "none" }}
+                />
                 <img
                   style={
                     expImg5
@@ -392,28 +394,28 @@ function LystingForm1({
                   src={expImg5 ?? UploadImg5}
                   alt=""
                 />
-              </label>
-            </div>
-            <div
-              style={
-                expImg6
-                  ? {}
-                  : {
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      flexDirection: "column",
-                    }
-              }
-            >
-              <img src={EditIcon} alt="add_icon" />
-              <input
-                type="file"
-                id="EXP_IMG6"
-                onChange={(e) => onChangeFile(e, "EXP_IMG6")}
-                style={{ display: "none" }}
-              />
-              <label htmlFor="EXP_IMG6">
+              </div>
+            </label>
+            <label htmlFor="EXP_IMG6">
+              <div
+                style={
+                  expImg6
+                    ? {}
+                    : {
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        flexDirection: "column",
+                      }
+                }
+              >
+                <img src={EditIcon} alt="add_icon" />
+                <input
+                  type="file"
+                  id="EXP_IMG6"
+                  onChange={(e) => onChangeFile(e, "EXP_IMG6")}
+                  style={{ display: "none" }}
+                />
                 <img
                   style={
                     expImg6
@@ -430,8 +432,8 @@ function LystingForm1({
                   src={expImg6 ?? UploadImg6}
                   alt=""
                 />
-              </label>
-            </div>
+              </div>
+            </label>
           </div>
           <div className={style.box1B2}>
             <div className={style.inputDiv}>

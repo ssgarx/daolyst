@@ -186,6 +186,7 @@ module.exports = {
         };
         //add newProject to user's listedProjects array
         user.listedProjects.push(newProject);
+        console.log("user", user);
         await user.save();
         return user;
       }
