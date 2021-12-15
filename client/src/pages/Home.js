@@ -11,6 +11,7 @@ import {
   DialogContent,
   DialogContentText,
   makeStyles,
+  Tooltip,
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
@@ -36,6 +37,47 @@ function Home(props) {
   const { user } = useContext(AuthContext);
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const descriptionElementRef = React.useRef(null);
+
+  const [daoIconImg, setDaoIconImg] = useState(null);
+  const [daoName, setDaoName] = useState("");
+  const [daoTagLine, setDaoTagLine] = useState("");
+  const [expImg1, setExpImg1] = useState(null);
+  const [expImg2, setExpImg2] = useState(null);
+  const [expImg3, setExpImg3] = useState(null);
+  const [expImg4, setExpImg4] = useState(null);
+  const [expImg5, setExpImg5] = useState(null);
+  const [expImg6, setExpImg6] = useState(null);
+  const [videoLink, setVideoLink] = useState("");
+  const [daoDescription, setDaoDescription] = useState("");
+  const [isValidForSubmit, setIsValidForSubmit] = useState(false);
+
+  useEffect(() => {
+    //check if form is valid
+    if (
+      daoIconImg &&
+      daoName &&
+      daoTagLine &&
+      (expImg1 || expImg2 || expImg3 || expImg4 || expImg5 || expImg6) &&
+      videoLink &&
+      daoDescription
+    ) {
+      setIsValidForSubmit(true);
+    } else {
+      setIsValidForSubmit(false);
+    }
+  }, [
+    daoIconImg,
+    daoName,
+    daoTagLine,
+    expImg1,
+    expImg2,
+    expImg3,
+    expImg4,
+    expImg5,
+    expImg6,
+    videoLink,
+    daoDescription,
+  ]);
 
   return (
     <div ref={ref}>
@@ -94,11 +136,55 @@ function Home(props) {
             ref={descriptionElementRef}
             tabIndex={-1}
           >
-            <LystingForm1 user={user} />
+            <LystingForm1
+              user={user}
+              daoIconImg={daoIconImg}
+              setDaoIconImg={setDaoIconImg}
+              daoName={daoName}
+              setDaoName={setDaoName}
+              daoTagLine={daoTagLine}
+              setDaoTagLine={setDaoTagLine}
+              expImg1={expImg1}
+              setExpImg1={setExpImg1}
+              expImg2={expImg2}
+              setExpImg2={setExpImg2}
+              expImg3={expImg3}
+              setExpImg3={setExpImg3}
+              expImg4={expImg4}
+              setExpImg4={setExpImg4}
+              expImg5={expImg5}
+              setExpImg5={setExpImg5}
+              expImg6={expImg6}
+              setExpImg6={setExpImg6}
+              videoLink={videoLink}
+              setVideoLink={setVideoLink}
+              daoDescription={daoDescription}
+              setDaoDescription={setDaoDescription}
+            />
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <button className={styles.lystBtn}>Lyst this DAO ⚡</button>
+          <Tooltip
+            title={isValidForSubmit ? "" : "Enter required fields"}
+            placement="top"
+            enterDelay={500}
+          >
+            <button
+              style={
+                isValidForSubmit
+                  ? {
+                      opacity: 1,
+                    }
+                  : {
+                      opacity: 0.5,
+                      cursor: "not-allowed",
+                    }
+              }
+              className={styles.lystBtn}
+            >
+              Lyst this DAO ⚡
+            </button>
+          </Tooltip>
         </DialogActions>
       </Dialog>
     </div>

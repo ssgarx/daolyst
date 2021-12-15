@@ -12,19 +12,45 @@ import YtIcon from "../../assets/ytIcon.svg";
 import { useState } from "react";
 import Resizer from "react-image-file-resizer";
 
-function LystingForm1({ user }) {
+function LystingForm1({
+  user,
+  daoIconImg,
+  setDaoIconImg,
+  daoName,
+  setDaoName,
+  daoTagLine,
+  setDaoTagLine,
+  expImg1,
+  setExpImg1,
+  expImg2,
+  setExpImg2,
+  expImg3,
+  setExpImg3,
+  expImg4,
+  setExpImg4,
+  expImg5,
+  setExpImg5,
+  expImg6,
+  setExpImg6,
+  videoLink,
+  setVideoLink,
+  daoDescription,
+  setDaoDescription,
+}) {
   console.log("LystingForm1 user", user);
   const [localUser, setLocalUser] = useState({});
 
-  const [daoIconImg, setDaoIconImg] = useState(null);
-  const [daoName, setDaoName] = useState("");
-  const [daoTagLine, setDaoTagLine] = useState("");
-  const [expImg1, setExpImg1] = useState(null);
-  const [expImg2, setExpImg2] = useState(null);
-  const [expImg3, setExpImg3] = useState(null);
-  const [expImg4, setExpImg4] = useState(null);
-  const [expImg5, setExpImg5] = useState(null);
-  const [expImg6, setExpImg6] = useState(null);
+  // const [daoIconImg, setDaoIconImg] = useState(null);
+  // const [daoName, setDaoName] = useState("");
+  // const [daoTagLine, setDaoTagLine] = useState("");
+  // const [expImg1, setExpImg1] = useState(null);
+  // const [expImg2, setExpImg2] = useState(null);
+  // const [expImg3, setExpImg3] = useState(null);
+  // const [expImg4, setExpImg4] = useState(null);
+  // const [expImg5, setExpImg5] = useState(null);
+  // const [expImg6, setExpImg6] = useState(null);
+  // const [videoLink, setVideoLink] = useState("");
+  // const [daoDescription, setDaoDescription] = useState("");
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("userData"));
@@ -125,7 +151,7 @@ function LystingForm1({ user }) {
                           height: "100%",
                         }
                       : {
-                          opacity: 0.5,
+                          opacity: 0.02,
                         }
                   }
                   src={daoIconImg ?? PlusIcon}
@@ -152,6 +178,7 @@ function LystingForm1({ user }) {
                 placeholder="DAO name"
                 onChange={(e) => setDaoName(e.target.value)}
                 className={style.editName}
+                value={daoName}
               />
             </div>
             <div className={style.box1A1B2}>
@@ -165,6 +192,7 @@ function LystingForm1({ user }) {
                 placeholder="Describe your DAO in short"
                 className={style.editTag}
                 onChange={(e) => setDaoTagLine(e.target.value)}
+                value={daoTagLine}
               />
             </div>
           </div>
@@ -206,7 +234,7 @@ function LystingForm1({ user }) {
                           height: "100%",
                         }
                       : {
-                          opacity: 0.5,
+                          opacity: 0.02,
                         }
                   }
                   src={expImg1 ?? UploadImg1}
@@ -244,7 +272,7 @@ function LystingForm1({ user }) {
                           height: "100%",
                         }
                       : {
-                          opacity: 0.5,
+                          opacity: 0.02,
                         }
                   }
                   src={expImg2 ?? UploadImg2}
@@ -282,7 +310,7 @@ function LystingForm1({ user }) {
                           height: "100%",
                         }
                       : {
-                          opacity: 0.5,
+                          opacity: 0.02,
                         }
                   }
                   src={expImg3 ?? UploadImg3}
@@ -320,7 +348,7 @@ function LystingForm1({ user }) {
                           height: "100%",
                         }
                       : {
-                          opacity: 0.5,
+                          opacity: 0.02,
                         }
                   }
                   src={expImg4 ?? UploadImg4}
@@ -358,7 +386,7 @@ function LystingForm1({ user }) {
                           height: "100%",
                         }
                       : {
-                          opacity: 0.5,
+                          opacity: 0.02,
                         }
                   }
                   src={expImg5 ?? UploadImg5}
@@ -396,7 +424,7 @@ function LystingForm1({ user }) {
                           height: "100%",
                         }
                       : {
-                          opacity: 0.5,
+                          opacity: 0.02,
                         }
                   }
                   src={expImg6 ?? UploadImg6}
@@ -411,7 +439,12 @@ function LystingForm1({ user }) {
                 <img src={YtIcon} alt="" />
               </div>
               <div>
-                <input placeholder="Paste youtube video link" type="text" />
+                <input
+                  onChange={(e) => setVideoLink(e.target.value)}
+                  placeholder="Paste youtube video link"
+                  type="text"
+                  value={videoLink}
+                />
               </div>
             </div>
           </div>
@@ -446,6 +479,7 @@ function LystingForm1({ user }) {
               <p>Founding Member</p>
               <div>
                 <textarea
+                  onChange={(e) => setDaoDescription(e.target.value)}
                   placeholder="There are many variations of passages of Lorem Ipsum available, 
                                 but the majority have suffered alteration in some form, by injected humour, or randomised words 
                                 which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you 
@@ -455,6 +489,7 @@ function LystingForm1({ user }) {
                                 The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc."
                   cols="30"
                   rows="10"
+                  value={daoDescription}
                 />
               </div>
             </div>

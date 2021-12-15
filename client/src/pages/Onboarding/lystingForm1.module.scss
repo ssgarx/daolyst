@@ -8,10 +8,10 @@
   cursor: pointer;
   transition: all 0.2s ease;
   &:hover {
-    opacity: 0.8;
+    opacity: 0.8 !important;
   }
   &:active {
-    opacity: 1;
+    opacity: 1 !important;
   }
 }
 //creating a mixin that accepts a parameter
@@ -46,6 +46,7 @@
             > img {
               // filter: invert(100%);
               opacity: 0.05;
+              cursor: pointer;
             }
           }
           &:hover {
@@ -148,6 +149,7 @@
           }
           > label > img {
             // opacity: 0.05 !important;
+            cursor: pointer;
           }
           &:hover {
             background-color: #ffffff;
