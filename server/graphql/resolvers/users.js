@@ -11,8 +11,8 @@ const {
 } = require("../../util/validators");
 
 // const { SECRET_KEY } = require("../../config");
-const User = require("../../models/User");
-const Otp = require("../../models/Otp");
+const User = require("../models/User");
+const Otp = require("../models/Otp");
 
 function generateToken(email, id, username, userProfileImg) {
   return jwt.sign(
@@ -186,7 +186,6 @@ module.exports = {
         };
         //add newProject to user's listedProjects array
         user.listedProjects.push(newProject);
-        console.log("user", user);
         await user.save();
         return user;
       }

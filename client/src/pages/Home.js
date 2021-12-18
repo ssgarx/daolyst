@@ -54,30 +54,6 @@ function Home(props) {
   const [isValidForSubmit, setIsValidForSubmit] = useState(false);
   const [lystErrors, setLystErrors] = useState({});
 
-  // $projectIcon: String!
-  //   $projectName: String!
-  //   $projectTag: String!
-  //   $projectDescription: String!
-  //   $projectImages: [String!]
-  //   $projectVideoLink: String!
-
-  const [submitLyst] = useMutation(SUBMIT_LYST_FORM, {
-    update(_, { data }) {
-      console.log("data", data);
-    },
-    onError(err) {
-      setLystErrors(err.graphQLErrors[0].extensions.exception.errors);
-    },
-    variables: {
-      projectIcon: daoIconImg,
-      projectName: daoName,
-      projectTag: daoTagLine,
-      projectDescription: daoDescription,
-      projectImages: [expImg1, expImg2, expImg3, expImg4, expImg5, expImg6],
-      projectVideoLink: videoLink,
-    },
-  });
-
   useEffect(() => {
     //check if form is valid
     if (
@@ -105,6 +81,43 @@ function Home(props) {
     videoLink,
     daoDescription,
   ]);
+
+  const [submitLyst] = useMutation(SUBMIT_LYST_FORM, {
+    onCompleted: (data) => {
+      handleLystFormClose();
+    },
+    update(_, { data }) {
+      // console.log("data", data);
+    },
+    onError(err) {
+      setLystErrors(err.graphQLErrors[0].extensions.exception.errors);
+    },
+    variables: {
+      projectIcon: daoIconImg,
+      projectName: daoName,
+      projectTag: daoTagLine,
+      projectDescription: daoDescription,
+      projectImages: [expImg1, expImg2, expImg3, expImg4, expImg5, expImg6],
+      projectVideoLink: videoLink,
+    },
+  });
+
+  const handleLystFormClose = () => {
+    setOpenLyst(false);
+    //clear all form fields
+    setDaoIconImg(null);
+    setDaoName("");
+    setDaoTagLine("");
+    setExpImg1(null);
+    setExpImg2(null);
+    setExpImg3(null);
+    setExpImg4(null);
+    setExpImg5(null);
+    setExpImg6(null);
+    setVideoLink("");
+    setDaoDescription("");
+    setLystErrors({});
+  };
 
   return (
     <div ref={ref}>
@@ -147,10 +160,11 @@ function Home(props) {
           )}
         </Box>
       </Dialog>
+      {/* FOR LYSTING */}
       <Dialog
         classes={{ paper: classes.dialogPaper }}
         open={openLyst}
-        // onClose={handleClose}
+        onClose={handleLystFormClose}
         scroll={"paper"}
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
@@ -188,35 +202,39 @@ function Home(props) {
               daoDescription={daoDescription}
               setDaoDescription={setDaoDescription}
               setLystErrors={setLystErrors}
+              handleLystFormClose={handleLystFormClose}
             />
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Tooltip
-            title={isValidForSubmit ? "" : "Enter required fields"}
-            placement="top"
-            enterDelay={500}
-          >
-            <button
-              style={
-                isValidForSubmit
-                  ? {
-                      opacity: 1,
-                    }
-                  : {
-                      opacity: 0.5,
-                      cursor: "not-allowed",
-                    }
-              }
-              className={styles.lystBtn}
-              onClick={() => {
-                submitLyst();
-                setOpenLyst(false);
-              }}
+          <div className={styles.publishBtn}>
+            <Tooltip
+              title={isValidForSubmit ? "" : "Enter required fields"}
+              placement="top"
+              enterDelay={500}
             >
-              Lyst this DAO ⚡
-            </button>
-          </Tooltip>
+              <button
+                style={
+                  isValidForSubmit
+                    ? {
+                        opacity: 1,
+                      }
+                    : {
+                        opacity: 0.5,
+                        cursor: "not-allowed",
+                      }
+                }
+                className={styles.lystBtn}
+                onClick={() => {
+                  if (isValidForSubmit) {
+                    submitLyst();
+                  }
+                }}
+              >
+                Lyst this DAO ⚡
+              </button>
+            </Tooltip>
+          </div>
         </DialogActions>
       </Dialog>
     </div>

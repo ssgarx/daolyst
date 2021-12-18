@@ -1,18 +1,18 @@
 import React, { useEffect } from "react";
 import style from "./lystingForm1.module.scss";
-import PlusIcon from "../../assets/daoIcon.svg";
 import EditIcon from "../../assets/editIcon.svg";
-import UploadImg1 from "../../assets/upl1.svg";
-import UploadImg2 from "../../assets/upl2.svg";
-import UploadImg3 from "../../assets/upl3.svg";
-import UploadImg4 from "../../assets/upl4.svg";
-import UploadImg5 from "../../assets/upl5.svg";
-import UploadImg6 from "../../assets/upl6.svg";
+// import PlusIcon from "../../assets/daoIcon.svg";
+// import UploadImg1 from "../../assets/upl1.svg";
+// import UploadImg2 from "../../assets/upl2.svg";
+// import UploadImg3 from "../../assets/upl3.svg";
+// import UploadImg4 from "../../assets/upl4.svg";
+// import UploadImg5 from "../../assets/upl5.svg";
+// import UploadImg6 from "../../assets/upl6.svg";
 import YtIcon from "../../assets/ytIcon.svg";
+import CrossIcon from "../../assets/crossIcon.svg";
 import { useState } from "react";
 import Resizer from "react-image-file-resizer";
-import gql from "graphql-tag";
-import { useMutation } from "@apollo/client";
+import DescEditor from "../../components/DescEditor";
 
 function LystingForm1({
   user,
@@ -39,6 +39,7 @@ function LystingForm1({
   daoDescription,
   setDaoDescription,
   setLystErrors,
+  handleLystFormClose,
 }) {
   const [localUser, setLocalUser] = useState({});
 
@@ -65,8 +66,8 @@ function LystingForm1({
     new Promise((resolve) => {
       Resizer.imageFileResizer(
         file,
-        100,
-        100,
+        500,
+        500,
         "JPEG",
         100,
         0,
@@ -125,10 +126,32 @@ function LystingForm1({
 
   return (
     <div className={style.box1}>
+      <span onClick={handleLystFormClose} className={style.closeLystForm}>
+        <img src={CrossIcon} alt="close" />
+      </span>
       <div className={style.box1A}>
         <div className={style.box1A1}>
           <div className={style.box1A1A}>
-            <img className={style.editIcon} src={EditIcon} alt="add_icon" />
+            <img
+              className={style.editIcon}
+              alt="add_icon"
+              src={daoIconImg ? CrossIcon : EditIcon}
+              style={
+                daoIconImg
+                  ? {
+                      cursor: "pointer",
+                      opacity: "0.6",
+                    }
+                  : {
+                      cursor: "default",
+                    }
+              }
+              onClick={() => {
+                if (daoIconImg) {
+                  setDaoIconImg(null);
+                }
+              }}
+            />
             <label htmlFor="DAO_ICON">
               <div
                 style={
@@ -156,7 +179,7 @@ function LystingForm1({
                           opacity: 0.02,
                         }
                   }
-                  src={daoIconImg ?? PlusIcon}
+                  src={daoIconImg ?? ""}
                   alt="add_icon"
                 />
               </div>
@@ -172,8 +195,23 @@ function LystingForm1({
             <div className={style.box1A1B1}>
               <img
                 className={style.editIconForName}
-                src={EditIcon}
+                src={daoName ? CrossIcon : EditIcon}
                 alt="add_icon"
+                style={
+                  daoName
+                    ? {
+                        cursor: "pointer",
+                        opacity: "0.6",
+                      }
+                    : {
+                        cursor: "default",
+                      }
+                }
+                onClick={() => {
+                  if (daoName) {
+                    setDaoName("");
+                  }
+                }}
               />
               <input
                 type="text"
@@ -186,8 +224,23 @@ function LystingForm1({
             <div className={style.box1A1B2}>
               <img
                 className={style.editIconForTag}
-                src={EditIcon}
+                src={daoTagLine ? CrossIcon : EditIcon}
                 alt="add_icon"
+                style={
+                  daoTagLine
+                    ? {
+                        cursor: "pointer",
+                        opacity: "0.6",
+                      }
+                    : {
+                        cursor: "default",
+                      }
+                }
+                onClick={() => {
+                  if (daoTagLine) {
+                    setDaoTagLine("");
+                  }
+                }}
               />
               <input
                 type="text"
@@ -219,7 +272,25 @@ function LystingForm1({
                       }
                 }
               >
-                <img src={EditIcon} alt="add_icon" />
+                <img
+                  alt="add_icon"
+                  src={expImg1 ? CrossIcon : EditIcon}
+                  style={
+                    expImg1
+                      ? {
+                          cursor: "pointer",
+                          opacity: "0.6",
+                        }
+                      : {
+                          cursor: "default",
+                        }
+                  }
+                  onClick={() => {
+                    if (expImg1) {
+                      setExpImg1(null);
+                    }
+                  }}
+                />
                 <input
                   type="file"
                   id="EXP_IMG1"
@@ -239,7 +310,7 @@ function LystingForm1({
                           opacity: 0.02,
                         }
                   }
-                  src={expImg1 ?? UploadImg1}
+                  src={expImg1 ?? ""}
                   alt=""
                 />
               </div>
@@ -257,7 +328,25 @@ function LystingForm1({
                       }
                 }
               >
-                <img src={EditIcon} alt="add_icon" />
+                <img
+                  alt="add_icon"
+                  src={expImg2 ? CrossIcon : EditIcon}
+                  style={
+                    expImg2
+                      ? {
+                          cursor: "pointer",
+                          opacity: "0.6",
+                        }
+                      : {
+                          cursor: "default",
+                        }
+                  }
+                  onClick={() => {
+                    if (expImg2) {
+                      setExpImg2(null);
+                    }
+                  }}
+                />
                 <input
                   type="file"
                   id="EXP_IMG2"
@@ -277,7 +366,7 @@ function LystingForm1({
                           opacity: 0.02,
                         }
                   }
-                  src={expImg2 ?? UploadImg2}
+                  src={expImg2 ?? ""}
                   alt=""
                 />
               </div>
@@ -295,7 +384,25 @@ function LystingForm1({
                       }
                 }
               >
-                <img src={EditIcon} alt="add_icon" />
+                <img
+                  alt="add_icon"
+                  src={expImg3 ? CrossIcon : EditIcon}
+                  style={
+                    expImg3
+                      ? {
+                          cursor: "pointer",
+                          opacity: "0.6",
+                        }
+                      : {
+                          cursor: "default",
+                        }
+                  }
+                  onClick={() => {
+                    if (expImg3) {
+                      setExpImg3(null);
+                    }
+                  }}
+                />
                 <input
                   type="file"
                   id="EXP_IMG3"
@@ -315,7 +422,7 @@ function LystingForm1({
                           opacity: 0.02,
                         }
                   }
-                  src={expImg3 ?? UploadImg3}
+                  src={expImg3 ?? ""}
                   alt=""
                 />
               </div>
@@ -333,7 +440,25 @@ function LystingForm1({
                       }
                 }
               >
-                <img src={EditIcon} alt="add_icon" />
+                <img
+                  alt="add_icon"
+                  src={expImg4 ? CrossIcon : EditIcon}
+                  style={
+                    expImg4
+                      ? {
+                          cursor: "pointer",
+                          opacity: "0.6",
+                        }
+                      : {
+                          cursor: "default",
+                        }
+                  }
+                  onClick={() => {
+                    if (expImg4) {
+                      setExpImg4(null);
+                    }
+                  }}
+                />
                 <input
                   type="file"
                   id="EXP_IMG4"
@@ -353,7 +478,7 @@ function LystingForm1({
                           opacity: 0.02,
                         }
                   }
-                  src={expImg4 ?? UploadImg4}
+                  src={expImg4 ?? ""}
                   alt=""
                 />
               </div>
@@ -371,7 +496,25 @@ function LystingForm1({
                       }
                 }
               >
-                <img src={EditIcon} alt="add_icon" />
+                <img
+                  alt="add_icon"
+                  src={expImg5 ? CrossIcon : EditIcon}
+                  style={
+                    expImg5
+                      ? {
+                          cursor: "pointer",
+                          opacity: "0.6",
+                        }
+                      : {
+                          cursor: "default",
+                        }
+                  }
+                  onClick={() => {
+                    if (expImg5) {
+                      setExpImg5(null);
+                    }
+                  }}
+                />
                 <input
                   type="file"
                   id="EXP_IMG5"
@@ -391,7 +534,7 @@ function LystingForm1({
                           opacity: 0.02,
                         }
                   }
-                  src={expImg5 ?? UploadImg5}
+                  src={expImg5 ?? ""}
                   alt=""
                 />
               </div>
@@ -409,7 +552,25 @@ function LystingForm1({
                       }
                 }
               >
-                <img src={EditIcon} alt="add_icon" />
+                <img
+                  alt="add_icon"
+                  src={expImg6 ? CrossIcon : EditIcon}
+                  style={
+                    expImg6
+                      ? {
+                          cursor: "pointer",
+                          opacity: "0.6",
+                        }
+                      : {
+                          cursor: "default",
+                        }
+                  }
+                  onClick={() => {
+                    if (expImg6) {
+                      setExpImg6(null);
+                    }
+                  }}
+                />
                 <input
                   type="file"
                   id="EXP_IMG6"
@@ -429,7 +590,7 @@ function LystingForm1({
                           opacity: 0.02,
                         }
                   }
-                  src={expImg6 ?? UploadImg6}
+                  src={expImg6 ?? ""}
                   alt=""
                 />
               </div>
@@ -463,10 +624,10 @@ function LystingForm1({
             <div>
               <div className={style.userProfileImg}>
                 <img
-                  style={{
-                    borderRadius: "50%",
-                    width: "50px",
-                  }}
+                  // style={{
+                  //   borderRadius: "50%",
+                  //   width: "50px",
+                  // }}
                   src={
                     user?.userProfileImg?.length > 0
                       ? user?.userProfileImg
@@ -480,19 +641,7 @@ function LystingForm1({
               <p>{user?.username}</p>
               <p>Founding Member</p>
               <div>
-                <textarea
-                  onChange={(e) => setDaoDescription(e.target.value)}
-                  placeholder="There are many variations of passages of Lorem Ipsum available, 
-                                but the majority have suffered alteration in some form, by injected humour, or randomised words 
-                                which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you 
-                                need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators 
-                                on https://kjdhkshds.com the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. 
-                                It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.
-                                The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc."
-                  cols="30"
-                  rows="10"
-                  value={daoDescription}
-                />
+                <DescEditor setDaoDescription={setDaoDescription} />
               </div>
             </div>
           </div>

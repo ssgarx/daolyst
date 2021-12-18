@@ -44,7 +44,7 @@ module.exports.validateRegisterInput = (email) => {
   };
 };
 
-const Otp = require("../models/Otp");
+const Otp = require("../graphql/models/Otp");
 module.exports.validateOtpInput = async (code) => {
   const errors = {};
   let otp;

@@ -43,7 +43,7 @@ function Navbar({ setOpen, user, setOpenLyst }) {
           <div>about</div>
           <div
             onClick={() => {
-              setOpenLyst(true);
+              user ? setOpenLyst(true) : setOpen(true);
             }}
           >
             lyst my DAO⚡
