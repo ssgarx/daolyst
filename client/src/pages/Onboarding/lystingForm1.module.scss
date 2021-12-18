@@ -25,11 +25,11 @@
   filter: invert(70%);
 }
 .box1 {
-  position: relative;
+  // position: relative;
   .closeLystForm {
     position: absolute;
-    top: -25px;
-    right: -30px;
+    top: 0px;
+    right: 0px;
     @include buttonProperties();
     margin: 7px 7px 0 0;
     opacity: 0.8;
