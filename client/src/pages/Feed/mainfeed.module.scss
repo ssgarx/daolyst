@@ -1,6 +1,75 @@
+@mixin verticalAlign() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+@mixin buttonProperties() {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  &:hover {
+    opacity: 0.8 !important;
+  }
+  &:active {
+    opacity: 1 !important;
+  }
+}
+
 .box1 {
-  border: 1px solid rgb(255, 0, 0);
   height: 100vh;
-  padding-top: 48px;
-  background-color: aqua;
+  padding-top: 80px;
+  display: flex;
+  justify-content: center;
+  .feedRail {
+    background-color: white;
+    width: 70vw;
+    height: 100%;
+    .feedinfobox {
+      display: flex;
+      justify-content: space-between;
+      text-transform: lowercase;
+      background-color: #fffbfb;
+      padding-bottom: 10px;
+      > div:nth-child(1) {
+        @include verticalAlign();
+        p {
+          color: gray;
+          font-size: 18px;
+        }
+      }
+      > div:nth-child(2) {
+        display: flex;
+
+        > button {
+          text-transform: lowercase;
+          height: 40px;
+          width: 100px;
+          background-color: #f7f7f7;
+          border: none;
+          color: gray;
+          @include buttonProperties();
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .box1 {
+    .feedRail {
+      width: 95vw;
+      .feedinfobox {
+        flex-direction: column-reverse;
+        > div:nth-child(1) {
+          p {
+          }
+        }
+        > div:nth-child(2) {
+          justify-content: center;
+          > button {
+          }
+        }
+      }
+    }
+  }
 }
