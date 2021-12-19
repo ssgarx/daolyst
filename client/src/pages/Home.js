@@ -89,9 +89,6 @@ function Home(props) {
     onCompleted: (data) => {
       handleLystFormClose();
     },
-    update(_, { data }) {
-      // console.log("data", data);
-    },
     onError(err) {
       setLystErrors(err.graphQLErrors[0].extensions.exception.errors);
     },
@@ -126,16 +123,7 @@ function Home(props) {
     getLystedDaos();
   }, []);
 
-  const [getLystedDaos] = useLazyQuery(GET_LYSTED_DAOS, {
-    onCompleted: (data) => {
-      // console.log("data", data);
-    },
-    update(_, { data }) {
-      // console.log("data", data);
-    },
-    onError(err) {
-      console.log("err", err);
-    },
+  const [getLystedDaos, { loading, data }] = useLazyQuery(GET_LYSTED_DAOS, {
     variables: {
       page: page,
       limit: limit,
@@ -154,7 +142,7 @@ function Home(props) {
             setOpenLyst={setOpenLyst}
           />
         )}
-        <MainFeed />
+        <MainFeed loading={loading} data={data} />
       </div>
       {/* FOR LOGIN POPUPS */}
       <Dialog
