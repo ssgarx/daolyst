@@ -6,7 +6,7 @@ module.exports = gql`
     username: String
     userProfileImg: String
     createdAt: String
-    listedProducts: [listedProject]
+    listedProjects: [listedProject]
   }
   type listedProject {
     _id: String
@@ -28,6 +28,7 @@ module.exports = gql`
   }
   type Query {
     checkIfNewUser(email: String!): Boolean!
+    getLystedDaos(page: Int!, limit: Int!): [User]
   }
   type Mutation {
     register(email: String!): User!

@@ -1,13 +1,6 @@
 import React, { useEffect } from "react";
 import style from "./lystingForm1.module.scss";
 import EditIcon from "../../assets/editIcon.svg";
-// import PlusIcon from "../../assets/daoIcon.svg";
-// import UploadImg1 from "../../assets/upl1.svg";
-// import UploadImg2 from "../../assets/upl2.svg";
-// import UploadImg3 from "../../assets/upl3.svg";
-// import UploadImg4 from "../../assets/upl4.svg";
-// import UploadImg5 from "../../assets/upl5.svg";
-// import UploadImg6 from "../../assets/upl6.svg";
 import YtIcon from "../../assets/ytIcon.svg";
 import CrossIcon from "../../assets/crossIcon.svg";
 import { useState } from "react";

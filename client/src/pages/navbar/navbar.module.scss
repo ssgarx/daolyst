@@ -6,7 +6,10 @@
 .box {
   padding: 20px;
   background-color: white;
-  transition: 0.2s ease all;
+  // transition: 0.2s ease all;
+  position: fixed;
+  z-index: 100;
+  width: 97vw;
   .box1 {
     display: flex;
     justify-content: space-between;

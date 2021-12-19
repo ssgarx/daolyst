@@ -19,7 +19,8 @@ import Login from "./login/Login";
 import IdentificationForm1 from "./Onboarding/IdentificationForm1";
 import LystingForm1 from "./Onboarding/LystingForm1";
 import gql from "graphql-tag";
-import { useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
+import MainFeed from "./Feed/MainFeed";
 
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
@@ -53,6 +54,8 @@ function Home(props) {
   const [daoDescription, setDaoDescription] = useState("");
   const [isValidForSubmit, setIsValidForSubmit] = useState(false);
   const [lystErrors, setLystErrors] = useState({});
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(10);
 
   useEffect(() => {
     //check if form is valid
@@ -119,10 +122,30 @@ function Home(props) {
     setLystErrors({});
   };
 
+  useEffect(() => {
+    getLystedDaos();
+  }, []);
+
+  const [getLystedDaos] = useLazyQuery(GET_LYSTED_DAOS, {
+    onCompleted: (data) => {
+      // console.log("data", data);
+    },
+    update(_, { data }) {
+      // console.log("data", data);
+    },
+    onError(err) {
+      console.log("err", err);
+    },
+    variables: {
+      page: page,
+      limit: limit,
+    },
+  });
+
   return (
     <div ref={ref}>
       <div>
-        {width > 800 ? (
+        {width > 900 ? (
           <Navbar user={user} setOpen={setOpen} setOpenLyst={setOpenLyst} />
         ) : (
           <MobileNavbar
@@ -131,6 +154,7 @@ function Home(props) {
             setOpenLyst={setOpenLyst}
           />
         )}
+        <MainFeed />
       </div>
       {/* FOR LOGIN POPUPS */}
       <Dialog
@@ -263,6 +287,27 @@ const SUBMIT_LYST_FORM = gql`
       username
       userProfileImg
       createdAt
+    }
+  }
+`;
+
+const GET_LYSTED_DAOS = gql`
+  query getLystedDaos($page: Int!, $limit: Int!) {
+    getLystedDaos(page: $page, limit: $limit) {
+      email
+      username
+      userProfileImg
+      createdAt
+      listedProjects {
+        _id
+        projectName
+        projectTag
+        projectDescription
+        projectIcon
+        projectImages
+        projectVideoLink
+        createdAt
+      }
     }
   }
 `;

@@ -42,6 +42,23 @@ module.exports = {
         throw new Error(err);
       }
     },
+
+    //create a paginated query that returns listedProjects of all the users in the database
+    async getLystedDaos(_, { page, limit }) {
+      try {
+        //get all users from the database who have lysted a project
+        const users = await User.find({
+          listedProjects: { $exists: true, $ne: [] },
+        })
+          .skip(page * limit)
+          .limit(limit)
+          .sort({ createdAt: -1 });
+        return users;
+        console.log("users", users);
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
   },
   Mutation: {
     async register(_, { email }) {
