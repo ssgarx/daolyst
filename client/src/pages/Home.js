@@ -86,8 +86,9 @@ function Home(props) {
   ]);
 
   const [submitLyst] = useMutation(SUBMIT_LYST_FORM, {
-    onCompleted: (data) => {
+    onCompleted: () => {
       handleLystFormClose();
+      getLystedDaos();
     },
     onError(err) {
       setLystErrors(err.graphQLErrors[0].extensions.exception.errors);
@@ -100,6 +101,8 @@ function Home(props) {
       projectImages: [expImg1, expImg2, expImg3, expImg4, expImg5, expImg6],
       projectVideoLink: videoLink,
     },
+    //clear network cache
+    fetchPolicy: "no-cache",
   });
 
   const handleLystFormClose = () => {
@@ -128,6 +131,7 @@ function Home(props) {
       page: page,
       limit: limit,
     },
+    fetchPolicy: "no-cache",
   });
 
   return (

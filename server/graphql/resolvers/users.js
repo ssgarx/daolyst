@@ -46,15 +46,12 @@ module.exports = {
     //create a paginated query that returns listedProjects of all the users in the database
     async getLystedDaos(_, { page, limit }) {
       try {
-        //get all users from the database who have lysted a project
-        const users = await User.find({
-          listedProjects: { $exists: true, $ne: [] },
-        })
+        //return all users in the database
+        const users = await User.find({})
+          .sort({ createdAt: -1 })
           .skip(page * limit)
-          .limit(limit)
-          .sort({ createdAt: -1 });
+          .limit(limit);
         return users;
-        console.log("users", users);
       } catch (err) {
         throw new Error(err);
       }

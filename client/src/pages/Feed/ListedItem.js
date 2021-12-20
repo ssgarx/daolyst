@@ -3,7 +3,6 @@ import style from "./listedItem.module.scss";
 import PlusIcon from "../../assets/plusIcon.svg";
 
 function ListedItem({ item }) {
-  console.log("item", item);
   const {
     createdAt,
     projectDescription,
