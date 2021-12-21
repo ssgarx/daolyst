@@ -20,8 +20,8 @@ function ListedItem({ item }) {
           <img src={projectIcon} alt="product_img" />
         </div>
         <div className={style.box1A2}>
-          <p>Project Name</p>
-          <p>Project tag name</p>
+          <p>{projectName}</p>
+          <p>{projectTag}</p>
         </div>
       </div>
       <div className={style.box1B}>

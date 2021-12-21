@@ -37,15 +37,10 @@ function MobileNavbar({ setOpen, user, setOpenLyst }) {
         </div>
       </div>
       <div
-        style={
-          isHamOpen
-            ? {
-                right: "0",
-              }
-            : {
-                right: "-200vw",
-              }
-        }
+        style={{
+          zIndex: 1,
+          right: isHamOpen ? "0" : "-100%",
+        }}
         className={style.notifPanel}
       >
         <SidePanel user={user} setOpen={setOpen} setOpenLyst={setOpenLyst} />

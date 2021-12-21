@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import style from "./login.module.scss";
 import Icon from "../../assets/mainLogo.svg";
 import crossIcon from "../../assets/crossIcon.svg";
-import { useForm } from "../../util/hooks";
 import EmailForm from "./EmailForm";
 import OtpForm from "./OtpForm";
 

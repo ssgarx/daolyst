@@ -124,6 +124,7 @@ function Home(props) {
 
   useEffect(() => {
     getLystedDaos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [getLystedDaos, { loading, data }] = useLazyQuery(GET_LYSTED_DAOS, {

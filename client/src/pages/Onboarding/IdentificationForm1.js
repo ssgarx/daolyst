@@ -3,7 +3,6 @@ import { gql, useMutation } from "@apollo/client";
 import style from "./identificationForm1.module.scss";
 import UploadDpIcon from "../../assets/uploadIcon.svg";
 import crossIcon from "../../assets/crossIcon.svg";
-import { useHistory } from "react-router-dom";
 import Resizer from "react-image-file-resizer";
 
 // Resizer.imageFileResizer(

@@ -4,7 +4,6 @@ import ListedItem from "./ListedItem";
 import style from "./mainfeed.module.scss";
 
 function MainFeed({ loading, data }) {
-  console.log("loadingxx", loading);
   return (
     <div className={style.box1}>
       <div className={style.feedRail}>

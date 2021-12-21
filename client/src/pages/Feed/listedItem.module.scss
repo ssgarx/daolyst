@@ -25,11 +25,10 @@
     flex: 1;
     display: flex;
     .box1A1 {
-      width: 75px;
-      height: 75px;
+      width: 65px;
+      height: 65px;
       > img {
         @include verticalAlign();
-
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -40,11 +39,12 @@
       padding: 10px;
       > p:nth-child(1) {
         font-size: 20px;
-        font-weight: 900;
+        // font-weight: 600;
       }
       > p:nth-child(2) {
         font-size: 15px;
         font-weight: 400;
+        color: gray;
       }
     }
   }
@@ -55,23 +55,34 @@
     > div {
       button {
         height: 35px;
-        width: 110px;
-        border: none;
-        background-color: black;
+        width: 75px;
+        border: 1px solid #e6e6e600;
+        background-color: #f7f7f7;
         @include buttonProperties();
         > div {
           display: flex;
           justify-content: center;
           > div:nth-child(1) {
-            width: 25px;
+            width: 21px;
+            filter: invert(50%);
           }
           > div:nth-child(2) {
-            font-size: 18px;
-            font-weight: 600;
-            color: white;
+            font-size: 15px;
+            // font-weight: 600;
+            color: gray;
           }
           > div {
             @include verticalAlign();
+          }
+        }
+        &:hover {
+          > div {
+            > div:nth-child(1) {
+              animation: rotation 0.5s ease-in-out;
+            }
+          }
+          &:hover {
+            border: 1px solid #e0e0e0;
           }
         }
       }
@@ -113,4 +124,15 @@
   100% {
     border-left: 4px solid #ff0000;
   }
+}
+@keyframes rotation {
+  50% {
+    transform: rotate(-10deg);
+  }
+  75% {
+    transform: rotate(10deg);
+  }
+  // 100% {
+  //   transform: rotate(0deg);
+  // }
 }
