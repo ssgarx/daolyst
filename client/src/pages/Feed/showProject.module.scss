@@ -1,0 +1,65 @@
+@mixin verticalAlign() {
+  display: flex;
+  justify-content: center;
+  // align-items: center;
+  flex-direction: column;
+}
+@mixin buttonProperties() {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  &:hover {
+    opacity: 0.8 !important;
+  }
+  &:active {
+    opacity: 1 !important;
+  }
+}
+.box1 {
+  border: 1px solid red;
+  width: 90vw;
+  .box1A {
+    display: flex;
+    justify-content: space-between;
+    .box1A1 {
+      display: flex;
+      .projIcon {
+        width: 120px;
+        height: 120px;
+        > img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+      .projInfo {
+        @include verticalAlign();
+        padding: 10px;
+        > p:nth-child(1) {
+          font-size: 40px;
+          color: black;
+          font-weight: bold;
+        }
+        > p:nth-child(2) {
+          font-size: 25px;
+          font-weight: 400;
+          color: gray;
+        }
+      }
+    }
+    .box1A2 {
+      > button {
+        @include buttonProperties();
+        border: none;
+        color: white;
+        line-height: 50px;
+        width: 250px;
+        font-size: 18px;
+        background-color: black;
+      }
+    }
+  }
+  .box1B {
+  }
+  .box1C {
+  }
+}
