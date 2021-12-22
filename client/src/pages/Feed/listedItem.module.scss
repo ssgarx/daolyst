@@ -16,13 +16,13 @@
 }
 .box1 {
   background-color: white;
-  padding: 5px;
-  margin: 5px;
+  padding: 10px;
+  margin: 5px 0px;
   display: flex;
   justify-content: space-between;
   cursor: pointer;
   .box1A {
-    flex: 1;
+    flex: 4;
     display: flex;
     .box1A1 {
       width: 65px;
@@ -38,12 +38,14 @@
       @include verticalAlign();
       padding: 10px;
       > p:nth-child(1) {
-        font-size: 20px;
+        font-size: 18px;
+        color: #21293c;
         // font-weight: 600;
       }
       > p:nth-child(2) {
         font-size: 15px;
         font-weight: 400;
+        color: #4b587c;
         color: gray;
       }
     }
@@ -135,4 +137,16 @@
   // 100% {
   //   transform: rotate(0deg);
   // }
+}
+
+//when screen size is less than 768px
+@media screen and (max-width: 500px) {
+  .box1A2 {
+    > p {
+      width: 200px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
 }

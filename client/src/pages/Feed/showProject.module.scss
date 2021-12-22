@@ -15,16 +15,26 @@
   }
 }
 .box1 {
-  border: 1px solid red;
-  width: 90vw;
+  .closeLystForm {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    @include buttonProperties();
+    margin: 7px 7px 0 0;
+    opacity: 0.8;
+    > img {
+      width: 25px;
+    }
+  }
+  min-width: 80vw;
   .box1A {
     display: flex;
     justify-content: space-between;
     .box1A1 {
       display: flex;
       .projIcon {
-        width: 120px;
-        height: 120px;
+        width: 100px;
+        height: 100px;
         > img {
           width: 100%;
           height: 100%;
@@ -34,15 +44,16 @@
       .projInfo {
         @include verticalAlign();
         padding: 10px;
+        padding-left: 10px;
         > p:nth-child(1) {
-          font-size: 40px;
-          color: black;
+          font-size: 26px;
+          color: #21293c;
           font-weight: bold;
         }
         > p:nth-child(2) {
-          font-size: 25px;
+          font-size: 15px;
           font-weight: 400;
-          color: gray;
+          color: #4b587c;
         }
       }
     }
@@ -51,15 +62,152 @@
         @include buttonProperties();
         border: none;
         color: white;
-        line-height: 50px;
+        line-height: 40px;
         width: 250px;
-        font-size: 18px;
-        background-color: black;
+        font-size: 15px;
+        background-color: #fc4444;
+        border: 2px solid #da0000;
+        text-transform: uppercase;
       }
     }
   }
   .box1B {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    margin-bottom: 0px;
+    .box1B1 {
+      background-color: rgb(255, 255, 255);
+      border: 1px solid rgba(33, 41, 63, 0.1);
+      // border: 2px solid #f8f8f8;
+      height: 50vh;
+      width: 85%;
+      cursor: pointer;
+      @include verticalAlign();
+      .projImgBox {
+        // @include verticalAlign();
+        width: 70% !important;
+        height: 300px;
+        > img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
   }
   .box1C {
+    display: flex;
+    justify-content: center;
+    .box1CX {
+      margin: 20px 0;
+      margin-bottom: 0px;
+      width: 85%;
+      > p {
+        color: #4b587c;
+        font-size: 15px;
+      }
+    }
+  }
+  .box1D {
+    display: flex;
+    justify-content: center;
+    .box1DX {
+      margin: 20px 0;
+      margin-bottom: 0px;
+      background-color: rgb(255, 255, 255);
+      border: 1px solid rgba(33, 41, 63, 0.1);
+      padding: 10px;
+      width: 85%;
+      .box1D1 {
+        display: flex;
+        .userProfile {
+          width: 50px;
+          height: 50px;
+          > img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+          }
+        }
+        .box1D2 {
+          .creds {
+            margin-left: 10px;
+            font-weight: bold;
+            color: #21293c;
+            font-size: 18px;
+            text-align: left;
+            > p:nth-child(2) {
+              font-size: 15px;
+              color: #4b587c;
+              font-weight: normal;
+            }
+          }
+          .desc {
+            margin-left: 10px;
+            color: #21293c;
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .box1 {
+    .box1A {
+      flex-direction: column;
+      .box1A1 {
+        flex-direction: column;
+        .projIcon {
+          display: table;
+          margin-right: auto;
+          margin-left: auto;
+          > img {
+          }
+        }
+        .projInfo {
+          text-align: center;
+          > p:nth-child(1) {
+          }
+          > p:nth-child(2) {
+          }
+        }
+      }
+      .box1A2 {
+        text-align: center;
+        > button {
+        }
+      }
+    }
+    .box1B {
+      .box1B1 {
+        width: 95%;
+        .projImgBox {
+          width: 90% !important;
+          > img {
+          }
+        }
+      }
+    }
+    .box1C {
+    }
+    .box1D {
+      .userProfile {
+        > img {
+        }
+      }
+      .box1D2 {
+        .creds {
+          > p:nth-child(2) {
+          }
+        }
+        .desc {
+        }
+      }
+    }
   }
 }

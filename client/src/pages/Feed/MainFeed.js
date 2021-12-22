@@ -34,10 +34,10 @@ function MainFeed({ loading, data }) {
               />
             </Box>
           ) : (
-            data?.getLystedDaos?.map((item, index) =>
-              item?.listedProjects?.map((item, index) => (
+            data?.getLystedDaos?.map((mainItem, index) =>
+              mainItem?.listedProjects?.map((item, index) => (
                 <div key={index}>
-                  <ListedItem item={item} />
+                  <ListedItem mainItem={mainItem} item={item} />
                 </div>
               ))
             )

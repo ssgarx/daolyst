@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import style from "./listedItem.module.scss";
 import PlusIcon from "../../assets/plusIcon.svg";
+
 import {
   Box,
   Dialog,
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ListedItem({ item }) {
+function ListedItem({ mainItem, item }) {
   const {
     createdAt,
     projectDescription,
@@ -35,6 +36,7 @@ function ListedItem({ item }) {
   const [openProject, setOpenProject] = useState(false);
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const projElementRef = React.useRef(null);
+
   return (
     <>
       <div onClick={() => setOpenProject(true)} className={style.box1}>
@@ -52,7 +54,7 @@ function ListedItem({ item }) {
             <button>
               <div>
                 <div>
-                  <img src={PlusIcon} alt="+" />
+                  <span>&#9650;</span>
                 </div>
                 <div>999</div>
               </div>
@@ -84,6 +86,9 @@ function ListedItem({ item }) {
               projectName={projectName}
               projectTag={projectTag}
               projectVideoLink={projectVideoLink}
+              mainItem={mainItem}
+              openProject={openProject}
+              setOpenProject={setOpenProject}
             />
           </DialogContentText>
         </DialogContent>
