@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import style from "./sidePanel.module.scss";
 import searchIcon from "../../assets/searchIcon.svg";
 import crossIcon from "../../assets/crossIcon.svg";
+import { AuthContext } from "../../context/auth";
 
 function SidePanel({ setOpen, user, setOpenLyst }) {
+  const { logout } = useContext(AuthContext);
   const [localUser, setLocalUser] = useState({});
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("userData"));
@@ -11,6 +13,10 @@ function SidePanel({ setOpen, user, setOpenLyst }) {
       setLocalUser(userData);
     }
   }, []);
+  const handleLogout = () => {
+    logout();
+    window.location.reload();
+  };
   return (
     <div className={style.box}>
       <div className={style.box1}>
@@ -55,35 +61,39 @@ function SidePanel({ setOpen, user, setOpenLyst }) {
               log in
             </div>
           ) : (
-            <div className={style.signedIn}>
-              <div className={style.signedInA}>
-                <img
-                  style={
-                    (user?.userProfileImg?.length ||
-                      localUser?.userProfileImg?.length) > 0
-                      ? {
-                          borderRadius: "50%",
-                          width: "25px",
-                        }
-                      : {
-                          borderRadius: "none",
-                          width: "20px",
-                        }
-                  }
-                  src={
-                    user?.userProfileImg?.length > 0
-                      ? user?.userProfileImg
-                      : localUser?.userProfileImg
-                  }
-                  alt="dp"
-                />
+            <>
+              <p>dashboard</p>
+              <div className={style.signedIn}>
+                <div className={style.signedInA}>
+                  <img
+                    style={
+                      (user?.userProfileImg?.length ||
+                        localUser?.userProfileImg?.length) > 0
+                        ? {
+                            borderRadius: "50%",
+                            width: "25px",
+                          }
+                        : {
+                            borderRadius: "none",
+                            width: "20px",
+                          }
+                    }
+                    src={
+                      user?.userProfileImg?.length > 0
+                        ? user?.userProfileImg
+                        : localUser?.userProfileImg
+                    }
+                    alt="dp"
+                  />
+                </div>
+                <div className={style.signedInB} onClick={handleLogout}>
+                  {user?.username?.length > 0
+                    ? user.username
+                    : localUser.username}{" "}
+                  &gt; logout
+                </div>
               </div>
-              <div className={style.signedInB}>
-                {user?.username?.length > 0
-                  ? user.username
-                  : localUser.username}
-              </div>
-            </div>
+            </>
           )}
         </>
       </div>
