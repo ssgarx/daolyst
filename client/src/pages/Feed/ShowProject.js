@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import style from "./showProject.module.scss";
 // Import css files
 import "slick-carousel/slick/slick.css";
@@ -7,8 +7,12 @@ import Slider from "react-slick";
 import ReactPlayer from "react-player";
 import parse from "html-react-parser";
 import CrossIcon from "../../assets/crossIcon.svg";
+import gql from "graphql-tag";
+import { useMutation } from "@apollo/client";
+import { AuthContext } from "../../context/auth";
 
 function ShowProject({
+  _id,
   mainItem,
   createdAt,
   projectDescription,
@@ -17,11 +21,13 @@ function ShowProject({
   projectName,
   projectTag,
   projectVideoLink,
-  openProject,
   setOpenProject,
-}) {
-  console.log("projectDescription", projectDescription);
+  uplysts,
 
+  currentUplyst,
+  setCurrentUplyst,
+}) {
+  const { user } = useContext(AuthContext);
   const settings = {
     dots: true,
     infinite: true,
@@ -30,6 +36,23 @@ function ShowProject({
     slidesToScroll: 1,
     adaptiveHeight: true,
   };
+
+  const [uplystThisProject] = useMutation(SUBMIT_LYST_FORM, {
+    onCompleted: (data) => {
+      if (currentUplyst.find((uplyst) => uplyst.email === user.email)) {
+        setCurrentUplyst(
+          uplysts.filter((uplyst) => uplyst.email !== user.email)
+        );
+      } else {
+        setCurrentUplyst([...currentUplyst, { email: user.email }]);
+      }
+    },
+    variables: {
+      upLysterEmail: user?.email,
+      projectOwnerEmail: mainItem?.email,
+      projectId: _id,
+    },
+  });
 
   return (
     <div className={style.box1}>
@@ -50,8 +73,13 @@ function ShowProject({
           </div>
         </div>
         <div className={style.box1A2}>
-          <button>
-            <span>&#9650;</span> upLyst
+          <button
+            onClick={() => {
+              // setCurrentUplyst(currentUplyst + 1);
+              uplystThisProject();
+            }}
+          >
+            <span>&#9650;</span> upLyst <span>{currentUplyst.length} </span>
           </button>
         </div>
       </div>
@@ -104,5 +132,19 @@ function ShowProject({
     </div>
   );
 }
+
+const SUBMIT_LYST_FORM = gql`
+  mutation upLystProject(
+    $upLysterEmail: String!
+    $projectOwnerEmail: String!
+    $projectId: String!
+  ) {
+    upLystProject(
+      upLysterEmail: $upLysterEmail
+      projectOwnerEmail: $projectOwnerEmail
+      projectId: $projectId
+    )
+  }
+`;
 
 export default ShowProject;

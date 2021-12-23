@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { UserInputError } = require("apollo-server");
 const checkAuth = require("../../util/check-auth");
+const uuid = require("uuid");
 require("dotenv").config();
 
 const { sendOtpMail } = require("../../util/mailer");
@@ -190,6 +191,7 @@ module.exports = {
         });
       } else {
         const newProject = {
+          _id: uuid.v4(),
           projectIcon,
           projectName,
           projectTag,
@@ -202,6 +204,51 @@ module.exports = {
         user.listedProjects.push(newProject);
         await user.save();
         return user;
+      }
+    },
+    //create a mutation that takes accepts email and projectId as input
+    async upLystProject(
+      _,
+      { upLysterEmail, projectOwnerEmail, projectId },
+      context
+    ) {
+      try {
+        //find user with the email using upLysterEmail
+        const uplyster = await User.findOne({ email: upLysterEmail });
+        const projectOwner = await User.findOne({ email: projectOwnerEmail });
+        let uplystedProject = null;
+        for (let i = 0; i < projectOwner.listedProjects.length; i++) {
+          if (projectOwner.listedProjects[i]._id == projectId) {
+            uplystedProject = projectOwner.listedProjects[i];
+          }
+        }
+        console.log("uplystedProject", uplystedProject.uplysts.length);
+        let uplysted = false;
+        for (let i = 0; i < uplystedProject.uplysts.length; i++) {
+          if (uplystedProject.uplysts[i].email == upLysterEmail) {
+            uplysted = true;
+            break;
+          }
+        }
+        console.log("uplysted", uplysted);
+        if (uplysted) {
+          console.log("REMMOVING");
+          let tmp = uplystedProject.uplysts.filter(
+            (uplyst) => uplyst.email !== upLysterEmail
+          );
+          uplystedProject.uplysts = [...tmp];
+        } else {
+          uplystedProject.uplysts = [...uplystedProject.uplysts, uplyster];
+        }
+        let tmp = projectOwner.listedProjects.filter(
+          (project) => project._id !== uplystedProject._id
+        );
+        projectOwner.listedProjects = [...tmp, uplystedProject];
+        await projectOwner.save();
+        return true;
+      } catch (err) {
+        console.log("err", err);
+        return false;
       }
     },
   },

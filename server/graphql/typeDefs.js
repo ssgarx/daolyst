@@ -17,6 +17,7 @@ module.exports = gql`
     projectImages: [String]
     projectVideoLink: String
     createdAt: String
+    uplysts: [User]
   }
   type Otp {
     code: String
@@ -43,5 +44,10 @@ module.exports = gql`
       projectImages: [String!]
       projectVideoLink: String
     ): User!
+    upLystProject(
+      upLysterEmail: String!
+      projectOwnerEmail: String!
+      projectId: String!
+    ): Boolean!
   }
 `;

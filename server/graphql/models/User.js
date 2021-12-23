@@ -16,6 +16,7 @@ const userDataSchema = new Schema({
       projectImages: [String],
       projectVideoLink: String,
       createdAt: String,
+      uplysts: [Object],
     },
   ],
 });

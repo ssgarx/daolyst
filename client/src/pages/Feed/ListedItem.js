@@ -1,15 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./listedItem.module.scss";
-import PlusIcon from "../../assets/plusIcon.svg";
 
 import {
-  Box,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogContentText,
   makeStyles,
-  Tooltip,
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
@@ -23,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ListedItem({ mainItem, item }) {
   const {
+    _id,
     createdAt,
     projectDescription,
     projectIcon,
@@ -30,12 +27,22 @@ function ListedItem({ mainItem, item }) {
     projectName,
     projectTag,
     projectVideoLink,
+    uplysts,
   } = item;
   const classes = useStyles();
   const theme = useTheme();
   const [openProject, setOpenProject] = useState(false);
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const projElementRef = React.useRef(null);
+
+  const [currentUplyst, setCurrentUplyst] = useState([]);
+
+  useEffect(() => {
+    setCurrentUplyst([...uplysts]);
+  }, []);
+  useEffect(() => {
+    console.log("currentUplyst", currentUplyst);
+  }, [currentUplyst]);
 
   return (
     <>
@@ -56,7 +63,7 @@ function ListedItem({ mainItem, item }) {
                 <div>
                   <span>&#9650;</span>
                 </div>
-                <div>999</div>
+                <div>{currentUplyst.length}</div>
               </div>
             </button>
           </div>
@@ -79,6 +86,7 @@ function ListedItem({ mainItem, item }) {
             tabIndex={-1}
           >
             <ShowProject
+              _id={_id}
               createdAt={createdAt}
               projectDescription={projectDescription}
               projectIcon={projectIcon}
@@ -87,8 +95,10 @@ function ListedItem({ mainItem, item }) {
               projectTag={projectTag}
               projectVideoLink={projectVideoLink}
               mainItem={mainItem}
-              openProject={openProject}
               setOpenProject={setOpenProject}
+              uplysts={uplysts}
+              currentUplyst={currentUplyst}
+              setCurrentUplyst={setCurrentUplyst}
             />
           </DialogContentText>
         </DialogContent>

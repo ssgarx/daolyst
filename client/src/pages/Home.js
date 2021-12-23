@@ -300,6 +300,11 @@ const GET_LYSTED_DAOS = gql`
         projectImages
         projectVideoLink
         createdAt
+        uplysts {
+          email
+          username
+          userProfileImg
+        }
       }
     }
   }
