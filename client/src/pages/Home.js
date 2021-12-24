@@ -21,6 +21,7 @@ import LystingForm1 from "./Onboarding/LystingForm1";
 import gql from "graphql-tag";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import MainFeed from "./Feed/MainFeed";
+import Dashboard from "../components/Dashboard";
 
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
@@ -36,6 +37,7 @@ function Home(props) {
 
   const [open, setOpen] = useState(false); //for login popup
   const [openLyst, setOpenLyst] = useState(false); //for lystMyDAO popup
+  const [openDashboard, setOpenDashboard] = useState(false); //for dashboard popup
 
   const { user } = useContext(AuthContext);
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -121,6 +123,12 @@ function Home(props) {
     setDaoDescription("");
     setLystErrors({});
   };
+  const handleDashboardClose = () => {
+    setOpenDashboard(false);
+  };
+  const handleDashboardOpen = () => {
+    setOpenDashboard(true);
+  };
 
   useEffect(() => {
     getLystedDaos();
@@ -139,12 +147,18 @@ function Home(props) {
     <div ref={ref}>
       <div>
         {width > 900 ? (
-          <Navbar user={user} setOpen={setOpen} setOpenLyst={setOpenLyst} />
+          <Navbar
+            user={user}
+            setOpen={setOpen}
+            setOpenLyst={setOpenLyst}
+            handleDashboardOpen={handleDashboardOpen}
+          />
         ) : (
           <MobileNavbar
             user={user}
             setOpen={setOpen}
             setOpenLyst={setOpenLyst}
+            handleDashboardOpen={handleDashboardOpen}
           />
         )}
         <MainFeed loading={loading} data={data} />
@@ -253,6 +267,27 @@ function Home(props) {
             </Tooltip>
           </div>
         </DialogActions>
+      </Dialog>
+      {/* FOR DASHBOARD */}
+      <Dialog
+        classes={{ paper: classes.dialogPaper }}
+        open={openDashboard}
+        onClose={handleDashboardClose}
+        scroll={"paper"}
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
+        fullScreen={fullScreen}
+        maxWidth={"lg"}
+      >
+        <DialogContent>
+          <DialogContentText
+            id="scroll-dialog-description"
+            ref={descriptionElementRef}
+            tabIndex={-1}
+          >
+            <Dashboard />
+          </DialogContentText>
+        </DialogContent>
       </Dialog>
     </div>
   );

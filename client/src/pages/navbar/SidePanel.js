@@ -4,7 +4,7 @@ import searchIcon from "../../assets/searchIcon.svg";
 import crossIcon from "../../assets/crossIcon.svg";
 import { AuthContext } from "../../context/auth";
 
-function SidePanel({ setOpen, user, setOpenLyst }) {
+function SidePanel({ setOpen, user, setOpenLyst, handleDashboardOpen }) {
   const { logout } = useContext(AuthContext);
   const [localUser, setLocalUser] = useState({});
   useEffect(() => {
@@ -62,7 +62,7 @@ function SidePanel({ setOpen, user, setOpenLyst }) {
             </div>
           ) : (
             <>
-              <p>dashboard</p>
+              <p onClick={handleDashboardOpen}>dashboard</p>
               <div className={style.signedIn}>
                 <div className={style.signedInA}>
                   <img

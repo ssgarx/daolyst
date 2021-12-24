@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Navbar({ setOpen, user, setOpenLyst }) {
+function Navbar({ setOpen, user, setOpenLyst, handleDashboardOpen }) {
   const classes = useStyles();
   const [localUser, setLocalUser] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
@@ -136,7 +136,7 @@ function Navbar({ setOpen, user, setOpenLyst }) {
         }}
         classes={{ paper: classes.dialogPaper }}
       >
-        <ProfileDropdown />
+        <ProfileDropdown handleDashboardOpen={handleDashboardOpen} />
       </Popover>
     </>
   );

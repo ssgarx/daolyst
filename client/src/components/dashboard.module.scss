@@ -1,0 +1,92 @@
+@mixin verticalAlign() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+@mixin buttonProperties() {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  &:hover {
+    opacity: 0.8 !important;
+  }
+  &:active {
+    opacity: 1 !important;
+  }
+}
+
+.box1 {
+  background-color: #fffbfb !important;
+  width: 50vw;
+  .box1A {
+    display: flex;
+    justify-content: space-between;
+    .box1A1 {
+      border: 1px solid rgb(255, 0, 0);
+      background-color: #ffffff !important;
+      border: 1px solid rgba(33, 41, 63, 0.1);
+      padding: 20px;
+      .profileBox {
+        border-bottom: 1px solid rgba(33, 41, 63, 0.1);
+        .imgBox {
+          display: table;
+          margin-right: auto;
+          margin-left: auto;
+          width: 100px;
+          height: 100px;
+          > img {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+        }
+        .usernameBox {
+          text-align: center;
+          > p {
+            // font-size: 18px;
+            color: #21293c;
+            font-weight: bold;
+          }
+        }
+        .useremailBox {
+          text-align: center;
+          > p {
+            // font-size: 18px;
+            color: #4b587c;
+          }
+        }
+      }
+      .optionsBox {
+        padding-top: 30px;
+        > div {
+          cursor: pointer;
+          > p {
+            padding: 5px 0px;
+            font-size: 16px;
+            line-height: 24px;
+          }
+          &:hover {
+            transition: all 0.3s ease;
+            color: #21293c;
+          }
+        }
+      }
+    }
+    .box1A2 {
+      width: 100%;
+      margin: 20px;
+      .box1A2A {
+        .overview {
+          font-size: 25px;
+        }
+      }
+      .box1A2B {
+        height: 90%;
+      }
+    }
+  }
+}
