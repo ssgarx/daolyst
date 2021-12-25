@@ -235,7 +235,6 @@ module.exports = {
             uplystedProject = projectOwner.listedProjects[i];
           }
         }
-        console.log("uplystedProject", uplystedProject.uplysts.length);
         let uplysted = false;
         for (let i = 0; i < uplystedProject.uplysts.length; i++) {
           if (uplystedProject.uplysts[i].email == upLysterEmail) {
@@ -243,9 +242,7 @@ module.exports = {
             break;
           }
         }
-        console.log("uplysted", uplysted);
         if (uplysted) {
-          console.log("REMMOVING");
           let tmp = uplystedProject.uplysts.filter(
             (uplyst) => uplyst.email !== upLysterEmail
           );
@@ -260,7 +257,7 @@ module.exports = {
         await projectOwner.save();
         return true;
       } catch (err) {
-        console.log("err", err);
+        console.log("ERROR", err);
         return false;
       }
     },
@@ -357,10 +354,8 @@ module.exports = {
         }
         //comvert to number
         if (viewedProject.views) {
-          console.log("xe");
           viewedProject.views = Number(viewedProject.views) + 1;
         } else {
-          console.log("x");
           viewedProject.views = 1;
         }
 

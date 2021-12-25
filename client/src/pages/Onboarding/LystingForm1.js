@@ -31,22 +31,9 @@ function LystingForm1({
   setVideoLink,
   daoDescription,
   setDaoDescription,
-  setLystErrors,
   handleLystFormClose,
 }) {
   const [localUser, setLocalUser] = useState({});
-
-  // const [daoIconImg, setDaoIconImg] = useState(null);
-  // const [daoName, setDaoName] = useState("");
-  // const [daoTagLine, setDaoTagLine] = useState("");
-  // const [expImg1, setExpImg1] = useState(null);
-  // const [expImg2, setExpImg2] = useState(null);
-  // const [expImg3, setExpImg3] = useState(null);
-  // const [expImg4, setExpImg4] = useState(null);
-  // const [expImg5, setExpImg5] = useState(null);
-  // const [expImg6, setExpImg6] = useState(null);
-  // const [videoLink, setVideoLink] = useState("");
-  // const [daoDescription, setDaoDescription] = useState("");
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("userData"));
@@ -91,7 +78,7 @@ function LystingForm1({
         setExpImg6(image);
       }
     } catch (err) {
-      console.log(err);
+      console.log("ERROR", err);
     }
   };
 
@@ -141,7 +128,7 @@ function LystingForm1({
               }
               onClick={() => {
                 if (daoIconImg) {
-                  setDaoIconImg(null);
+                  setDaoIconImg("");
                 }
               }}
             />
@@ -280,7 +267,7 @@ function LystingForm1({
                   }
                   onClick={() => {
                     if (expImg1) {
-                      setExpImg1(null);
+                      setExpImg1("");
                     }
                   }}
                 />
@@ -336,7 +323,7 @@ function LystingForm1({
                   }
                   onClick={() => {
                     if (expImg2) {
-                      setExpImg2(null);
+                      setExpImg2("");
                     }
                   }}
                 />
@@ -392,7 +379,7 @@ function LystingForm1({
                   }
                   onClick={() => {
                     if (expImg3) {
-                      setExpImg3(null);
+                      setExpImg3("");
                     }
                   }}
                 />
@@ -448,7 +435,7 @@ function LystingForm1({
                   }
                   onClick={() => {
                     if (expImg4) {
-                      setExpImg4(null);
+                      setExpImg4("");
                     }
                   }}
                 />
@@ -504,7 +491,7 @@ function LystingForm1({
                   }
                   onClick={() => {
                     if (expImg5) {
-                      setExpImg5(null);
+                      setExpImg5("");
                     }
                   }}
                 />
@@ -560,7 +547,7 @@ function LystingForm1({
                   }
                   onClick={() => {
                     if (expImg6) {
-                      setExpImg6(null);
+                      setExpImg6("");
                     }
                   }}
                 />

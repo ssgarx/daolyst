@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/auth";
 import style from "./dashboard.module.scss";
@@ -14,10 +15,6 @@ function Dashboard({ setOpenDashboard, setOpenLyst }) {
   useEffect(() => {
     getAllProjects();
   }, []);
-
-  useEffect(() => {
-    console.log("fetchedProjects", fetchedProjects);
-  }, [fetchedProjects]);
 
   const [getAllProjects, { loading, data }] = useLazyQuery(GET_ALL_PROJECTS, {
     onCompleted: () => {
@@ -70,7 +67,7 @@ function Dashboard({ setOpenDashboard, setOpenLyst }) {
                   color: sideOptions === "PROFILE" ? "#21293c" : "",
                 }}
               >
-                Profile
+                Connect
               </p>
             </div>
           </div>
@@ -126,10 +123,19 @@ function Dashboard({ setOpenDashboard, setOpenLyst }) {
           ) : (
             <>
               <div className={style.box1A2A}>
-                <div className={style.overview}>your profile</div>
+                <div className={style.overview}>connect </div>
               </div>
               <div className={style.box1A2B}>
-                <h1>random</h1>
+                <div
+                  style={{
+                    marginTop: "20px",
+                  }}
+                >
+                  <p>Connect with us on discord</p>
+                  <a href="https://www.youtube.com/watch?v=0ek6nVvJnbU&ab_channel=JagjitSinghTribute">
+                    discord
+                  </a>
+                </div>
               </div>
             </>
           )}

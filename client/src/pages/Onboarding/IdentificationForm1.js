@@ -61,7 +61,7 @@ function IdentificationForm1({ setOpen }) {
       const image = await resizeFile(file);
       setUploadedImg(image);
     } catch (err) {
-      console.log(err);
+      console.log("ERROR", err);
     }
   };
 

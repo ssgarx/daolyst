@@ -37,6 +37,12 @@
     .box1A2 {
       @include verticalAlign();
       padding: 10px;
+      > p {
+        width: 100px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
       > p:nth-child(1) {
         font-size: 18px;
         color: #21293c;

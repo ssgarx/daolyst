@@ -60,11 +60,9 @@ function DashboardProjs({
     uplysts,
     views,
   } = item;
-  console.log("viewsx", views);
 
-  const [deleteProject, { loading }] = useMutation(DELETE_PROJECT, {
+  const [deleteProject] = useMutation(DELETE_PROJECT, {
     onCompleted: (data) => {
-      console.log("data", data);
       //remove project from state fetchedProjects
       const newFetchedProjects = fetchedProjects?.filter(
         (project) => project._id !== _id
@@ -121,9 +119,7 @@ function DashboardProjs({
   };
 
   const [submiEditedtLyst] = useMutation(SUBMIT_EDITED_FORM, {
-    onCompleted: (date) => {
-      console.log("date", date);
-      console.log("date", date);
+    onCompleted: () => {
       //relaod page
       window.location.reload();
     },
@@ -157,7 +153,7 @@ function DashboardProjs({
         </div>
         <div className={style.box1B}>
           <div>
-            <button>{views} views</button>
+            <button>{views ?? 0} views</button>
             <button>{uplysts?.length} upLysts</button>
             <button
               onClick={() => {

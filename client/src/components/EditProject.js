@@ -1,4 +1,5 @@
-import React, { useState, useContext } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React from "react";
 import style from "./editProject.module.scss";
 import CrossIcon from "../assets/crossIcon.svg";
 import EditIcon from "../assets/editIcon.svg";
@@ -97,7 +98,7 @@ function EditProject({
         setExpImg6(image);
       }
     } catch (err) {
-      console.log(err);
+      console.log("ERROR", err);
     }
   };
 
@@ -147,7 +148,7 @@ function EditProject({
               }
               onClick={() => {
                 if (daoIconImg) {
-                  setDaoIconImg(null);
+                  setDaoIconImg("");
                 }
               }}
             />
@@ -286,7 +287,7 @@ function EditProject({
                   }
                   onClick={() => {
                     if (expImg1) {
-                      setExpImg1(null);
+                      setExpImg1("");
                     }
                   }}
                 />
@@ -342,7 +343,7 @@ function EditProject({
                   }
                   onClick={() => {
                     if (expImg2) {
-                      setExpImg2(null);
+                      setExpImg2("");
                     }
                   }}
                 />
@@ -398,7 +399,7 @@ function EditProject({
                   }
                   onClick={() => {
                     if (expImg3) {
-                      setExpImg3(null);
+                      setExpImg3("");
                     }
                   }}
                 />
@@ -454,7 +455,7 @@ function EditProject({
                   }
                   onClick={() => {
                     if (expImg4) {
-                      setExpImg4(null);
+                      setExpImg4("");
                     }
                   }}
                 />
@@ -510,7 +511,7 @@ function EditProject({
                   }
                   onClick={() => {
                     if (expImg5) {
-                      setExpImg5(null);
+                      setExpImg5("");
                     }
                   }}
                 />
@@ -566,7 +567,7 @@ function EditProject({
                   }
                   onClick={() => {
                     if (expImg6) {
-                      setExpImg6(null);
+                      setExpImg6("");
                     }
                   }}
                 />

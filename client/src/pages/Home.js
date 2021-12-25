@@ -55,7 +55,6 @@ function Home(props) {
   const [videoLink, setVideoLink] = useState("");
   const [daoDescription, setDaoDescription] = useState("");
   const [isValidForSubmit, setIsValidForSubmit] = useState(false);
-  const [lystErrors, setLystErrors] = useState({});
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
 
@@ -93,7 +92,7 @@ function Home(props) {
       getLystedDaos();
     },
     onError(err) {
-      setLystErrors(err.graphQLErrors[0].extensions.exception.errors);
+      console.log("ERROR", err);
     },
     variables: {
       projectIcon: daoIconImg,
@@ -113,15 +112,14 @@ function Home(props) {
     setDaoIconImg(null);
     setDaoName("");
     setDaoTagLine("");
-    setExpImg1(null);
-    setExpImg2(null);
-    setExpImg3(null);
-    setExpImg4(null);
-    setExpImg5(null);
-    setExpImg6(null);
+    setExpImg1("");
+    setExpImg2("");
+    setExpImg3("");
+    setExpImg4("");
+    setExpImg5("");
+    setExpImg6("");
     setVideoLink("");
     setDaoDescription("");
-    setLystErrors({});
   };
   const handleDashboardClose = () => {
     setOpenDashboard(false);
@@ -232,7 +230,6 @@ function Home(props) {
               setVideoLink={setVideoLink}
               daoDescription={daoDescription}
               setDaoDescription={setDaoDescription}
-              setLystErrors={setLystErrors}
               handleLystFormClose={handleLystFormClose}
             />
           </DialogContentText>
