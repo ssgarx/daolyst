@@ -283,5 +283,57 @@ module.exports = {
         return true;
       }
     },
+    //create a mutation similar to createProject but edit the project
+    async editProject(
+      _,
+      {
+        projectId,
+        projectIcon,
+        projectName,
+        projectTag,
+        projectDescription,
+        projectImages,
+        projectVideoLink,
+      },
+      context
+    ) {
+      const master = checkAuth(context);
+      const { valid, errors } = validateProjectCreation(
+        projectIcon,
+        projectName,
+        projectTag,
+        projectDescription,
+        projectImages
+      );
+      if (!valid) {
+        throw new UserInputError("Errors", { errors });
+      }
+      const user = await User.findOne({ email: master.email });
+      if (!user) {
+        throw new UserInputError("User not found", {
+          errors: {
+            email: "User not found",
+          },
+        });
+      } else {
+        let tmp = user.listedProjects.filter(
+          (project) => project._id !== projectId
+        );
+        let editedProject = {
+          _id: projectId,
+          projectIcon,
+          projectName,
+          projectTag,
+          projectDescription,
+          projectImages,
+          projectVideoLink,
+          createdAt: new Date().toISOString(),
+        };
+        tmp = [...tmp, editedProject];
+        user.listedProjects = [...tmp];
+        await user.save();
+        return user;
+      }
+    },
   },
 };

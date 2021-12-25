@@ -2,7 +2,7 @@ import React from "react";
 import SunEditor from "suneditor-react";
 import "suneditor/dist/css/suneditor.min.css"; // Import Sun Editor's CSS File
 
-function DescEditor({ setDaoDescription }) {
+function DescEditor({ setDaoDescription, daoDescription }) {
   const handleChange = (e) => {
     setDaoDescription(e);
   };
@@ -18,6 +18,7 @@ function DescEditor({ setDaoDescription }) {
       resizingBar={false}
       showPathLabel={false}
       defaultResizingBar={true}
+      setContents={daoDescription ?? ""}
     />
   );
 }

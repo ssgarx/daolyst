@@ -51,5 +51,14 @@ module.exports = gql`
       projectId: String!
     ): Boolean!
     deleteProject(projectId: String!): Boolean!
+    editProject(
+      projectId: String!
+      projectIcon: String!
+      projectName: String!
+      projectTag: String!
+      projectDescription: String!
+      projectImages: [String!]
+      projectVideoLink: String
+    ): User!
   }
 `;

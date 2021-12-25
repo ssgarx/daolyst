@@ -266,40 +266,6 @@
   }
 }
 
-.publishBtn {
-  .lystBtn {
-    border: 1px solid #e0e0e0;
-
-    background-color: #fc4444;
-    margin-top: 10px;
-    padding: 15px 45px;
-    text-align: center;
-    transition: 0.8s;
-    background-size: 200% auto;
-    color: white;
-    display: block;
-    // border: none;
-    color: #ffffff;
-    font-size: 13px;
-    cursor: pointer;
-  }
-  .lystBtn:hover {
-    box-shadow: 0 0 20px #eee;
-    background-image: linear-gradient(
-      to right,
-      #fc4444 0%,
-      #fa8383 51%,
-      #fc4444 100%
-    );
-    background-position: right center; /* change the direction of the change here */
-    color: #fff;
-    text-decoration: none;
-  }
-  .lystBtn:active {
-    opacity: 0.8;
-  }
-}
-
 //when screen size is less than 768px
 @media screen and (max-width: 950px) {
   .box1 {
@@ -395,7 +361,7 @@
   .publishBtn {
     width: 100%;
     text-align: center;
-    .lystBtn {
+    > button {
       width: 80vw;
       height: 40px;
     }
