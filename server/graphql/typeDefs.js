@@ -30,6 +30,7 @@ module.exports = gql`
   type Query {
     checkIfNewUser(email: String!): Boolean!
     getLystedDaos(page: Int!, limit: Int!): [User]
+    getAllProjects(email: String!): User!
   }
   type Mutation {
     register(email: String!): User!
@@ -49,5 +50,6 @@ module.exports = gql`
       projectOwnerEmail: String!
       projectId: String!
     ): Boolean!
+    deleteProject(projectId: String!): Boolean!
   }
 `;

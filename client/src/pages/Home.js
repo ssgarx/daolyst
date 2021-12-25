@@ -285,7 +285,10 @@ function Home(props) {
             ref={descriptionElementRef}
             tabIndex={-1}
           >
-            <Dashboard />
+            <Dashboard
+              setOpenDashboard={setOpenDashboard}
+              setOpenLyst={setOpenLyst}
+            />
           </DialogContentText>
         </DialogContent>
       </Dialog>

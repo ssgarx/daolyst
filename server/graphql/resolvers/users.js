@@ -57,6 +57,19 @@ module.exports = {
         throw new Error(err);
       }
     },
+    //creqt a mutation that takes accepts email as input and returns all projects
+    async getAllProjects(_, { email }, context) {
+      const user = await User.findOne({ email: email });
+      if (!user) {
+        throw new UserInputError("User not found", {
+          errors: {
+            email: "User not found",
+          },
+        });
+      } else {
+        return user;
+      }
+    },
   },
   Mutation: {
     async register(_, { email }) {
@@ -249,6 +262,25 @@ module.exports = {
       } catch (err) {
         console.log("err", err);
         return false;
+      }
+    },
+    //create a mutation that takes accepts projectId as input and deletes the project
+    async deleteProject(_, { projectId }, context) {
+      const master = checkAuth(context);
+      const user = await User.findOne({ email: master.email });
+      if (!user) {
+        throw new UserInputError("User not found", {
+          errors: {
+            email: "User not found",
+          },
+        });
+      } else {
+        let tmp = user.listedProjects.filter(
+          (project) => project._id !== projectId
+        );
+        user.listedProjects = [...tmp];
+        await user.save();
+        return true;
       }
     },
   },

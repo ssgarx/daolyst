@@ -58,16 +58,49 @@
       }
     }
     .box1A2 {
+      // > button {
+      //   @include buttonProperties();
+      //   border: none;
+      //   color: white;
+      //   line-height: 40px;
+      //   width: 250px;
+      //   font-size: 15px;
+      //   background-color: #fc4444;
+      //   border: 2px solid #da0000;
+      //   text-transform: uppercase;
+      // }
       > button {
-        @include buttonProperties();
-        border: none;
-        color: white;
-        line-height: 40px;
         width: 250px;
-        font-size: 15px;
-        background-color: #fc4444;
-        border: 2px solid #da0000;
         text-transform: uppercase;
+        border: 1px solid #e0e0e0;
+
+        background-color: #f7f7f7;
+        margin-top: 10px;
+        padding: 15px 45px;
+        text-align: center;
+        transition: 0.8s;
+        background-size: 200% auto;
+        color: white;
+        display: block;
+        // border: none;
+        color: #21293c;
+        font-size: 13px;
+      }
+      > button:hover {
+        box-shadow: 0 0 20px #eee;
+        border: 1px solid #e0e0e000;
+        background-image: linear-gradient(
+          to right,
+          #fc4444 0%,
+          #fa8383 51%,
+          #fc4444 100%
+        );
+        background-position: right center; /* change the direction of the change here */
+        color: #fff;
+        text-decoration: none;
+      }
+      > button:active {
+        opacity: 0.8;
       }
     }
   }
