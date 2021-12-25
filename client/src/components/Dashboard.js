@@ -160,6 +160,7 @@ const GET_ALL_PROJECTS = gql`
           username
           userProfileImg
         }
+        views
       }
     }
   }

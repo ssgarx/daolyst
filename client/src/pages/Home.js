@@ -343,6 +343,7 @@ const GET_LYSTED_DAOS = gql`
           username
           userProfileImg
         }
+        views
       }
     }
   }

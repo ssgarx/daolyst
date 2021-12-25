@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import style from "./showProject.module.scss";
 // Import css files
 import "slick-carousel/slick/slick.css";
@@ -10,6 +10,7 @@ import CrossIcon from "../../assets/crossIcon.svg";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/client";
 import { AuthContext } from "../../context/auth";
+import ViewIcon from "../../assets/viewIcon.svg";
 
 function ShowProject({
   _id,
@@ -26,6 +27,8 @@ function ShowProject({
 
   currentUplyst,
   setCurrentUplyst,
+  currentView,
+  setCurrentView,
 }) {
   const { user } = useContext(AuthContext);
   const settings = {
@@ -37,6 +40,19 @@ function ShowProject({
     adaptiveHeight: true,
   };
 
+  useEffect(() => {
+    addView();
+  }, []);
+
+  const [addView] = useMutation(ADD_VIEW, {
+    onCompleted: (data) => {
+      //convert currentView from string to number and add 1 to it and then convert it back to string
+      setCurrentView((currentView = Number(currentView) + 1).toString());
+    },
+    variables: {
+      projectId: _id,
+    },
+  });
   const [uplystThisProject] = useMutation(SUBMIT_LYST_FORM, {
     onCompleted: (data) => {
       if (currentUplyst.find((uplyst) => uplyst.email === user.email)) {
@@ -64,12 +80,47 @@ function ShowProject({
       </span>
       <div className={style.box1A}>
         <div className={style.box1A1}>
-          <div className={style.projIcon}>
-            <img src={projectIcon} alt="icon" />
+          <div>
+            <div className={style.projIcon}>
+              <img src={projectIcon} alt="icon" />
+            </div>
           </div>
           <div className={style.projInfo}>
             <p>{projectName}</p>
             <p>{projectTag}</p>
+            <div
+              style={{
+                display: "flex",
+              }}
+            >
+              <span
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  flexDirection: "row",
+                  fontSize: "15px",
+                  color: "black",
+                  // filter: "invert(50%)",
+                }}
+              >
+                {/* <img
+                  style={{
+                    width: "15px",
+                  }}
+                  src={ViewIcon}
+                  alt=""
+                /> */}
+                👀
+                <span
+                  style={{
+                    marginLeft: "2px",
+                    marginTop: "3px",
+                  }}
+                >
+                  {currentView ?? 0}
+                </span>
+              </span>
+            </div>
           </div>
         </div>
         <div className={style.box1A2}>
@@ -79,7 +130,7 @@ function ShowProject({
               uplystThisProject();
             }}
           >
-            <span>&#9650;</span> upLyst <span>{currentUplyst.length} </span>
+            <span>⚡</span> upLyst <span>{currentUplyst.length} </span>
           </button>
         </div>
       </div>
@@ -133,6 +184,13 @@ function ShowProject({
   );
 }
 
+const ADD_VIEW = gql`
+  mutation addViews($projectId: String!) {
+    addViews(projectId: $projectId) {
+      email
+    }
+  }
+`;
 const SUBMIT_LYST_FORM = gql`
   mutation upLystProject(
     $upLysterEmail: String!

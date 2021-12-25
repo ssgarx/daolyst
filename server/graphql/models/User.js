@@ -17,6 +17,7 @@ const userDataSchema = new Schema({
       projectVideoLink: String,
       createdAt: String,
       uplysts: [Object],
+      views: String,
     },
   ],
 });

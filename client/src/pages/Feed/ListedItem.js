@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import style from "./listedItem.module.scss";
+import ViewIcon from "../../assets/viewIcon.svg";
 
 import {
   Dialog,
@@ -28,6 +29,7 @@ function ListedItem({ mainItem, item }) {
     projectTag,
     projectVideoLink,
     uplysts,
+    views,
   } = item;
   const classes = useStyles();
   const theme = useTheme();
@@ -36,24 +38,58 @@ function ListedItem({ mainItem, item }) {
   const projElementRef = React.useRef(null);
 
   const [currentUplyst, setCurrentUplyst] = useState([]);
+  const [currentView, setCurrentView] = useState([]);
 
   useEffect(() => {
     setCurrentUplyst([...uplysts]);
+    setCurrentView(views);
   }, []);
-  useEffect(() => {
-    console.log("currentUplyst", currentUplyst);
-  }, [currentUplyst]);
 
   return (
     <>
       <div onClick={() => setOpenProject(true)} className={style.box1}>
         <div className={style.box1A}>
           <div className={style.box1A1}>
-            <img src={projectIcon} alt="product_img" />
+            <div className={style.iconBox}>
+              <img src={projectIcon} alt="product_img" />
+            </div>
           </div>
           <div className={style.box1A2}>
             <p>{projectName}</p>
             <p>{projectTag}</p>
+            <div
+              style={{
+                display: "flex",
+              }}
+            >
+              <span
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  flexDirection: "row",
+                  fontSize: "12px",
+                  // filter: "invert(50%)",
+                }}
+              >
+                {/* <img
+                  style={{
+                    width: "12px",
+                  }}
+                  src={ViewIcon}
+                  alt=""
+                /> */}
+                👀
+                <span
+                  style={{
+                    marginLeft: "2px",
+                    marginTop: "3px",
+                    filter: "invert(50%)",
+                  }}
+                >
+                  {currentView ?? 0}
+                </span>
+              </span>
+            </div>
           </div>
         </div>
         <div className={style.box1B}>
@@ -61,7 +97,13 @@ function ListedItem({ mainItem, item }) {
             <button>
               <div>
                 <div>
-                  <span>&#9650;</span>
+                  <span
+                    style={{
+                      marginBottom: "3px",
+                    }}
+                  >
+                    ⚡
+                  </span>
                 </div>
                 <div>{currentUplyst.length}</div>
               </div>
@@ -77,7 +119,7 @@ function ListedItem({ mainItem, item }) {
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
         fullScreen={fullScreen}
-        maxWidth={"lg"}
+        maxWidth={"md"}
       >
         <DialogContent>
           <DialogContentText
@@ -99,6 +141,8 @@ function ListedItem({ mainItem, item }) {
               uplysts={uplysts}
               currentUplyst={currentUplyst}
               setCurrentUplyst={setCurrentUplyst}
+              currentView={currentView}
+              setCurrentView={setCurrentView}
             />
           </DialogContentText>
         </DialogContent>

@@ -25,17 +25,19 @@
     flex: 4;
     display: flex;
     .box1A1 {
-      width: 65px;
-      height: 65px;
-      > img {
-        @include verticalAlign();
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+      @include verticalAlign();
+      .iconBox {
+        width: 65px;
+        height: 65px;
+        > img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
       }
     }
     .box1A2 {
-      @include verticalAlign();
+      // @include verticalAlign();
       padding: 10px;
       > p:nth-child(1) {
         font-size: 18px;
@@ -66,7 +68,7 @@
           justify-content: center;
           > div:nth-child(1) {
             width: 21px;
-            filter: invert(50%);
+            // filter: invert(50%);
           }
           > div:nth-child(2) {
             font-size: 15px;

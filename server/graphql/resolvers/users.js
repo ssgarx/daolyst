@@ -335,5 +335,40 @@ module.exports = {
         return user;
       }
     },
+    //create a mutation that takes accepts projectId as input and adds views to the project
+    async addViews(_, { projectId }, context) {
+      const master = checkAuth(context);
+      const user = await User.findOne({ email: master.email });
+      if (!user) {
+        throw new UserInputError("User not found", {
+          errors: {
+            email: "User not found",
+          },
+        });
+      } else {
+        let tmp = user.listedProjects.filter(
+          (project) => project._id !== projectId
+        );
+        let viewedProject = null;
+        for (let i = 0; i < user.listedProjects.length; i++) {
+          if (user.listedProjects[i]._id == projectId) {
+            viewedProject = user.listedProjects[i];
+          }
+        }
+        //comvert to number
+        if (viewedProject.views) {
+          console.log("xe");
+          viewedProject.views = Number(viewedProject.views) + 1;
+        } else {
+          console.log("x");
+          viewedProject.views = 1;
+        }
+
+        tmp = [...tmp, viewedProject];
+        user.listedProjects = [...tmp];
+        await user.save();
+        return user;
+      }
+    },
   },
 };

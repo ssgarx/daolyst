@@ -58,7 +58,9 @@ function DashboardProjs({
     projectTag,
     projectVideoLink,
     uplysts,
+    views,
   } = item;
+  console.log("viewsx", views);
 
   const [deleteProject, { loading }] = useMutation(DELETE_PROJECT, {
     onCompleted: (data) => {
@@ -155,9 +157,8 @@ function DashboardProjs({
         </div>
         <div className={style.box1B}>
           <div>
-            <button>
-              <span>&#9650;</span> {uplysts?.length}
-            </button>
+            <button>{views} views</button>
+            <button>{uplysts?.length} upLysts</button>
             <button
               onClick={() => {
                 setOpenEditPopup(true);
