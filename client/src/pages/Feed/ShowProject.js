@@ -14,6 +14,7 @@ import ViewIcon from "../../assets/viewIcon.svg";
 
 function ShowProject({
   _id,
+
   mainItem,
   createdAt,
   projectDescription,
@@ -30,6 +31,7 @@ function ShowProject({
   currentView,
   setCurrentView,
 }) {
+  console.log("_idx", _id);
   const { user } = useContext(AuthContext);
   const settings = {
     dots: true,
@@ -100,16 +102,8 @@ function ShowProject({
                   flexDirection: "row",
                   fontSize: "15px",
                   color: "black",
-                  // filter: "invert(50%)",
                 }}
               >
-                {/* <img
-                  style={{
-                    width: "15px",
-                  }}
-                  src={ViewIcon}
-                  alt=""
-                /> */}
                 👀
                 <span
                   style={{
@@ -120,6 +114,15 @@ function ShowProject({
                   {currentView ?? 0}
                 </span>
               </span>
+            </div>
+            <div>
+              <button
+                onClick={() => {
+                  console.log("data", _id);
+                }}
+              >
+                share
+              </button>
             </div>
           </div>
         </div>

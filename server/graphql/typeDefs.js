@@ -32,6 +32,7 @@ module.exports = gql`
     checkIfNewUser(email: String!): Boolean!
     getLystedDaos(page: Int!, limit: Int!): [User]
     getAllProjects(email: String!): User!
+    getUserByProjectId(projectId: String!): User!
   }
   type Mutation {
     register(email: String!): User!
