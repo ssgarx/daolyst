@@ -73,34 +73,17 @@ module.exports = {
     //create a mutation that takes projectId and finds the user who has listedProjects with the projectId and returns the user
     async getUserByProjectId(_, { projectId }, context) {
       const users = await User.find();
-      console.log("users", users.length);
       let foundUser = null;
       for (let i = 0; i < users.length; i++) {
         const user = users[i];
-        // console.log("user", user);
         for (let i = 0; i < user.listedProjects.length; i++) {
-          console.log("user.listedProjects[i]._id", user.listedProjects[i]._id);
           if (user.listedProjects[i]._id == projectId) {
-            console.log("found");
             foundUser = user;
             return user;
           }
         }
       }
-      console.log("foundUser", foundUser);
       return foundUser;
-
-      // //get the user who has listedProjects with the projectId
-      // const user = users.filter((user) => {
-      //   console.log("user", user._id);
-      //   for (let i = 0; i < user.listedProjects.length; i++) {
-      //     console.log("user.listedProjects[i]._id", user.listedProjects[i]._id);
-      //     if (user.listedProjects[i]._id == projectId) {
-      //       return user;
-      //     }
-      //   }
-      // });
-      // return user;
     },
   },
   Mutation: {

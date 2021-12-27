@@ -71,13 +71,6 @@ function ListedItem({ mainItem, item }) {
                   // filter: "invert(50%)",
                 }}
               >
-                {/* <img
-                  style={{
-                    width: "12px",
-                  }}
-                  src={ViewIcon}
-                  alt=""
-                /> */}
                 👀
                 <span
                   style={{

@@ -10,11 +10,11 @@ import CrossIcon from "../../assets/crossIcon.svg";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/client";
 import { AuthContext } from "../../context/auth";
-import ViewIcon from "../../assets/viewIcon.svg";
+import CopyLinkIcon from "../../assets/copyLinkIcon.svg";
+import TwitterIcon from "../../assets/twitterIcon.svg";
 
 function ShowProject({
   _id,
-
   mainItem,
   createdAt,
   projectDescription,
@@ -25,13 +25,12 @@ function ShowProject({
   projectVideoLink,
   setOpenProject,
   uplysts,
-
   currentUplyst,
   setCurrentUplyst,
   currentView,
   setCurrentView,
+  origin,
 }) {
-  console.log("_idx", _id);
   const { user } = useContext(AuthContext);
   const settings = {
     dots: true,
@@ -75,7 +74,13 @@ function ShowProject({
   return (
     <div className={style.box1}>
       <span
-        onClick={() => setOpenProject(false)}
+        onClick={() => {
+          if (origin === "SPV") {
+            window.location.href = "/";
+          } else {
+            setOpenProject(false);
+          }
+        }}
         className={style.closeLystForm}
       >
         <img src={CrossIcon} alt="close" />
@@ -115,15 +120,82 @@ function ShowProject({
                 </span>
               </span>
             </div>
-            <div>
+            <div className={style.sharebar}>
+              <div>
+                <button
+                  onClick={() => {
+                    let link = `${window.location.href}${_id}/spv`;
+                    navigator.clipboard.writeText(link);
+                  }}
+                  className={style.copyBtn}
+                >
+                  <span>
+                    <img
+                      style={{
+                        width: "15px",
+                        transform: "rotate(-45deg)",
+                        position: "relative",
+                        top: "3px",
+                        marginRight: "3px",
+                      }}
+                      src={CopyLinkIcon}
+                      alt=""
+                    />
+                    copy link
+                  </span>
+                </button>
+              </div>
+              <div>
+                <button
+                  onClick={() => {
+                    window.open(
+                      `https://twitter.com/intent/tweet?text=${
+                        projectName + ":" + projectTag
+                      }&url=${window.location.href}${_id}/spv`
+                    );
+                  }}
+                  className={style.copyBtn}
+                >
+                  <span>
+                    <img
+                      style={{
+                        width: "15px",
+                        position: "relative",
+                        top: "3.5px",
+                        // marginRight: "3px",
+                      }}
+                      src={TwitterIcon}
+                      alt=""
+                    />
+                    {/* copy link */}
+                  </span>
+                </button>
+              </div>
+            </div>
+            {/* <div>
               <button
                 onClick={() => {
-                  console.log("data", _id);
+                  //redirect to https://twitter.com/intent/tweet
+                  
                 }}
+                className={style.copyBtn}
               >
-                share
+                <span>
+                  <img
+                    style={{
+                      width: "13px",
+                      transform: " rotate(-45deg)",
+                      position: "relative",
+                      top: "2px",
+                      marginRight: "3px",
+                    }}
+                    src={CopyLinkIcon}
+                    alt=""
+                  />
+                  share to twitter
+                </span>
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className={style.box1A2}>
