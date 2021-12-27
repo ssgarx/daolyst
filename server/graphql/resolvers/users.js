@@ -227,6 +227,11 @@ module.exports = {
           projectImages,
           projectVideoLink,
           createdAt: new Date().toISOString(),
+          creatorId: user._id,
+          creatorName: user.username,
+          creatorUsername: user.username,
+          creatorEmail: user.email,
+          creatorProfileImg: user.userProfileImg,
         };
         //add newProject to user's listedProjects array
         user.listedProjects.push(newProject);
@@ -348,9 +353,9 @@ module.exports = {
       }
     },
     //create a mutation that takes accepts projectId as input and adds views to the project
-    async addViews(_, { projectId }, context) {
-      const master = checkAuth(context);
-      const user = await User.findOne({ email: master.email });
+    async addViews(_, { projectId, creatorId }, context) {
+      //find user by id = creatorId
+      const user = await User.findOne({ _id: creatorId });
       if (!user) {
         throw new UserInputError("User not found", {
           errors: {

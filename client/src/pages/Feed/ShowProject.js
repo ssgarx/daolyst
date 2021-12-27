@@ -15,7 +15,6 @@ import TwitterIcon from "../../assets/twitterIcon.svg";
 
 function ShowProject({
   _id,
-  mainItem,
   createdAt,
   projectDescription,
   projectIcon,
@@ -30,6 +29,11 @@ function ShowProject({
   currentView,
   setCurrentView,
   origin,
+  creatorEmail,
+  creatorName,
+  creatorProfileImg,
+  creatorUsername,
+  creatorId,
 }) {
   const { user } = useContext(AuthContext);
   const settings = {
@@ -52,6 +56,7 @@ function ShowProject({
     },
     variables: {
       projectId: _id,
+      creatorId: creatorId,
     },
   });
   const [uplystThisProject] = useMutation(SUBMIT_LYST_FORM, {
@@ -66,7 +71,7 @@ function ShowProject({
     },
     variables: {
       upLysterEmail: user?.email,
-      projectOwnerEmail: mainItem?.email,
+      projectOwnerEmail: creatorEmail,
       projectId: _id,
     },
   });
@@ -242,12 +247,12 @@ function ShowProject({
           <div className={style.box1D1}>
             <div className={style.box1D1}>
               <div className={style.userProfile}>
-                <img src={mainItem?.userProfileImg} alt="img" />
+                <img src={creatorProfileImg} alt="img" />
               </div>
             </div>
             <div className={style.box1D2}>
               <div className={style.creds}>
-                <p>{mainItem?.username}</p>
+                <p>{creatorUsername}</p>
                 <p>Founding member</p>
               </div>
               <div className={style.desc}>{parse(projectDescription)}</div>
@@ -260,8 +265,8 @@ function ShowProject({
 }
 
 const ADD_VIEW = gql`
-  mutation addViews($projectId: String!) {
-    addViews(projectId: $projectId) {
+  mutation addViews($projectId: String!, $creatorId: String!) {
+    addViews(projectId: $projectId, creatorId: $creatorId) {
       email
     }
   }

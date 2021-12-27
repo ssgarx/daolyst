@@ -18,6 +18,11 @@ const userDataSchema = new Schema({
       createdAt: String,
       uplysts: [Object],
       views: String,
+      creatorId: String,
+      creatorName: String,
+      creatorUsername: String,
+      creatorEmail: String,
+      creatorProfileImg: String,
     },
   ],
 });

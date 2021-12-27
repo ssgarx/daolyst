@@ -3,7 +3,23 @@ import React from "react";
 import ListedItem from "./ListedItem";
 import style from "./mainfeed.module.scss";
 
-function MainFeed({ loading, data }) {
+function MainFeed({
+  loading,
+  // data,
+  sortOrder,
+  setSortOrder,
+  sortedProjectList,
+  getLystedDaos,
+  setPage,
+  setLimit,
+}) {
+  const handlePreferenceClick = (pref) => {
+    setSortOrder(pref);
+    localStorage.setItem("sortOrder", pref);
+    setPage(0);
+    setLimit(10);
+    getLystedDaos();
+  };
   return (
     <div className={style.box1}>
       <div className={style.feedRail}>
@@ -14,9 +30,36 @@ function MainFeed({ loading, data }) {
             </p>
           </div>
           <div>
-            <button>By Uplysts</button>
-            <button>By Newest</button>
-            <button>By Vibe</button>
+            <button
+              style={{
+                backgroundColor: sortOrder === "BY_NEW" ? "#dedede" : "",
+              }}
+              onClick={() => {
+                handlePreferenceClick("BY_NEW");
+              }}
+            >
+              🆕
+            </button>
+            <button
+              style={{
+                backgroundColor: sortOrder === "BY_UPLYST" ? "#dedede" : "",
+              }}
+              onClick={() => {
+                handlePreferenceClick("BY_UPLYST");
+              }}
+            >
+              By ⚡
+            </button>
+            <button
+              style={{
+                backgroundColor: sortOrder === "BY_VIEWS" ? "#dedede" : "",
+              }}
+              onClick={() => {
+                handlePreferenceClick("BY_VIEWS");
+              }}
+            >
+              By 👀
+            </button>
           </div>
         </div>
         <div className={style.lystbox}>
@@ -34,13 +77,11 @@ function MainFeed({ loading, data }) {
               />
             </Box>
           ) : (
-            data?.getLystedDaos?.map((mainItem, index) =>
-              mainItem?.listedProjects?.map((item, index) => (
-                <div key={index}>
-                  <ListedItem mainItem={mainItem} item={item} />
-                </div>
-              ))
-            )
+            sortedProjectList?.map((item, index) => (
+              <div key={index}>
+                <ListedItem item={item} />
+              </div>
+            ))
           )}
         </div>
       </div>

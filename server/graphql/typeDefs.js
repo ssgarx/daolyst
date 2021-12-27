@@ -19,6 +19,11 @@ module.exports = gql`
     createdAt: String
     uplysts: [User]
     views: String
+    creatorId: String
+    creatorName: String
+    creatorUsername: String
+    creatorEmail: String
+    creatorProfileImg: String
   }
   type Otp {
     code: String
@@ -62,6 +67,6 @@ module.exports = gql`
       projectImages: [String!]
       projectVideoLink: String
     ): User!
-    addViews(projectId: String!): User!
+    addViews(projectId: String!, creatorId: String!): User!
   }
 `;

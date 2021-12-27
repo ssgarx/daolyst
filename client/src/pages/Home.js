@@ -57,6 +57,8 @@ function Home(props) {
   const [isValidForSubmit, setIsValidForSubmit] = useState(false);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
+  const [sortedProjectList, setSortedProjectList] = useState([]);
+  const [sortOrder, setSortOrder] = useState("BY_NEW");
 
   useEffect(() => {
     //check if form is valid
@@ -130,10 +132,49 @@ function Home(props) {
 
   useEffect(() => {
     getLystedDaos();
+    //check sortOrder in localStorage
+    if (localStorage.getItem("sortOrder")) {
+      setSortOrder(localStorage.getItem("sortOrder"));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [getLystedDaos, { loading, data }] = useLazyQuery(GET_LYSTED_DAOS, {
+  const handleSort = async (prference, sortList) => {
+    if (prference === "BY_NEW") {
+      sortList.sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
+    } else if (prference === "BY_UPLYST") {
+      sortList.sort((a, b) => {
+        return b.uplysts.length - a.uplysts.length;
+      });
+    } else if (prference === "BY_VIEWS") {
+      sortList.sort((a, b) => {
+        return b.views - a.views;
+      });
+    }
+    return sortList;
+  };
+
+  useEffect(() => {
+    const init = async () => {
+      let sortedTmp = await handleSort(sortOrder, [...sortedProjectList]);
+      setSortedProjectList(sortedTmp);
+    };
+    init();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sortOrder]);
+
+  const [getLystedDaos, { loading }] = useLazyQuery(GET_LYSTED_DAOS, {
+    onCompleted: async (data) => {
+      console.log("data", data);
+      let tmp = [];
+      for (let i = 0; i < data.getLystedDaos.length; i++) {
+        tmp = [...tmp, ...data.getLystedDaos[i]?.listedProjects];
+      }
+      let sortedTmp = await handleSort(sortOrder, [...tmp]);
+      setSortedProjectList(sortedTmp);
+    },
     variables: {
       page: page,
       limit: limit,
@@ -159,7 +200,16 @@ function Home(props) {
             handleDashboardOpen={handleDashboardOpen}
           />
         )}
-        <MainFeed loading={loading} data={data} />
+        <MainFeed
+          loading={loading}
+          // data={data}
+          sortOrder={sortOrder}
+          setSortOrder={setSortOrder}
+          sortedProjectList={sortedProjectList}
+          getLystedDaos={getLystedDaos}
+          setPage={setPage}
+          setLimit={setLimit}
+        />
       </div>
       {/* FOR LOGIN POPUPS */}
       <Dialog
@@ -341,6 +391,11 @@ const GET_LYSTED_DAOS = gql`
           userProfileImg
         }
         views
+        creatorId
+        creatorName
+        creatorUsername
+        creatorEmail
+        creatorProfileImg
       }
     }
   }

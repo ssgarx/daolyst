@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ListedItem({ mainItem, item }) {
+function ListedItem({ item }) {
   const {
     _id,
     createdAt,
@@ -30,6 +30,11 @@ function ListedItem({ mainItem, item }) {
     projectVideoLink,
     uplysts,
     views,
+    creatorEmail,
+    creatorName,
+    creatorProfileImg,
+    creatorUsername,
+    creatorId,
   } = item;
   const classes = useStyles();
   const theme = useTheme();
@@ -129,13 +134,17 @@ function ListedItem({ mainItem, item }) {
               projectName={projectName}
               projectTag={projectTag}
               projectVideoLink={projectVideoLink}
-              mainItem={mainItem}
               setOpenProject={setOpenProject}
               uplysts={uplysts}
               currentUplyst={currentUplyst}
               setCurrentUplyst={setCurrentUplyst}
               currentView={currentView}
               setCurrentView={setCurrentView}
+              creatorEmail={creatorEmail}
+              creatorName={creatorName}
+              creatorProfileImg={creatorProfileImg}
+              creatorUsername={creatorUsername}
+              creatorId={creatorId}
             />
           </DialogContentText>
         </DialogContent>
