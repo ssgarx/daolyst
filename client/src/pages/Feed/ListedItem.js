@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
   dialogPaper: {
     borderRadius: 0,
     backgroundColor: "#fffbfb !important",
+    // padding: "0 !important",
   },
 }));
 
@@ -119,7 +120,7 @@ function ListedItem({ item }) {
         fullScreen={fullScreen}
         maxWidth={"md"}
       >
-        <DialogContent>
+        <DialogContent style={{ padding: "0px 0px 0px 0px" }}>
           <DialogContentText
             id="scroll-dialog-description"
             ref={projElementRef}

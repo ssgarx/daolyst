@@ -60,18 +60,21 @@
     flex: 3;
     @include verticalAlign();
     > div {
+      display: flex;
       text-align: right;
       justify-content: space-evenly;
       > button {
         height: 35px;
-        width: 75px;
+        // width: 75px;
         border: 1px solid #e6e6e600;
-        background-color: #f7f7f7;
+        background-color: transparent;
         border: 2px solid rgba(255, 0, 0, 0);
         cursor: pointer;
-        margin-left: 10px;
+        // margin-left: 10px;
+        border-radius: 2px;
         &:hover {
-          border: 2px solid #e0e0e0;
+          background-color: #f7f7f7;
+          border: 2px solid #e0e0e000;
         }
       }
       > button:nth-child(1) {
@@ -82,12 +85,14 @@
       }
       > button:nth-child(3) {
         &:hover {
-          border: 2px solid #e0e0e0;
+          background-color: #f7f7f7;
+          border: 2px solid #e0e0e000;
         }
       }
       > button:nth-child(4) {
         &:hover {
-          border: 2px solid red;
+          // border: 2px solid red;
+          background-color: #ffcdcd;
         }
       }
     }
@@ -108,7 +113,6 @@
 .publishBtn {
   .lystBtn {
     border: 1px solid #e0e0e0;
-
     background-color: #fc4444;
     margin-top: 10px;
     padding: 15px 45px;
@@ -141,11 +145,14 @@
 
 @media screen and (max-width: 600px) {
   .publishBtn {
+    display: flex;
+    justify-content: center;
     width: 100%;
     text-align: center;
-    lystBtn {
+    .lystBtn {
       width: 80vw;
-      height: 40px;
+      // height: 40px;
+      margin-top: 0;
     }
   }
 }

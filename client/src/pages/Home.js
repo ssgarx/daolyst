@@ -240,7 +240,7 @@ function Home(props) {
         fullScreen={fullScreen}
         maxWidth={"lg"}
       >
-        <DialogContent>
+        <DialogContent style={{ padding: "0px 0px 0px 0px" }}>
           <DialogContentText
             id="scroll-dialog-description"
             ref={descriptionElementRef}
@@ -316,7 +316,7 @@ function Home(props) {
         fullScreen={fullScreen}
         maxWidth={"lg"}
       >
-        <DialogContent>
+        <DialogContent style={{ padding: 0 }}>
           <DialogContentText
             id="scroll-dialog-description"
             ref={descriptionElementRef}

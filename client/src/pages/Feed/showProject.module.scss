@@ -18,6 +18,7 @@ p {
   margin: 0;
 }
 .box1 {
+  padding: 20px;
   .closeLystForm {
     position: absolute;
     top: 0px;
@@ -223,6 +224,7 @@ p {
 
 @media screen and (max-width: 750px) {
   .box1 {
+    padding: 5px;
     .box1A {
       flex-direction: column;
       .box1A1 {
@@ -240,10 +242,19 @@ p {
           }
           > p:nth-child(2) {
           }
+          > div {
+            justify-content: space-around;
+          }
+          .sharebar {
+            justify-content: center !important;
+          }
         }
       }
       .box1A2 {
-        text-align: center;
+        //align button to center
+        display: flex;
+        justify-content: center;
+
         > button {
         }
       }
@@ -261,16 +272,9 @@ p {
     .box1C {
     }
     .box1D {
-      .userProfile {
-        > img {
-        }
-      }
-      .box1D2 {
-        .creds {
-          > p:nth-child(2) {
-          }
-        }
-        .desc {
+      .box1DX {
+        .box1D1 {
+          display: block;
         }
       }
     }

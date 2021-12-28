@@ -14,7 +14,6 @@ import gql from "graphql-tag";
 import { useMutation } from "@apollo/client";
 import EditProject from "./EditProject";
 import { AuthContext } from "../context/auth";
-
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
     borderRadius: 0,
@@ -153,17 +152,38 @@ function DashboardProjs({
         </div>
         <div className={style.box1B}>
           <div>
-            <button>{views ?? 0} views</button>
-            <button>{uplysts?.length} upLysts</button>
-            <button
-              onClick={() => {
-                setOpenEditPopup(true);
-              }}
-            >
-              edit
-            </button>
-            <Tooltip title="Delete" placement="top">
-              <button onClick={deleteProject}>delete</button>
+            <Tooltip title="Views" placement="top" arrow>
+              <button>
+                {views ?? 0}
+                <span
+                  style={{
+                    position: "relative",
+                    top: "-1px",
+                  }}
+                >
+                  👀
+                </span>
+              </button>
+            </Tooltip>
+            <Tooltip title="Uplysts" placement="top" arrow>
+              <button>
+                {uplysts?.length}
+                <span>⚡</span>
+              </button>
+            </Tooltip>
+            <Tooltip title="Edit" placement="top" arrow>
+              <button
+                onClick={() => {
+                  setOpenEditPopup(true);
+                }}
+              >
+                <span>✏️</span>
+              </button>
+            </Tooltip>
+            <Tooltip title="Delete" placement="top" arrow>
+              <button onClick={deleteProject}>
+                <span>🗑️</span>
+              </button>
             </Tooltip>
           </div>
         </div>
@@ -179,7 +199,7 @@ function DashboardProjs({
         fullScreen={fullScreen}
         maxWidth={"lg"}
       >
-        <DialogContent>
+        <DialogContent style={{ padding: 0 }}>
           <DialogContentText
             id="scroll-dialog-description"
             ref={projElementRef}

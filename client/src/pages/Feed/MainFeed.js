@@ -25,7 +25,6 @@ function MainFeed({
   //     e.target.scrollHeight - e.target.scrollTop - 10 <=
   //     e.target.clientHeight
   //   ) {
-  //     // console.log("bottomx");
   //     // setLimit((limit) => limit + 10);
   //     // getLystedDaos();
   //   }
@@ -37,7 +36,15 @@ function MainFeed({
         <div className={style.feedinfobox}>
           <div>
             <p>
-              Most upLysted ones here <span role="img">👇</span>
+              Most{" "}
+              <b>
+                {sortOrder === "BY_NEW"
+                  ? "recent"
+                  : sortOrder === "BY_UPLYST"
+                  ? "uplysted"
+                  : "viewed"}
+              </b>{" "}
+              ones here <span role="img">👇</span>
             </p>
           </div>
           <div>

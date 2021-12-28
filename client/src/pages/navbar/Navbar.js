@@ -4,7 +4,7 @@ import logo from "../../assets/mainLogo.svg";
 import searchIcon from "../../assets/searchIcon.svg";
 import crossIcon from "../../assets/crossIcon.svg";
 import ArrowDownIcon from "../../assets/arrowDownIcon.svg";
-import { makeStyles, Popover, Typography } from "@material-ui/core";
+import { makeStyles, Popover } from "@material-ui/core";
 import ProfileDropdown from "../../components/ProfileDropdown";
 
 const useStyles = makeStyles((theme) => ({
@@ -42,7 +42,11 @@ function Navbar({ setOpen, user, setOpenLyst, handleDashboardOpen }) {
             <img src={logo} alt="logo" />
           </div>
           <div className={style.box1B}>
-            <div>
+            <div
+              style={{
+                display: "none",
+              }}
+            >
               <div>
                 <img src={searchIcon} alt="search" />
               </div>

@@ -7,10 +7,18 @@ import gql from "graphql-tag";
 import { useLazyQuery } from "@apollo/client";
 import { CircularProgress } from "@material-ui/core";
 import DashboardProjs from "./DashboardProjs";
+import CrossIcon from "../assets/crossIcon.svg";
 function Dashboard({ setOpenDashboard, setOpenLyst }) {
   const { user } = useContext(AuthContext);
   const [sideOptions, setSideOptions] = useState("LYSTED_DAOS");
   const [fetchedProjects, setFetchedProjects] = useState([]);
+  const [localUser, setLocalUser] = useState({});
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    if (userData?.userProfileImg && userData?.username) {
+      setLocalUser(userData);
+    }
+  }, []);
 
   useEffect(() => {
     getAllProjects();
@@ -28,12 +36,29 @@ function Dashboard({ setOpenDashboard, setOpenLyst }) {
 
   return (
     <div className={style.box1}>
+      <span
+        onClick={() => {
+          setOpenDashboard(false);
+        }}
+        className={style.closeLystForm}
+      >
+        <img src={CrossIcon} alt="close" />
+      </span>
       <div className={style.box1A}>
         <div className={style.box1A1}>
           {/* PROFILE DATA */}
           <div className={style.profileBox}>
             <div className={style.imgBox}>
-              <img src={user?.userProfileImg ?? DefaultDp} alt="default" />
+              <img
+                src={
+                  user?.userProfileImg
+                    ? user.userProfileImg
+                    : localUser
+                    ? localUser?.userProfileImg
+                    : DefaultDp
+                }
+                alt="default"
+              />
             </div>
             <div className={style.usernameBox}>
               <p>{user?.username}</p>
@@ -57,7 +82,7 @@ function Dashboard({ setOpenDashboard, setOpenLyst }) {
                 Lysted DAOs
               </p>{" "}
             </div>
-            <div
+            {/* <div
               onClick={() => {
                 setSideOptions("PROFILE");
               }}
@@ -69,7 +94,7 @@ function Dashboard({ setOpenDashboard, setOpenLyst }) {
               >
                 Connect
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className={style.box1A2}>

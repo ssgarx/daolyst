@@ -25,7 +25,7 @@
   filter: invert(70%);
 }
 .box1 {
-  // position: relative;
+  padding: 20px;
   .closeLystForm {
     position: absolute;
     top: 0px;
@@ -269,7 +269,6 @@
 .publishBtn {
   .lystBtn {
     border: 1px solid #e0e0e0;
-
     background-color: #fc4444;
     margin-top: 10px;
     padding: 15px 45px;
@@ -303,7 +302,7 @@
 //when screen size is less than 768px
 @media screen and (max-width: 950px) {
   .box1 {
-    //   padding: 30px;
+    padding: 5px;
     .box1A {
       .box1A1 {
         .box1A1A {
@@ -368,7 +367,10 @@
         padding: 15px 10px;
         width: 99%;
         .descBox {
+          display: block;
           .userProfileImg {
+            display: block;
+
             > img:nth-child(1) {
               width: 6vw;
             }
@@ -393,11 +395,13 @@
 }
 @media screen and (max-width: 600px) {
   .publishBtn {
+    display: flex;
+    justify-content: center;
     width: 100%;
     text-align: center;
     .lystBtn {
       width: 80vw;
-      height: 40px;
+      // height: 40px;
     }
   }
 }
