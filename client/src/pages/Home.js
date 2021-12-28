@@ -67,7 +67,6 @@ function Home(props) {
       daoName &&
       daoTagLine &&
       (expImg1 || expImg2 || expImg3 || expImg4 || expImg5 || expImg6) &&
-      videoLink &&
       daoDescription
     ) {
       setIsValidForSubmit(true);
@@ -91,7 +90,7 @@ function Home(props) {
   const [submitLyst] = useMutation(SUBMIT_LYST_FORM, {
     onCompleted: () => {
       handleLystFormClose();
-      getLystedDaos();
+      window.location.reload();
     },
     onError(err) {
       console.log("ERROR", err);
@@ -130,15 +129,6 @@ function Home(props) {
     setOpenDashboard(true);
   };
 
-  useEffect(() => {
-    getLystedDaos();
-    //check sortOrder in localStorage
-    if (localStorage.getItem("sortOrder")) {
-      setSortOrder(localStorage.getItem("sortOrder"));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const handleSort = async (prference, sortList) => {
     if (prference === "BY_NEW") {
       sortList.sort((a, b) => {
@@ -157,17 +147,17 @@ function Home(props) {
   };
 
   useEffect(() => {
-    const init = async () => {
-      let sortedTmp = await handleSort(sortOrder, [...sortedProjectList]);
-      setSortedProjectList(sortedTmp);
-    };
-    init();
+    setSortedProjectList([]);
+    getLystedDaos();
+    //check sortOrder in localStorage
+    if (localStorage.getItem("sortOrder")) {
+      setSortOrder(localStorage.getItem("sortOrder"));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortOrder]);
 
   const [getLystedDaos, { loading }] = useLazyQuery(GET_LYSTED_DAOS, {
     onCompleted: async (data) => {
-      console.log("data", data);
       let tmp = [];
       for (let i = 0; i < data.getLystedDaos.length; i++) {
         tmp = [...tmp, ...data.getLystedDaos[i]?.listedProjects];

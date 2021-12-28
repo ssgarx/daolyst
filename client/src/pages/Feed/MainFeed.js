@@ -1,11 +1,10 @@
-import { Box, CircularProgress } from "@material-ui/core";
+import { Box, CircularProgress, Tooltip } from "@material-ui/core";
 import React from "react";
 import ListedItem from "./ListedItem";
 import style from "./mainfeed.module.scss";
 
 function MainFeed({
   loading,
-  // data,
   sortOrder,
   setSortOrder,
   sortedProjectList,
@@ -20,8 +19,20 @@ function MainFeed({
     setLimit(10);
     getLystedDaos();
   };
+
+  // const handleScroll = (e) => {
+  //   if (
+  //     e.target.scrollHeight - e.target.scrollTop - 10 <=
+  //     e.target.clientHeight
+  //   ) {
+  //     // console.log("bottomx");
+  //     // setLimit((limit) => limit + 10);
+  //     // getLystedDaos();
+  //   }
+  // };
+
   return (
-    <div className={style.box1}>
+    <div className={style.box1} id="test">
       <div className={style.feedRail}>
         <div className={style.feedinfobox}>
           <div>
@@ -30,40 +41,46 @@ function MainFeed({
             </p>
           </div>
           <div>
-            <button
-              style={{
-                backgroundColor: sortOrder === "BY_NEW" ? "#dedede" : "",
-              }}
-              onClick={() => {
-                handlePreferenceClick("BY_NEW");
-              }}
-            >
-              🆕
-            </button>
-            <button
-              style={{
-                backgroundColor: sortOrder === "BY_UPLYST" ? "#dedede" : "",
-              }}
-              onClick={() => {
-                handlePreferenceClick("BY_UPLYST");
-              }}
-            >
-              By ⚡
-            </button>
-            <button
-              style={{
-                backgroundColor: sortOrder === "BY_VIEWS" ? "#dedede" : "",
-              }}
-              onClick={() => {
-                handlePreferenceClick("BY_VIEWS");
-              }}
-            >
-              By 👀
-            </button>
+            <Tooltip title="lyst by new" placement="top">
+              <button
+                style={{
+                  backgroundColor: sortOrder === "BY_NEW" ? "#dedede" : "",
+                }}
+                onClick={() => {
+                  handlePreferenceClick("BY_NEW");
+                }}
+              >
+                🆕
+              </button>
+            </Tooltip>
+            <Tooltip title="lyst by uplysts" placement="top">
+              <button
+                style={{
+                  backgroundColor: sortOrder === "BY_UPLYST" ? "#dedede" : "",
+                }}
+                onClick={() => {
+                  handlePreferenceClick("BY_UPLYST");
+                }}
+              >
+                By ⚡
+              </button>
+            </Tooltip>
+            <Tooltip title="lyst by views" placement="top">
+              <button
+                style={{
+                  backgroundColor: sortOrder === "BY_VIEWS" ? "#dedede" : "",
+                }}
+                onClick={() => {
+                  handlePreferenceClick("BY_VIEWS");
+                }}
+              >
+                By 👀
+              </button>
+            </Tooltip>
           </div>
         </div>
         <div className={style.lystbox}>
-          {loading ? (
+          {sortedProjectList?.length === 0 && loading ? (
             <Box
               display="flex"
               justifyContent="center"

@@ -16,7 +16,8 @@
 }
 
 .box1 {
-  height: 100vh;
+  height: 90vh;
+  overflow-y: scroll;
   padding-top: 80px;
   display: flex;
   justify-content: center;

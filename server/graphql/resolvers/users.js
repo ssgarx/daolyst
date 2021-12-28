@@ -43,7 +43,6 @@ module.exports = {
         throw new Error(err);
       }
     },
-
     //create a paginated query that returns listedProjects of all the users in the database
     async getLystedDaos(_, { page, limit }) {
       try {
