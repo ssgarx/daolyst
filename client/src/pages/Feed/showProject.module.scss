@@ -17,6 +17,10 @@
 p {
   margin: 0;
 }
+// span {
+//   background-color: white !important;
+//   color: black !important;
+// }
 .box1 {
   padding: 20px;
   .closeLystForm {
@@ -189,6 +193,10 @@ p {
             margin-left: 10px;
             color: #21293c;
             text-align: left;
+            span {
+              color: black !important;
+              background-color: white !important;
+            }
           }
         }
       }
@@ -275,6 +283,14 @@ p {
       .box1DX {
         .box1D1 {
           display: block;
+          .box1D2 {
+            .creds {
+              margin-left: 0px;
+            }
+            .desc {
+              margin-left: 0px;
+            }
+          }
         }
       }
     }

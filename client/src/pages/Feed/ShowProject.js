@@ -35,6 +35,7 @@ function ShowProject({
   creatorUsername,
   creatorId,
 }) {
+  console.log("creatorId", creatorId);
   const { user } = useContext(AuthContext);
   const settings = {
     dots: true,
@@ -177,36 +178,11 @@ function ShowProject({
                 </button>
               </div>
             </div>
-            {/* <div>
-              <button
-                onClick={() => {
-                  //redirect to https://twitter.com/intent/tweet
-                  
-                }}
-                className={style.copyBtn}
-              >
-                <span>
-                  <img
-                    style={{
-                      width: "13px",
-                      transform: " rotate(-45deg)",
-                      position: "relative",
-                      top: "2px",
-                      marginRight: "3px",
-                    }}
-                    src={CopyLinkIcon}
-                    alt=""
-                  />
-                  share to twitter
-                </span>
-              </button>
-            </div> */}
           </div>
         </div>
         <div className={style.box1A2}>
           <button
             onClick={() => {
-              // setCurrentUplyst(currentUplyst + 1);
               uplystThisProject();
             }}
           >

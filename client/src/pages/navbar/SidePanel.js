@@ -19,7 +19,12 @@ function SidePanel({ setOpen, user, setOpenLyst, handleDashboardOpen }) {
   };
   return (
     <div className={style.box}>
-      <div className={style.box1}>
+      <div
+        style={{
+          display: "none",
+        }}
+        className={style.box1}
+      >
         <div>
           <div>
             <img src={searchIcon} alt="search" />

@@ -80,7 +80,6 @@ function DashboardProjs({
       daoName &&
       daoTagLine &&
       (expImg1 || expImg2 || expImg3 || expImg4 || expImg5 || expImg6) &&
-      videoLink &&
       daoDescription
     ) {
       setIsValidForSubmit(true);
@@ -117,7 +116,7 @@ function DashboardProjs({
     setDaoDescription("");
   };
 
-  const [submiEditedtLyst] = useMutation(SUBMIT_EDITED_FORM, {
+  const [submiEditedtLyst, { loading }] = useMutation(SUBMIT_EDITED_FORM, {
     onCompleted: () => {
       //relaod page
       window.location.reload();
@@ -270,7 +269,7 @@ function DashboardProjs({
                   }
                 }}
               >
-                Lyst edited DAO ⚡
+                {loading ? "Editing 🏗️✏️" : "Lyst edited DAO ⚡"}
               </button>
             </Tooltip>
           </div>
