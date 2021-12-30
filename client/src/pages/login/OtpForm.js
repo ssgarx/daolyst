@@ -45,7 +45,7 @@ function OtpForm({
     <>
       <div
         style={{
-          width: "50%",
+          width: "80%",
         }}
         className={style.box1A3}
       >
