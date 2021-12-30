@@ -47,8 +47,20 @@ function SidePanel({ setOpen, user, setOpenLyst, handleDashboardOpen }) {
         >
           DAO's
         </p>
-        <p>community</p>
-        <p>about</p>
+        <p
+          onClick={() => {
+            window.open("https://discord.gg/nnvUxpbF", "_blank");
+          }}
+        >
+          community
+        </p>
+        <p
+          onClick={() => {
+            window.open("https://bip.so/@dao57za/-fzSph", "_blank");
+          }}
+        >
+          about
+        </p>
         <p
           onClick={() => {
             setOpenLyst(true);

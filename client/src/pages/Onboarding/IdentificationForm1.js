@@ -123,7 +123,7 @@ function IdentificationForm1({ setOpen }) {
   );
 }
 const SUBMIT_OTF = gql`
-  mutation oneTimeForm($username: String!, $userProfileImg: String!) {
+  mutation oneTimeForm($username: String!, $userProfileImg: String) {
     oneTimeForm(username: $username, userProfileImg: $userProfileImg) {
       id
       email

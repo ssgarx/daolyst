@@ -162,6 +162,21 @@
       .box1A2 {
         width: 97vw;
         margin: 0;
+        .box1A2A {
+          text-align: center;
+        }
+        .box1A2B {
+          text-align: center;
+          display: flex;
+          justify-content: center;
+          flex-direction: column;
+          width: 100%;
+          display: table;
+          margin-right: auto;
+          margin-left: auto;
+          .lystBtn {
+          }
+        }
       }
     }
   }

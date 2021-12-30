@@ -66,8 +66,20 @@ function Navbar({ setOpen, user, setOpenLyst, handleDashboardOpen }) {
             >
               DAO's
             </div>
-            <div>community</div>
-            <div>about</div>
+            <div
+              onClick={() => {
+                window.open("https://discord.gg/nnvUxpbF", "_blank");
+              }}
+            >
+              community
+            </div>
+            <div
+              onClick={() => {
+                window.open("https://bip.so/@dao57za/-fzSph", "_blank");
+              }}
+            >
+              about
+            </div>
             <div
               onClick={() => {
                 user ? setOpenLyst(true) : setOpen(true);

@@ -35,7 +35,6 @@ function ShowProject({
   creatorUsername,
   creatorId,
 }) {
-  console.log("creatorId", creatorId);
   const { user } = useContext(AuthContext);
   const settings = {
     dots: true,

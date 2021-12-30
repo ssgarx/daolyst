@@ -11,14 +11,15 @@ module.exports.validateGroupRenameForm = (groupName, groupUserName) => {
     valid: Object.keys(errors).length < 1,
   };
 };
-module.exports.validateOneTimeForm = (username) => {
+module.exports.validateOneTimeForm = (username, userProfileImg = null) => {
   const errors = {};
   if (username.trim() === "") {
     errors.username = "Username must not be empty";
   }
-  // if (userusername.trim() === "") {
-  //   errors.userusername = "Userusername must not be empty";
-  // }
+  if (!userProfileImg) {
+    errors.username = "Add a profile image";
+  }
+
   return {
     errors,
     valid: Object.keys(errors).length < 1,

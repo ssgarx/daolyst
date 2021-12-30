@@ -162,7 +162,7 @@ module.exports = {
     },
     async oneTimeForm(_, { username, userProfileImg }, context) {
       const master = checkAuth(context);
-      const { valid, errors } = validateOneTimeForm(username);
+      const { valid, errors } = validateOneTimeForm(username, userProfileImg);
       if (!valid) {
         throw new UserInputError("Errors", { errors });
       }
