@@ -72,7 +72,12 @@ function IdentificationForm1({ setOpen }) {
       <div className={style.boxA}>
         <label htmlFor="filex">
           <p>Select Avatar</p>
-          <img src={uploadedImg ?? UploadDpIcon} alt="upload_profile_picture" />
+          <div className={style.imgBox}>
+            <img
+              src={uploadedImg ?? UploadDpIcon}
+              alt="upload_profile_picture"
+            />
+          </div>
         </label>
         {/* <input type="file" id="file" style={{ display: "none" }} /> */}
         <input

@@ -25,11 +25,18 @@
         font-size: 30px;
         font-weight: 600;
       }
-      > img {
-        width: 9rem;
-        cursor: pointer;
-        margin: 15px 0;
-        border-radius: 50%;
+      .imgBox {
+        width: 200px;
+        height: 200px;
+        > img {
+          // width: 9rem;
+          // cursor: pointer;
+          // margin: 15px 0;
+          border-radius: 50%;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
       }
     }
 
@@ -109,6 +116,6 @@
 }
 @media screen and (max-width: 750px) {
   .box1 {
-    min-width: 100vw;
+    min-width: 90vw;
   }
 }
