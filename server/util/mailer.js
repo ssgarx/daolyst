@@ -1,40 +1,21 @@
 const nodemailer = require("nodemailer");
-
+require("dotenv").config();
 module.exports.sendOtpMail = async (otp, email) => {
-  // Generate test SMTP service account from ethereal.email
-  // Only needed if you don't have a real mail account for testing
-  let testAccount = await nodemailer.createTestAccount();
-
-  // create reusable transporter object using the default SMTP transport
+  console.log("otp", otp);
   let transporter = nodemailer.createTransport({
-    // host: "smtp.ethereal.email",
-    // port: 587,
-    // secure: false, // true for 465, false for other ports
-    // auth: {
-    //   user: testAccount.user, // generated ethereal user
-    //   pass: testAccount.pass, // generated ethereal password
-    // },
     host: "smtp.gmail.com",
     port: 587,
     ignoreTLS: false,
     secure: false,
     auth: {
-      user: "qurate6@gmail.com",
-      pass: "ufbxpnrhbzueyigq",
+      user: "daolystteam@gmail.com",
+      pass: process.env.MAILPASS,
     },
   });
-
-  // send mail with defined transport object
-  let info = await transporter.sendMail({
-    // from: '"Fred Foo 👻" <foo@example.com>', // sender address
-    // to: "bar@example.com, baz@example.com", // list of receivers
-    // subject: "Hello ✔", // Subject line
-    // text: "Hello world?", // plain text body
-    // html: `<b>${otp}</b>`, // html body
-
+  await transporter.sendMail({
     from: "qurate6@gmail.com", // sender address
     to: email, // list of receivers
-    subject: "OTP for Qurate Login/Signup", // subject line
+    subject: "OTP for DAOlyst Login/Signup", // subject line
     text: "Hello world?", // plain text body
     html: `
     <!DOCTYPE html>
@@ -161,7 +142,7 @@ module.exports.sendOtpMail = async (otp, email) => {
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                         <tr>
                             <td bgcolor="#ffffff" align="center" valign="top" style="padding: 40px 20px 20px 20px; ">
-                                <img src="http://drive.google.com/uc?export=view&id=16Hy-iCoB-RM7Rt5p6bl4PAnMABdFTeLj"
+                                <img src="http://drive.google.com/uc?export=view&id=1vclqol7Vt3JysQdxKJiep1yxMtw2auvz"
                                     width="25" height="25" style="display: block; border: 0px;" />
                             </td>
                         </tr>
@@ -188,13 +169,13 @@ module.exports.sendOtpMail = async (otp, email) => {
                             <td bgcolor="#ffffff" align="left"
                                 style="padding: 0px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
                                 <p style="margin: 0;">Get in touch with creators of curate,<br>
-                                    write us at qurate6@gmail.com.</p>
+                                    write us at team@daolyst.com.</p>
                             </td>
                         </tr>
                         <tr>
                             <td bgcolor="#ffffff" align="left"
                                 style="padding: 0px 30px 40px 30px; border-radius: 0px 0px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                                <p style="margin: 0;">Cheers,<br>Qurate Team.</p>
+                                <p style="margin: 0;">Cheers,<br>DAOlyst Team.</p>
                             </td>
                         </tr>
                     </table>
@@ -207,11 +188,4 @@ module.exports.sendOtpMail = async (otp, email) => {
     </html>
       `, // html body
   });
-
-  //   console.log("Message sent: %s", info.messageId);
-  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-  // Preview only available when sending through an Ethereal account
-  //   console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-  // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 };

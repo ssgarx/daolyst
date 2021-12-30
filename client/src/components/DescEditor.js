@@ -4,7 +4,6 @@ import "suneditor/dist/css/suneditor.min.css"; // Import Sun Editor's CSS File
 
 function DescEditor({ setDaoDescription, daoDescription }) {
   const handleChange = (e) => {
-    console.log("e", e);
     setDaoDescription(e);
   };
 

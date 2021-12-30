@@ -119,8 +119,7 @@ module.exports = {
       });
       await otp.save();
 
-      // await sendOtpMail(genratedOtp, email);
-      console.log("genratedOtp", genratedOtp);
+      await sendOtpMail(genratedOtp, email);
       return {
         ...user._doc,
         id: user._id,
