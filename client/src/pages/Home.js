@@ -107,6 +107,13 @@ function Home(props) {
     fetchPolicy: "no-cache",
   });
 
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    if (!user?.username && !userData?.username) {
+      setOpen(true);
+    }
+  }, []);
+
   const handleLystFormClose = () => {
     setOpenLyst(false);
     //clear all form fields

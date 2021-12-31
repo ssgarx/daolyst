@@ -35,7 +35,10 @@ function ShowProject({
   creatorUsername,
   creatorId,
 }) {
-  const { user } = useContext(AuthContext);
+  let { user } = useContext(AuthContext);
+  if (!user) {
+    user = JSON.parse(localStorage.getItem("userData"));
+  }
   const settings = {
     dots: true,
     infinite: true,

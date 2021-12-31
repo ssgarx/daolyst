@@ -68,7 +68,6 @@ function IdentificationForm1({ setOpen }) {
   document?.getElementById("filex")?.addEventListener("change", onChangeFile);
   return (
     <div className={style.box1}>
-      <img className={style.crossIcon} src={crossIcon} alt="close_icon" />
       <div className={style.boxA}>
         <label htmlFor="filex">
           <p>Select Avatar</p>

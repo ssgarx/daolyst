@@ -3,6 +3,7 @@ import style from "./sidePanel.module.scss";
 import searchIcon from "../../assets/searchIcon.svg";
 import crossIcon from "../../assets/crossIcon.svg";
 import { AuthContext } from "../../context/auth";
+import DefaultDp from "../../assets/defaultDp.svg";
 
 function SidePanel({ setOpen, user, setOpenLyst, handleDashboardOpen }) {
   const { logout } = useContext(AuthContext);
@@ -82,26 +83,18 @@ function SidePanel({ setOpen, user, setOpenLyst, handleDashboardOpen }) {
               <p onClick={handleDashboardOpen}>dashboard</p>
               <div className={style.signedIn}>
                 <div className={style.signedInA}>
-                  <img
-                    style={
-                      (user?.userProfileImg?.length ||
-                        localUser?.userProfileImg?.length) > 0
-                        ? {
-                            borderRadius: "50%",
-                            width: "25px",
-                          }
-                        : {
-                            borderRadius: "none",
-                            width: "20px",
-                          }
-                    }
-                    src={
-                      user?.userProfileImg?.length > 0
-                        ? user?.userProfileImg
-                        : localUser?.userProfileImg
-                    }
-                    alt="dp"
-                  />
+                  <div className={style.imgbox}>
+                    <img
+                      src={
+                        user?.userProfileImg?.length > 0
+                          ? user.userProfileImg
+                          : localUser?.userProfileImg
+                          ? localUser.userProfileImg
+                          : DefaultDp
+                      }
+                      alt="dp"
+                    />
+                  </div>
                 </div>
                 <div className={style.signedInB} onClick={handleLogout}>
                   {user?.username?.length > 0
